@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: {enabled: true},
-    modules: ['@nuxt/ui', '@nuxtjs/color-mode','@nuxtjs/i18n'],
+    modules: ['@nuxt/ui', '@nuxtjs/color-mode','@nuxtjs/i18n','@pinia/nuxt'],
     ui:{
         fonts:false,
         theme: {
@@ -25,5 +25,13 @@ export default defineNuxtConfig({
             { code: 'ru', name: 'Russian', file: 'ru.json', language: 'ru' },
         ],
         baseUrl: 'http://localhost:3000',
+    },
+    app: {
+        head: {
+            title: 'Untitled - Kanban', // default fallback title
+            link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+        },
+        pageTransition: { name: 'page', mode: 'out-in' },
+        layoutTransition: { name: 'page', mode: 'out-in' },
     },
 })
