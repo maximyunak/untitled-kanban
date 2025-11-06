@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: {enabled: true},
-    modules: ['@nuxt/ui'],
+    modules: ['@nuxt/ui','@nuxtjs/color-mode'],
     ui:{
         fonts:false,
         theme: {
@@ -13,4 +13,9 @@ export default defineNuxtConfig({
         }
     },
     css: ['~/assets/css/main.css'],
+    colorMode: {
+        preference: 'dark',
+        fallback: 'dark',
+        classSuffix: ''
+    }
 })
