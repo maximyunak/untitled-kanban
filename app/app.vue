@@ -1,15 +1,14 @@
 <template>
-  <UApp>
-    <UButton @click="toggleColorTheme">
-      change theme
-    </UButton>
-  </UApp>
+  <Html :lang="head.htmlAttrs.lang">
+  <Body>
+  <NuxtLayout>
+    <NuxtPage/>
+  </NuxtLayout>
+  </Body>
+  </Html>
 </template>
 
 <script setup>
-const colorMode = useColorMode()
+const head = useLocaleHead()
 
-function toggleColorTheme() {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-}
 </script>
