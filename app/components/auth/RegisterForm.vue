@@ -3,8 +3,18 @@
 import * as z from "zod";
 import type {AuthFormField} from "#ui/components/AuthForm.vue";
 import type {FormSubmitEvent} from "#ui/types";
+import type {IRegisterData} from "~/types/auth";
 
-const {userData, register, providers } = useRegister()
+const toast = useToast()
+const {register} = useRegister()
+
+const userData = reactive<IRegisterData>({
+  email: '',
+  password: '',
+  first_name: '',
+  last_name: '',
+  patronymic: ''
+})
 
 const step = ref(1)
 
@@ -19,6 +29,25 @@ const userSchema = z.object({
   first_name: z.string('First name is required').min(1, 'First name is required'),
   last_name: z.string('Last name is required').min(1, 'Last name is required'),
 })
+
+// oauth
+const providers = [{
+  label: 'Google',
+  icon: 'i-simple-icons-google',
+  onClick: () => {
+    toast.add({
+      title: 'Login with Google',
+    })
+  }
+}, {
+  label: 'GitHub',
+  icon: 'i-simple-icons-github',
+  onClick: () => {
+    toast.add({
+      title: 'Login with GitHub',
+    })
+  }
+}]
 
 // поля формы
 const fields = computed<AuthFormField[]>(() => [{
@@ -42,6 +71,17 @@ function submitFirstStep(payload: FormSubmitEvent<Schema>) {
   step.value++
 }
 
+const submit =  async () => {
+  const res = await register(userData)
+  if (!res.errors) {
+    toast.add({
+      title: 'Registration successful',
+      description: 'You can now log in using your credentials',
+      color: 'success',
+    })
+  }
+};
+
 </script>
 
 <template>
@@ -60,12 +100,12 @@ function submitFirstStep(payload: FormSubmitEvent<Schema>) {
 
     <div v-else>
       <div class="flex items-center justify-between flex-col mb-4">
-        <UIcon name="i-lucide-user" class="size-8 mb-2" />
+        <UIcon name="i-lucide-user" class="size-8 mb-2"/>
         <h2 class="text-2xl font-bold mb-2">Profile</h2>
         <p class="text-gray-400 mb-4">Enter your full name to complete registration.</p>
       </div>
 
-      <UForm :schema="userSchema" :state="userData" @submit.prevent="register" class="flex flex-col gap-5">
+      <UForm :schema="userSchema" :state="userData" @submit.prevent="submit" class="flex flex-col gap-5">
         <UFormField label="First Name" name="first_name">
           <UInput v-model="userData.first_name" placeholder="First Name" class="w-full"/>
         </UFormField>
