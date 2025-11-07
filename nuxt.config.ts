@@ -22,7 +22,7 @@ export default defineNuxtConfig({
         defaultLocale: 'en',
         locales: [
             { code: 'en', name: 'English', file: 'en.json', language: 'en' },
-            { code: 'ru', name: 'Russian', file: 'ru.json', language: 'ru' },
+            { code: 'ru', name: 'Русский', file: 'ru.json', language: 'ru' },
         ],
         baseUrl: 'http://localhost:3000',
     },

@@ -2,14 +2,13 @@
 import type {NavigationMenuItem} from '@nuxt/ui'
 
 const localePath = useLocalePath()
-const {locales, setLocale} = useI18n()
+const {locales} = useI18n()
 
-// смена темы
-const colorMode = useColorMode()
-
-function toggleColorTheme() {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-}
+const {
+  collapsed,
+  colorMode, toggleColorTheme,
+  toggleLocale,
+} = useSidebar()
 
 const themeIcon = computed(() => {
   return colorMode.preference === "dark" ? "material-symbols:light-mode-outline" : 'material-symbols-light:dark-mode-outline'
@@ -18,14 +17,16 @@ const themeIcon = computed(() => {
 const items = computed<NavigationMenuItem[][]>(() => [[{
   label: 'Dashboard',
   icon: 'i-lucide-house',
-  active: true
+  active: true,
+  to: localePath('dashboard'),
 }, {
   label: 'Boards',
   icon: 'i-lucide-inbox',
+  to: localePath('boards'),
 }, {
   label: 'Tasks',
   icon: 'i-lucide-users',
-  to: localePath(''),
+  to: localePath('tasks'),
 }, {
   label: 'Notifications',
   badge: '4',
@@ -37,17 +38,19 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
   children: [{
     label: 'Profile',
     icon: 'i-lucide-user',
+    to: localePath('profile'),
   },
     {
       label: 'Change color theme',
       icon: themeIcon.value,
-      onClick: toggleColorTheme
+      onClick: () => toggleColorTheme()
     }, {
       label: 'Switch language',
       icon: 'prime:language',
+      defaultOpen: true,
       children: locales.value.map((lng) => ({
         label: lng.name,
-        onClick: () => setLocale(lng.code)
+        onClick: () => toggleLocale(lng.code)
       }))
     }]
 }], [{
@@ -60,19 +63,13 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
   to: 'https://github.com/maximyunak/untitled-kanban',
   target: '_blank'
 }]])
-
-const collapsed = ref(false) // false = раскрыт, true = свернут
-
-const toggleSidebar = () => {
-  collapsed.value = !collapsed.value
-}
-
 </script>
 
 <template>
-  <UDashboardSidebar :collapsed="collapsed" collapsible :collapsed-size="3"
-                     :ui="{ footer: 'border-t border-default' }"
-                     class="transition-all max-w-[15%] h-screen">
+  <UDashboardSidebar
+      :collapsed="collapsed" collapsible :collapsed-size="3"
+      :ui="{ footer: 'border-t border-default' }"
+      class="transition-[width] duration-200 max-w-[15%] h-screen">
     <template #header="{ collapsed }">
       <div class="flex items-center gap-3">
         <UIcon name="vscode-icons:file-type-nuxt" :class="['size-8 text-primary',
@@ -81,8 +78,7 @@ const toggleSidebar = () => {
       </div>
     </template>
 
-    <template #default="{ collapsed }">
-      <UButton @click="toggleSidebar">tgl</UButton>
+    <template #default>
 
       <UButton
           :label="collapsed ? undefined : 'Search...'"
