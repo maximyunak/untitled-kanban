@@ -34,4 +34,9 @@ export default defineNuxtConfig({
         pageTransition: { name: 'page', mode: 'out-in' },
         layoutTransition: { name: 'page', mode: 'out-in' },
     },
+    runtimeConfig: {
+        public: {
+            baseUrl: import.meta.env.NUXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000/api'
+        }
+    }
 })

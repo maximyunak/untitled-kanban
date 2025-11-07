@@ -2,8 +2,9 @@
 import * as z from 'zod'
 import type {AuthFormField} from "#ui/components/AuthForm.vue";
 import type {FormSubmitEvent} from "#ui/types";
-
 const toast = useToast()
+
+const {login} = useLogin()
 
 // поля формы
 const fields:AuthFormField[] = [
@@ -49,11 +50,14 @@ const providers = [{
 }]
 
 const submit = (userData: FormSubmitEvent<Schema>) =>{
-  console.log(userData.data)
-  toast.add({
-    title: 'Successfully logged in',
-    color: 'success',
-  })
+  const res = login(userData.data)
+
+  if (!res.errors) {
+    toast.add({
+      title: 'Successfully logged in',
+      color: 'success',
+    })
+  }
 }
 
 </script>

@@ -71,8 +71,8 @@ function submitFirstStep(payload: FormSubmitEvent<Schema>) {
   step.value++
 }
 
-const submit =  async () => {
-  const res = await register(userData)
+const submit = () => {
+  const res = register(userData)
   if (!res.errors) {
     toast.add({
       title: 'Registration successful',

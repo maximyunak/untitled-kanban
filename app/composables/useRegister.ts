@@ -5,15 +5,13 @@ export const useRegister = () => {
     const localePath = useLocalePath()
 
     // submit
-    const register = (userData: IRegisterData):IRegisterResponse => {
+    const register = (userData: IRegisterData): IRegisterResponse => {
         console.log(userData);
-        setTimeout(() => {
-            router.push(localePath('login'))
+        setTimeout(async () => {
+            await router.push(localePath('login'))
         }, 250)
 
-        return {
-
-        }
+        return {}
     }
     // oath
 
