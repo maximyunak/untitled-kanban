@@ -8,7 +8,7 @@ export default defineNuxtConfig({
         theme: {
             defaultVariants: {
                 color: 'neutral',
-                size: 'sm'
+                size: 'md'
             }
         }
     },

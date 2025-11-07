@@ -13,8 +13,7 @@ const {locales, setLocale} = useI18n()
 
   <div>
     <UApp>
-      <UButton @click="toggleColorTheme">
-        change theme
+      <UButton @click="toggleColorTheme" icon="material-symbols-light:dark-mode-rounded">
       </UButton>
       <div>
         <UButton :key="locale.code" class="mr-3 mt-4" @click="setLocale(locale.code)" v-for="locale in locales">
