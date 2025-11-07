@@ -5,15 +5,6 @@ button {
     cursor: pointer;
 }
 
-/*:root {*/
-/*    --ui-bg: #fff;*/
-/*}*/
-
-/*.dark {*/
-/*    --ui-bg: #09090B;*/
-/*}*/
-
-
 body {
     font-family: 'Inter', sans-serif;
 }
@@ -32,4 +23,14 @@ body {
     font-weight: 100 900;
     font-style: italic;
     font-display: swap;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 600;
 }

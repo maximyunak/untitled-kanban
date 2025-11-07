@@ -1,27 +1,15 @@
 <script setup lang="ts">
-const colorMode = useColorMode()
-
-function toggleColorTheme() {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-}
-
-const {locales, setLocale} = useI18n()
-
 </script>
 
 <template>
 
-  <div>
+  <div class='flex gap-3'>
     <UApp>
-      <UButton @click="toggleColorTheme" icon="material-symbols-light:dark-mode-rounded">
-      </UButton>
-      <div>
-        <UButton :key="locale.code" class="mr-3 mt-4" @click="setLocale(locale.code)" v-for="locale in locales">
-          {{ locale.code }}
-        </UButton>
-      </div>
-      <main>
-        <slot/>
+      <Sidebar/>
+      <main class='max-h-screen overflow-y-auto w-full'>
+        <div class="mx-15 mt-10">
+          <slot/>
+        </div>
       </main>
     </UApp>
   </div>

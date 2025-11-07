@@ -101,7 +101,7 @@ const submit = () => {
     <div v-else>
       <div class="flex items-center justify-between flex-col mb-4">
         <UIcon name="i-lucide-user" class="size-8 mb-2"/>
-        <h2 class="text-2xl font-bold mb-2">Profile</h2>
+        <h2 class="mb-2">Profile</h2>
         <p class="text-gray-400 mb-4">Enter your full name to complete registration.</p>
       </div>
 
