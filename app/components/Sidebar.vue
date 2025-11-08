@@ -21,7 +21,7 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
   to: localePath('dashboard'),
 }, {
   label: 'Boards',
-  icon: 'i-lucide-inbox',
+  icon: 'majesticons:view-boards-line',
   to: localePath('boards'),
 }, {
   label: 'Tasks',
