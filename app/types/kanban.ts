@@ -5,7 +5,7 @@ export interface ITask {
     // выполнена чинет
     is_completed: boolean;
     // крайний срок
-    deadline: string;
+    deadline?: string;
     // в какой колонке
     status_id: string;
     // позиция в колонке
