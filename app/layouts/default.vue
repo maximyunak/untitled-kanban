@@ -15,7 +15,7 @@ const items = [
   }
 ]
 
-const {toggleSidebar, collapsed} = useSidebar();
+const {toggleSidebar} = useSidebar();
 </script>
 
 <template>
