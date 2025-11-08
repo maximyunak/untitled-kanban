@@ -26,11 +26,12 @@ const {toggleSidebar} = useSidebar();
       <main class='max-h-screen overflow-y-auto w-full'>
         <div class="mx-15 mt-10">
           <div class="flex gap-2 items-center relative">
-            <UButton @click="toggleSidebar" variant="subtle" icon="mynaui:sidebar" class="absolute -left-10" />
+            <UButton @click="toggleSidebar" variant="subtle" icon="mynaui:sidebar" />
             <UBreadcrumb :items="items" />
-<!--            <h2>Title page</h2>-->
           </div>
-          <slot/>
+          <div class="mt-5">
+            <slot/>
+          </div>
         </div>
       </main>
     </UApp>
