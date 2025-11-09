@@ -1,6 +1,6 @@
 import type {IColumn, ITask} from "~/types/kanban";
 
-export const useKanbanStore = defineStore('testStore', () => {
+export const useKanbanStore = defineStore('kanbanStore', () => {
     const tasks: Ref<ITask[]> = ref([
         {
             id: "1",
