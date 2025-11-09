@@ -4,7 +4,7 @@ import type {ITask} from "~/types/kanban";
 import type {DropdownMenuItem} from '@nuxt/ui'
 
 // все данные
-const {tasks,columns, addTask, addColumn} = useKanbanStore()
+const {tasks, columns, addTask, addColumn} = useKanbanStore()
 
 const items: DropdownMenuItem[][] = [
   [
@@ -55,7 +55,7 @@ const activeNewName = ref('')
 // создание колонки
 const createColumn = () => {
   if (activeColumnName.value !== '') {
-    const order= columns.reduce((a, b) => Math.max(a, b.order), -Infinity) + 1
+    const order = columns.reduce((a, b) => Math.max(a, b.order), -Infinity) + 1
     addColumn({
       id: Math.random().toString(36).substr(2, 10),
       name: activeColumnName.value,
@@ -76,54 +76,59 @@ const cancelNewColumn = () => {
 </script>
 
 <template>
-  <div class="flex gap-7 items-start">
+  <div class="flex gap-7 items-start w-auto">
 
     <!-- начало колонок -->
-    <div class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-[300px] max-w-[300px] items-start"
-         v-for="column in columns">
-      <div class="flex justify-between items-center">
-        <h4>{{ column.name }}</h4>
-        <!-- настройка столбца -->
-        <UDropdownMenu :items="items">
-          <UButton variant="ghost" icon="cil:options"/>
-        </UDropdownMenu>
-      </div>
-      <div class="flex flex-col gap-y-2 mt-3">
-        <!-- начало таски -->
-        <div :key="task.id"
-             class="px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative"
-             v-for="task in tasks.filter((el: ITask) => el.status_id === column.id)"
-             @mouseenter="hoveredId= task.id"
-             @mouseleave="hoveredId= ''"
-        >
-          <UCheckbox/>
-          <p class="overflow-hidden wrap-break-word">
-            {{ task.name }}
-          </p>
+    <TransitionGroup name="list">
+      <div :key="column.id" class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-[300px] max-w-[300px] items-start "
+           v-for="column in columns">
+        <div class="flex justify-between items-center">
+          <h4>{{ column.name }}</h4>
+          <!-- настройка столбца -->
+          <UDropdownMenu :items="items">
+            <UButton variant="ghost" icon="cil:options"/>
+          </UDropdownMenu>
+        </div>
+        <div class="flex flex-col gap-y-2 mt-3 max-h-[68vh] overflow-y-auto">
+          <!-- начало таски -->
+          <TransitionGroup name="list">
+            <div :key="task.id"
+                 class="px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative"
+                 v-for="task in tasks.filter((el: ITask) => el.status_id === column.id)"
+                 @mouseenter="hoveredId= task.id"
+                 @mouseleave="hoveredId= ''"
+            >
+              <UCheckbox/>
+              <p class="overflow-hidden wrap-break-word">
+                {{ task.name }}
+              </p>
 
-          <!-- настройка таски -->
-          <UDropdownMenu :content="{
+              <!-- настройка таски -->
+              <UDropdownMenu :content="{
               align: 'start',
               side: 'right',
             }" :class="['absolute right-3 top-2 opacity-0 invisible transition-opacity', {
               'opacity-100 visible' : hoveredId === task.id
             }]" :items="items">
-            <UButton variant="subtle" size="sm" icon="cil:options"/>
-          </UDropdownMenu>
+                <UButton variant="subtle" size="sm" icon="cil:options"/>
+              </UDropdownMenu>
+            </div>
+          </TransitionGroup>
+          <!-- конец таски -->
+
+          <!-- создание таски в этой колонке -->
+          <UInput autofocus v-model="activeNewName" @keydown.enter="createTask(column.id)" @blur="createTask(column.id)"
+                  v-if="activeInput===column.id" variant="outline" autoresize placeholder="New Task Name"/>
+          <UButton @click="activeInput=column.id" variant="ghost" icon="material-symbols:add-rounded"> Add Task
+          </UButton>
+
         </div>
-        <!-- конец таски -->
-
-        <!-- создание таски в этой колонке -->
-        <UInput autofocus v-model="activeNewName" @keydown.enter="createTask(column.id)" @blur="createTask(column.id)"
-                v-if="activeInput===column.id" variant="outline" autoresize placeholder="New Task Name"/>
-        <UButton @click="activeInput=column.id" variant="ghost" icon="material-symbols:add-rounded"> Add Task</UButton>
-
       </div>
-    </div>
+    </TransitionGroup>
     <!-- конец колонок -->
 
     <!--  создание колонки  -->
-    <div class="flex flex-col gap-2 max-w-50" v-if="isActiveNewColumn">
+    <div class="flex flex-col gap-2 min-w-50" v-if="isActiveNewColumn">
       <UInput autofocus
               v-model="activeColumnName"
               @keydown.enter="createColumn"
@@ -138,7 +143,7 @@ const cancelNewColumn = () => {
       </div>
     </div>
 
-    <UButton v-else @click="isActiveNewColumn=true" variant="outline" class="w-50 opacity-70"
+    <UButton v-else @click="isActiveNewColumn=true" variant="outline" class="min-w-50 opacity-70"
              icon="material-symbols:add-rounded">Add Column
     </UButton>
 
@@ -146,5 +151,14 @@ const cancelNewColumn = () => {
 </template>
 
 <style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.2s ease;
+}
 
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
 </style>
