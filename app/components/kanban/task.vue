@@ -2,7 +2,11 @@
 import type {ITask} from "~/types/kanban";
 import type {DropdownMenuItem} from "@nuxt/ui";
 
-defineProps<{task: ITask}>();
+const toast = useToast();
+
+const {task} = defineProps<{ task: ITask }>();
+
+const {moveTask} = useKanbanStore()
 
 const isHover = ref(false)
 const items: DropdownMenuItem[][] = [
@@ -28,13 +32,46 @@ const items: DropdownMenuItem[][] = [
     }
   ]
 ]
+
+const onDragStart = (event: DragEvent) => {
+  const dt = event.dataTransfer;
+  if (!dt) return toast.add({title:"Произошла ошибка"})
+  dt.setData("task_id", task.id);
+  dt.dropEffect = "move"
+  dt.effectAllowed = 'move'
+
+  isHover.value = false
+}
+
+const onDrop = (event: DragEvent) => {
+  const dt = event.dataTransfer;
+  if (!dt) return toast.add({title: "Произошла ошибка"});
+
+  const movedTask = dt.getData("task_id");
+
+  moveTask(task.id, movedTask);
+  //
+  // const toId = tasks.findIndex((el) => el.position_id === task.position_id);
+  // const fromId = tasks.findIndex((el) => el.position_id === +dt.getData("position_id"));
+
+  // const [moved] = tasks.splice(fromId, 1);
+
+  // if (!moved) return toast.add({title:"Произошла ошибка"})
+  // tasks.splice(toId, 0, moved);
+}
+
 </script>
 
 <template>
   <div
-       class="px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative"
-       @mouseenter="isHover= true"
-       @mouseleave="isHover= false"
+      class="px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative"
+      @mouseenter="isHover= true"
+      @mouseleave="isHover= false"
+      draggable="true"
+      @dragstart="onDragStart($event)"
+      @drop="onDrop($event)"
+      @dragover.prevent
+      @dragend.prevent
   >
     <UCheckbox/>
     <p class="overflow-hidden wrap-break-word">

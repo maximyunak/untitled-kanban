@@ -4,7 +4,7 @@ import type {DropdownMenuItem} from "@nuxt/ui";
 
 defineProps<{ column: IColumn }>();
 
-const {tasks} = useKanbanStore()
+const {sortedTasks} = useKanbanStore()
 const items: DropdownMenuItem[][] = [
   [
     {
@@ -44,7 +44,7 @@ const items: DropdownMenuItem[][] = [
       <!-- начало тасок -->
       <TransitionGroup name="list">
         <KanbanTask :key="task.id"
-                    v-for="task in tasks.filter((el: ITask) => el.status_id === column.id)"
+                    v-for="task in sortedTasks(column.id)"
                     :task="task"
         />
       </TransitionGroup>
