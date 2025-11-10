@@ -69,11 +69,9 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         },
     ])
 
-    const sortedTasks: ComputedRef<(column_id: string) => ITask[]> = computed(() => {
-        return (column_id) => {
-            return tasks.value.filter((el: ITask) => el.status_id === column_id).sort((a, b) => a.position_id - b.position_id)
-        }
-    })
+    const sortedTasks = (column_id: string): ITask[] => {
+        return tasks.value.filter((el: ITask) => el.status_id === column_id).sort((a, b) => a.position_id - b.position_id)
+    }
 
     const moveTask = (taskId: string, movedTaskId:string) => {
         const toTask = tasks.value.find((task: ITask) => task.id === taskId);
@@ -94,6 +92,21 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
     }
 
+    const moveTaskToColumn = (taskId: string, toStatusId: string): void => {
+
+        const lastPosition = tasks.value.filter((task) => task.status_id === toStatusId)
+            .reduce((max, current) => Math.max(max, current.position_id), 1);
+
+        const task = tasks.value.find((task: ITask) => task.id === taskId);
+
+        if (!task) {
+            return
+        }
+
+        task.status_id = toStatusId
+        task.position_id = lastPosition
+    }
+
     const addTask = (task: ITask) => {
         tasks.value.push(task);
     }
@@ -102,5 +115,5 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         columns.value.push(column);
     }
 
-    return {tasks, columns, sortedTasks, addTask, addColumn, moveTask};
+    return {tasks, columns, sortedTasks, addTask, addColumn, moveTask, moveTaskToColumn};
 })

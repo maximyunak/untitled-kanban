@@ -37,6 +37,7 @@ const onDragStart = (event: DragEvent) => {
   const dt = event.dataTransfer;
   if (!dt) return toast.add({title:"Произошла ошибка"})
   dt.setData("task_id", task.id);
+  dt.setData("action", "task")
   dt.dropEffect = "move"
   dt.effectAllowed = 'move'
 
@@ -50,14 +51,6 @@ const onDrop = (event: DragEvent) => {
   const movedTask = dt.getData("task_id");
 
   moveTask(task.id, movedTask);
-  //
-  // const toId = tasks.findIndex((el) => el.position_id === task.position_id);
-  // const fromId = tasks.findIndex((el) => el.position_id === +dt.getData("position_id"));
-
-  // const [moved] = tasks.splice(fromId, 1);
-
-  // if (!moved) return toast.add({title:"Произошла ошибка"})
-  // tasks.splice(toId, 0, moved);
 }
 
 </script>

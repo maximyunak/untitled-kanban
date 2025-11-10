@@ -2,9 +2,9 @@
 import type {IColumn, ITask} from "~/types/kanban";
 import type {DropdownMenuItem} from "@nuxt/ui";
 
-defineProps<{ column: IColumn }>();
+const {column} = defineProps<{ column: IColumn }>();
 
-const {sortedTasks} = useKanbanStore()
+const {sortedTasks, moveTaskToColumn} = useKanbanStore()
 const items: DropdownMenuItem[][] = [
   [
     {
@@ -28,10 +28,22 @@ const items: DropdownMenuItem[][] = [
     }
   ]
 ]
+
+const onDrop = (event: DragEvent) => {
+  const dt = event.dataTransfer;
+  if (!dt) return;
+
+  const tasks = sortedTasks(column.id)
+  const taskId = dt.getData("task_id");
+
+  const position_id = tasks.reduce((max, task) => Math.max(max, task.position_id), 1);
+  moveTaskToColumn(taskId, column.id)
+}
 </script>
 
 <template>
-  <div class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-[300px] max-w-[300px] items-start">
+  <div @drop="onDrop($event)" @dragover.prevent
+       @dragend.prevent class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-[300px] max-w-[300px] items-start">
     <div class="flex justify-between items-center">
       <h4>{{ column.name }}</h4>
       <!-- настройка столбца -->
@@ -51,7 +63,7 @@ const items: DropdownMenuItem[][] = [
       <!-- конец тасок -->
 
       <!-- создание таски в этой колонке -->
-     <KanbanCreateTask :column_id="column.id" />
+      <KanbanCreateTask :column_id="column.id"/>
 
     </div>
   </div>
