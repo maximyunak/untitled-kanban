@@ -4,7 +4,7 @@ import type {DropdownMenuItem} from "@nuxt/ui";
 
 const {column} = defineProps<{ column: IColumn }>();
 
-const {sortedTasks, moveTaskToColumn} = useKanbanStore()
+const {sortedTasks, moveTaskToColumn, moveColumn} = useKanbanStore()
 const items: DropdownMenuItem[][] = [
   [
     {
@@ -32,18 +32,40 @@ const items: DropdownMenuItem[][] = [
 const onDrop = (event: DragEvent) => {
   const dt = event.dataTransfer;
   if (!dt) return;
+  const action = dt.getData("action")
 
-  const tasks = sortedTasks(column.id)
-  const taskId = dt.getData("task_id");
+  if (action === "task") {
+    const tasks = sortedTasks(column.id)
+    const taskId = dt.getData("task_id");
 
-  const position_id = tasks.reduce((max, task) => Math.max(max, task.position_id), 1);
-  moveTaskToColumn(taskId, column.id)
+    moveTaskToColumn(taskId, column.id)
+  } else if (action === "column") {
+    console.log(action)
+    const columnId = dt.getData("column_id");
+    moveColumn(columnId, column.id)
+  }
 }
+
+const onDragStart = (event: DragEvent) => {
+  const dt = event.dataTransfer;
+  if (!dt) return;
+
+  dt.setData("column_id", column.id);
+  dt.setData("action", "column")
+
+  dt.dropEffect = "move"
+  dt.effectAllowed = 'move'
+}
+
 </script>
 
 <template>
-  <div @drop="onDrop($event)" @dragover.prevent
-       @dragend.prevent class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-[300px] max-w-[300px] items-start">
+  <div @drop="onDrop($event)"
+       @dragover.prevent
+       @dragend.prevent
+       @dragstart="onDragStart($event)"
+       draggable="true"
+       class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-[300px] max-w-[300px] items-start">
     <div class="flex justify-between items-center">
       <h4>{{ column.name }}</h4>
       <!-- настройка столбца -->

@@ -19,5 +19,5 @@ export interface IColumn {
     name: string;
     description?: string;
     // позиция в строке
-    order: number;
+    position_id: number;
 }

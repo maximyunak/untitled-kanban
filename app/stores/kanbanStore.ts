@@ -56,16 +56,16 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         {
             id: 'asd',
             name: 'ToDo',
-            order: 0
+            position_id: 0
         },
         {
             id: 'fds',
             name: 'in Proccess',
-            order: 1
+            position_id: 1
         }, {
             id: 'asfwq',
             name: 'Completed ывавыаыавыавыавыы ываыв авы авыыва   ',
-            order: 2
+            position_id: 2
         },
     ])
 
@@ -73,7 +73,9 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         return tasks.value.filter((el: ITask) => el.status_id === column_id).sort((a, b) => a.position_id - b.position_id)
     }
 
-    const moveTask = (taskId: string, movedTaskId:string) => {
+    const sortedColumns:ComputedRef<IColumn[]> = computed(() => columns.value.sort((a, b) => a.position_id - b.position_id))
+
+    const moveTask = (taskId: string, movedTaskId: string) => {
         const toTask = tasks.value.find((task: ITask) => task.id === taskId);
         const movedTask = tasks.value.find((task: ITask) => task.id === movedTaskId);
 
@@ -107,6 +109,19 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         task.position_id = lastPosition
     }
 
+    const moveColumn = (columnId: string, toId: string): void => {
+        const toColumn = columns.value.find((column: IColumn) => column.id === columnId);
+        const movedColumn = columns.value.find((column: IColumn) => column.id === toId);
+
+        if (!toColumn || !movedColumn) {
+            return
+        }
+        const toPosition = toColumn.position_id;
+        toColumn.position_id = movedColumn.position_id;
+
+        movedColumn.position_id = toPosition
+    }
+
     const addTask = (task: ITask) => {
         tasks.value.push(task);
     }
@@ -115,5 +130,5 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         columns.value.push(column);
     }
 
-    return {tasks, columns, sortedTasks, addTask, addColumn, moveTask, moveTaskToColumn};
+    return {tasks, columns, sortedTasks, sortedColumns, addTask, addColumn, moveTask, moveTaskToColumn, moveColumn};
 })

@@ -61,7 +61,7 @@ const onDrop = (event: DragEvent) => {
       @mouseenter="isHover= true"
       @mouseleave="isHover= false"
       draggable="true"
-      @dragstart="onDragStart($event)"
+      @dragstart.stop="onDragStart($event)"
       @drop="onDrop($event)"
       @dragover.prevent
       @dragend.prevent

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {columns} = useKanbanStore()
+const {sortedColumns} = useKanbanStore()
 </script>
 
 <template>
@@ -7,7 +7,7 @@ const {columns} = useKanbanStore()
 
     <!-- начало колонок -->
     <TransitionGroup name="list" mode="out-in">
-      <KanbanColumn v-for="column in columns" :key="column.id" :column="column"/>
+      <KanbanColumn v-for="column in sortedColumns" :key="column.id" :column="column"/>
     </TransitionGroup>
     <!-- конец колонок -->
 
