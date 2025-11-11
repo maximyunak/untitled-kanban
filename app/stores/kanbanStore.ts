@@ -73,40 +73,71 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         return tasks.value.filter((el: ITask) => el.status_id === column_id).sort((a, b) => a.position_id - b.position_id)
     }
 
-    const sortedColumns:ComputedRef<IColumn[]> = computed(() => columns.value.sort((a, b) => a.position_id - b.position_id))
+    const sortedColumns = computed(() => {
+        const column = [...columns.value]
+        return column.sort((a, b) => a.position_id - b.position_id);
+    });
 
     const moveTask = (taskId: string, movedTaskId: string) => {
-        const toTask = tasks.value.find((task: ITask) => task.id === taskId);
-        const movedTask = tasks.value.find((task: ITask) => task.id === movedTaskId);
+        const hoveredTask = tasks.value.find((task: ITask) => task.id === taskId);
+        const draggedTask = tasks.value.find((task: ITask) => task.id === movedTaskId);
 
-        if (!toTask || !movedTask) {
+
+        if (!draggedTask || !hoveredTask) {
+            console.log('нет тасок');
             return
         }
 
-        const position_id = movedTask.position_id;
-        const status_id = movedTask.status_id;
+        if (hoveredTask.id === draggedTask.id) {
+            console.log('индексы одинаковы');
+            return
+        }
 
-        movedTask.position_id = toTask.position_id;
-        movedTask.status_id = toTask.status_id;
+        if (hoveredTask.status_id === draggedTask.status_id) {
+            const columnTasks = tasks.value.filter((task: ITask) => task.status_id === hoveredTask.status_id);
 
-        toTask.position_id = position_id;
-        toTask.status_id = status_id;
+            const toIndex = columnTasks.findIndex((task: ITask) => task.id === hoveredTask.id);
+            const fromIndex = columnTasks.findIndex((task: ITask) => task.id === draggedTask.id);
+
+            const [moved] = columnTasks.splice(fromIndex, 1);
+            if (!moved) return
+            columnTasks.splice(toIndex,0,moved)
+
+            columnTasks.forEach((task: ITask, index: number) => {
+                task.position_id = index;
+                console.log(task)
+            })
+
+            tasks.value = [
+                ...tasks.value.filter((task: ITask) => task.status_id !== hoveredTask.status_id),
+                ...columnTasks
+            ];
+
+
+            // } else {
+
+            //
+            // }
+        } else {
+
+        }
+
 
     }
 
     const moveTaskToColumn = (taskId: string, toStatusId: string): void => {
 
-        const lastPosition = tasks.value.filter((task) => task.status_id === toStatusId)
-            .reduce((max, current) => Math.max(max, current.position_id), 1);
-
-        const task = tasks.value.find((task: ITask) => task.id === taskId);
-
-        if (!task) {
-            return
-        }
-
-        task.status_id = toStatusId
-        task.position_id = lastPosition
+        // const lastPosition = tasks.value.filter((task) => task.status_id === toStatusId)
+        //     .reduce((max, current) => Math.max(max, current.position_id), 1);
+        //
+        // const task = tasks.value.find((task: ITask) => task.id === taskId);
+        //
+        // if (!task) {
+        //     return
+        // }
+        //
+        // task.status_id = toStatusId
+        // task.position_id = lastPosition
     }
 
     const moveColumn = (columnId: string, toId: string): void => {

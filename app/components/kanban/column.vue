@@ -35,12 +35,10 @@ const onDrop = (event: DragEvent) => {
   const action = dt.getData("action")
 
   if (action === "task") {
-    const tasks = sortedTasks(column.id)
     const taskId = dt.getData("task_id");
 
     moveTaskToColumn(taskId, column.id)
   } else if (action === "column") {
-    console.log(action)
     const columnId = dt.getData("column_id");
     moveColumn(columnId, column.id)
   }
