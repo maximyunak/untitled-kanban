@@ -93,51 +93,39 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
             return
         }
 
-        if (hoveredTask.status_id === draggedTask.status_id) {
-            const columnTasks = tasks.value.filter((task: ITask) => task.status_id === hoveredTask.status_id);
+        draggedTask.status_id = hoveredTask.status_id;
+        const columnTasks = tasks.value.filter((task: ITask) => task.status_id === hoveredTask.status_id);
 
-            const toIndex = columnTasks.findIndex((task: ITask) => task.id === hoveredTask.id);
-            const fromIndex = columnTasks.findIndex((task: ITask) => task.id === draggedTask.id);
+        const toIndex = columnTasks.findIndex((task: ITask) => task.id === hoveredTask.id);
+        const fromIndex = columnTasks.findIndex((task: ITask) => task.id === draggedTask.id);
 
-            const [moved] = columnTasks.splice(fromIndex, 1);
-            if (!moved) return
-            columnTasks.splice(toIndex,0,moved)
+        const [moved] = columnTasks.splice(fromIndex, 1);
+        if (!moved) return
+        columnTasks.splice(toIndex, 0, moved)
 
-            columnTasks.forEach((task: ITask, index: number) => {
-                task.position_id = index;
-                console.log(task)
-            })
+        columnTasks.forEach((task: ITask, index: number) => {
+            task.position_id = index;
+            console.log(task)
+        })
 
-            tasks.value = [
-                ...tasks.value.filter((task: ITask) => task.status_id !== hoveredTask.status_id),
-                ...columnTasks
-            ];
-
-
-            // } else {
-
-            //
-            // }
-        } else {
-
-        }
-
-
+        tasks.value = [
+            ...tasks.value.filter((task: ITask) => task.status_id !== hoveredTask.status_id),
+            ...columnTasks
+        ];
     }
 
     const moveTaskToColumn = (taskId: string, toStatusId: string): void => {
+        const lastPosition = tasks.value.filter((task) => task.status_id === toStatusId)
+            .reduce((max, current) => Math.max(max, current.position_id), 1);
 
-        // const lastPosition = tasks.value.filter((task) => task.status_id === toStatusId)
-        //     .reduce((max, current) => Math.max(max, current.position_id), 1);
-        //
-        // const task = tasks.value.find((task: ITask) => task.id === taskId);
-        //
-        // if (!task) {
-        //     return
-        // }
-        //
-        // task.status_id = toStatusId
-        // task.position_id = lastPosition
+        const task = tasks.value.find((task: ITask) => task.id === taskId);
+
+        if (!task) {
+            return
+        }
+
+        task.status_id = toStatusId
+        task.position_id = lastPosition
     }
 
     const moveColumn = (columnId: string, toId: string): void => {
