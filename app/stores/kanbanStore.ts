@@ -71,16 +71,29 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
     // utils
 
-    const getColumnTasks = (statusId: string): ITask[] => {
-        return tasks.value.filter((task: ITask) => task.status_id === statusId).sort((a, b) => a.position_id - b.position_id);
-    }
-
-    const reindexTasks = (list: ITask[]) => {
+    /**
+     * Пересчитывает позиции задач внутри колонки.
+     *
+     * Присваивает каждой задаче `position_id`, равный её индексу в переданном списке.
+     * Используется после перемещения задач, чтобы обновить их порядок.
+     *
+     * @param list  - Массив задач в одной колонке.
+     */
+    const reindexTasks = (list: ITask[]): void => {
         list.forEach((task: ITask, index: number) => {
             task.position_id = index;
         })
     }
 
+    /**
+     * Обновляет список задач в указанной колонке.
+     *
+     * Заменяет все задачи с данным `statusId` на новый список `list`.
+     * Используется после перемещения или сортировки задач внутри колонки.
+     *
+     * @param statusId - колонка в которой будет обновляться.
+     * @param list - новые данные для колонки.
+     */
     const updateColumnTasks = (statusId: string, list: ITask[]) => {
         tasks.value = [
             ...tasks.value.filter((task: ITask) => task.status_id !== statusId),
@@ -90,23 +103,41 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
     // getters
 
+    /**
+     * Возвращает все задачи в указанной колонке.
+     *
+     * @param column_id - `status_id` в колонке.
+     */
     const sortedTasks = (column_id: string): ITask[] => {
         return tasks.value.filter((el: ITask) => el.status_id === column_id).sort((a, b) => a.position_id - b.position_id)
     }
 
+    /**
+     * Возвращает отсортированный массив со всеми колонками.
+     */
     const sortedColumns = computed(() => {
         return columns.value.sort((a, b) => a.position_id - b.position_id);
     });
 
     // main functions
 
+
+    /**
+     * Двигает задачи в колонке.
+     *
+     * Обновляет порядок задач и их `position_id` после перемещения.
+     * Если задача переносится в другую колонку - обновляет ей `status_id`.
+     *
+     * @param taskId - таска на которую перетаскиваю.
+     * @param movedTaskId - таска которую перетаскиваю.
+     */
     const moveTask = (taskId: string, movedTaskId: string) => {
         const hoveredTask = tasks.value.find((task: ITask) => task.id === taskId);
         const draggedTask = tasks.value.find((task: ITask) => task.id === movedTaskId);
 
         if (!draggedTask || !hoveredTask || hoveredTask.id === draggedTask.id) return
 
-        const columnTasks = getColumnTasks(hoveredTask.status_id);
+        const columnTasks = sortedTasks(hoveredTask.status_id);
         const hoveredIndex = columnTasks.indexOf(hoveredTask);
 
         if (draggedTask.status_id === hoveredTask.status_id) {
@@ -121,6 +152,14 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         updateColumnTasks(hoveredTask.status_id, columnTasks);
     };
 
+    /**
+     * Перемещает задачу в указанную колонку.
+     *
+     * Меняет `status_id` в указанной задаче и перемещает ее в начало списка.
+     *
+     * @param taskId - айди задачи, которую перемещают.
+     * @param toStatusId - айди колонки в которую перетягивают.
+     */
     const moveTaskToColumn = (taskId: string, toStatusId: string): void => {
         const task = tasks.value.find((task: ITask) => task.id === taskId);
         if (!task) return
@@ -128,7 +167,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         tasks.value.splice(tasks.value.indexOf(task), 1);
 
         task.status_id = toStatusId;
-        const columnTasks = getColumnTasks(toStatusId);
+        const columnTasks = sortedTasks(toStatusId);
         columnTasks.splice(0, 0, task);
 
         reindexTasks(columnTasks);
@@ -154,5 +193,5 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     const addColumn = (column: IColumn) => columns.value.push(column);
 
 
-    return {tasks, columns, sortedTasks, sortedColumns, addTask, addColumn, moveTask, moveTaskToColumn, moveColumn};
+    return {tasks, columns, sortedColumns, sortedTasks, addTask, addColumn, moveTask, moveTaskToColumn, moveColumn};
 })

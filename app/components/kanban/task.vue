@@ -6,7 +6,7 @@ const toast = useToast();
 
 const {task} = defineProps<{ task: ITask }>();
 
-const {moveTask, sortedTasks} = useKanbanStore()
+const {moveTask} = useKanbanStore()
 
 const isHover = ref(false)
 const items: DropdownMenuItem[][] = [
@@ -102,6 +102,7 @@ const isDragOver = ref(false)
 .hovered {
   opacity: 0.5;
 }
+
 .active {
   filter: brightness(90%);
 }

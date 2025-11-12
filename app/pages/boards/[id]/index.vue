@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {sortedColumns, columns} = useKanbanStore()
+const {sortedColumns} = useKanbanStore()
 
 </script>
 
