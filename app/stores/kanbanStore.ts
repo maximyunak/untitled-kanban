@@ -111,17 +111,26 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     };
 
     const moveTaskToColumn = (taskId: string, toStatusId: string): void => {
-        const lastPosition = tasks.value.filter((task) => task.status_id === toStatusId)
-            .reduce((max, current) => Math.max(max, current.position_id), 1);
-
         const task = tasks.value.find((task: ITask) => task.id === taskId);
+
+        if (!task) {
+            console.log('таска не найдена')
+            return
+        }
+
+        tasks.value.splice(tasks.value.indexOf(task), 1);
 
         if (!task) {
             return
         }
 
-        task.status_id = toStatusId
-        task.position_id = lastPosition
+        task.status_id = toStatusId;
+        const columnTasks = sortedTasks(toStatusId);
+        columnTasks.splice(0, 0, task);
+        tasks.value = [
+            ...tasks.value.filter((task: ITask) => task.status_id !== toStatusId),
+            ...columnTasks
+        ]
     }
 
     const moveColumn = (columnId: string, toId: string): void => {
