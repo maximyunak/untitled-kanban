@@ -69,94 +69,70 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         },
     ])
 
-    const sortedTasks = (column_id: string): ITask[] => {
-        return tasks.value.filter((el: ITask) => el.status_id === column_id)
-        // return tasks.value.filter((el: ITask) => el.status_id === column_id).sort((a, b) => a.position_id - b.position_id)
+    // utils
+
+    const getColumnTasks = (statusId: string): ITask[] => {
+        return tasks.value.filter((task: ITask) => task.status_id === statusId).sort((a, b) => a.position_id - b.position_id);
     }
 
+    const reindexTasks = (list: ITask[]) => {
+        list.forEach((task: ITask, index: number) => {
+            task.position_id = index;
+        })
+    }
+
+    const updateColumnTasks = (statusId: string, list: ITask[]) => {
+        tasks.value = [
+            ...tasks.value.filter((task: ITask) => task.status_id !== statusId),
+            ...list,
+        ]
+    }
+
+    // getters
+
+    const sortedTasks = (column_id: string): ITask[] => {
+        return tasks.value.filter((el: ITask) => el.status_id === column_id).sort((a, b) => a.position_id - b.position_id)
+    }
 
     const sortedColumns = computed(() => {
         return columns.value.sort((a, b) => a.position_id - b.position_id);
     });
 
+    // main functions
+
     const moveTask = (taskId: string, movedTaskId: string) => {
         const hoveredTask = tasks.value.find((task: ITask) => task.id === taskId);
         const draggedTask = tasks.value.find((task: ITask) => task.id === movedTaskId);
 
+        if (!draggedTask || !hoveredTask || hoveredTask.id === draggedTask.id) return
 
-        if (!draggedTask || !hoveredTask) {
-            console.log('нет тасок');
-            return
-        }
-
-        if (hoveredTask.id === draggedTask.id) {
-            console.log('индексы одинаковы');
-            return
-        }
-
-        const columnTasks = tasks.value.filter((task: ITask) => task.status_id === hoveredTask.status_id);
+        const columnTasks = getColumnTasks(hoveredTask.status_id);
         const hoveredIndex = columnTasks.indexOf(hoveredTask);
 
-
         if (draggedTask.status_id === hoveredTask.status_id) {
-            const draggedIndex = columnTasks.indexOf(draggedTask);
-
-            columnTasks.splice(draggedIndex, 1);
-
-            columnTasks.splice(hoveredIndex, 0, draggedTask);
-
-            columnTasks.forEach((task, index) => {
-                task.position_id = index
-            })
-
-
-            tasks.value = [
-                ...tasks.value.filter((task: ITask) => task.status_id !== hoveredTask.status_id),
-                ...columnTasks
-            ];
+            columnTasks.splice(columnTasks.indexOf(draggedTask), 1);
         } else {
             tasks.value.splice(tasks.value.indexOf(draggedTask), 1);
             draggedTask.status_id = hoveredTask.status_id;
-
-            columnTasks.splice(hoveredIndex, 0, draggedTask);
-
-            columnTasks.forEach((task, index) => {
-                task.position_id = index
-            })
-
-            tasks.value = [
-                ...tasks.value.filter((task: ITask) => task.status_id !== hoveredTask.status_id),
-                ...columnTasks
-            ]
         }
+
+        columnTasks.splice(hoveredIndex, 0, draggedTask);
+        reindexTasks(columnTasks);
+        updateColumnTasks(hoveredTask.status_id, columnTasks);
     };
 
     const moveTaskToColumn = (taskId: string, toStatusId: string): void => {
         const task = tasks.value.find((task: ITask) => task.id === taskId);
-
-        if (!task) {
-            console.log('таска не найдена')
-            return
-        }
+        if (!task) return
 
         tasks.value.splice(tasks.value.indexOf(task), 1);
 
-        if (!task) {
-            return
-        }
-
         task.status_id = toStatusId;
-        const columnTasks = sortedTasks(toStatusId);
+        const columnTasks = getColumnTasks(toStatusId);
         columnTasks.splice(0, 0, task);
 
-        columnTasks.forEach((task, index) => {
-            task.position_id = index
-        })
-
-        tasks.value = [
-            ...tasks.value.filter((task: ITask) => task.status_id !== toStatusId),
-            ...columnTasks
-        ]
+        reindexTasks(columnTasks);
+        updateColumnTasks(toStatusId, columnTasks);
     }
 
     const moveColumn = (columnId: string, toId: string): void => {
@@ -172,13 +148,11 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         movedColumn.position_id = toPosition
     }
 
-    const addTask = (task: ITask) => {
-        tasks.value.push(task);
-    }
+    // создание
 
-    const addColumn = (column: IColumn) => {
-        columns.value.push(column);
-    }
+    const addTask = (task: ITask) => tasks.value.push(task);
+    const addColumn = (column: IColumn) => columns.value.push(column);
+
 
     return {tasks, columns, sortedTasks, sortedColumns, addTask, addColumn, moveTask, moveTaskToColumn, moveColumn};
 })

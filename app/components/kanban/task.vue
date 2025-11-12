@@ -70,7 +70,7 @@ const isDragOver = ref(false)
 <template>
   <div
       :class="['px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative', {
-        'translate-y-1' : isDragOver
+        'active' : isDragOver
       }]"
       @mouseenter="isHover= true"
       @mouseleave="isHover= false"
@@ -101,5 +101,8 @@ const isDragOver = ref(false)
 <style scoped>
 .hovered {
   opacity: 0.5;
+}
+.active {
+  filter: brightness(90%);
 }
 </style>
