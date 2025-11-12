@@ -94,10 +94,14 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
             return
         }
 
+        const columnTasks = tasks.value.filter((task: ITask) => task.status_id === hoveredTask.status_id);
+        const hoveredIndex = columnTasks.indexOf(hoveredTask);
+
+
         if (draggedTask.status_id === hoveredTask.status_id) {
-            const columnTasks = tasks.value.filter((task: ITask) => task.status_id === hoveredTask.status_id);
             const draggedIndex = columnTasks.indexOf(draggedTask);
-            const hoveredIndex = columnTasks.indexOf(hoveredTask);
+
+
 
             columnTasks.splice(draggedIndex, 1);
 
@@ -107,30 +111,40 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
                 ...tasks.value.filter((task: ITask) => task.status_id !== hoveredTask.status_id),
                 ...columnTasks
             ];
+        } else {
+            tasks.value.splice(tasks.value.indexOf(draggedTask), 1);
+            draggedTask.status_id = hoveredTask.status_id;
+
+            columnTasks.splice(hoveredIndex, 0, draggedTask);
+
+            tasks.value = [
+                ...tasks.value.filter((task: ITask) => task.status_id !== hoveredTask.status_id),
+                ...columnTasks
+            ]
         }
     };
 
     const moveTaskToColumn = (taskId: string, toStatusId: string): void => {
-        const task = tasks.value.find((task: ITask) => task.id === taskId);
-
-        if (!task) {
-            console.log('таска не найдена')
-            return
-        }
-
-        tasks.value.splice(tasks.value.indexOf(task), 1);
-
-        if (!task) {
-            return
-        }
-
-        task.status_id = toStatusId;
-        const columnTasks = sortedTasks(toStatusId);
-        columnTasks.splice(0, 0, task);
-        tasks.value = [
-            ...tasks.value.filter((task: ITask) => task.status_id !== toStatusId),
-            ...columnTasks
-        ]
+        // const task = tasks.value.find((task: ITask) => task.id === taskId);
+        //
+        // if (!task) {
+        //     console.log('таска не найдена')
+        //     return
+        // }
+        //
+        // tasks.value.splice(tasks.value.indexOf(task), 1);
+        //
+        // if (!task) {
+        //     return
+        // }
+        //
+        // task.status_id = toStatusId;
+        // const columnTasks = sortedTasks(toStatusId);
+        // columnTasks.splice(0, 0, task);
+        // tasks.value = [
+        //     ...tasks.value.filter((task: ITask) => task.status_id !== toStatusId),
+        //     ...columnTasks
+        // ]
     }
 
     const moveColumn = (columnId: string, toId: string): void => {
