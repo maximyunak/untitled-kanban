@@ -52,7 +52,6 @@ const onDrop = (event: DragEvent) => {
 
   moveTask(task.id, movedTask);
   isDragOver.value = false
-  console.log(sortedTasks(task.status_id))
 }
 
 const onDragOver = (event: DragEvent) => {

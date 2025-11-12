@@ -101,11 +101,14 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         if (draggedTask.status_id === hoveredTask.status_id) {
             const draggedIndex = columnTasks.indexOf(draggedTask);
 
-
-
             columnTasks.splice(draggedIndex, 1);
 
             columnTasks.splice(hoveredIndex, 0, draggedTask);
+
+            columnTasks.forEach((task, index) => {
+                task.position_id = index
+            })
+
 
             tasks.value = [
                 ...tasks.value.filter((task: ITask) => task.status_id !== hoveredTask.status_id),
@@ -117,6 +120,10 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
             columnTasks.splice(hoveredIndex, 0, draggedTask);
 
+            columnTasks.forEach((task, index) => {
+                task.position_id = index
+            })
+
             tasks.value = [
                 ...tasks.value.filter((task: ITask) => task.status_id !== hoveredTask.status_id),
                 ...columnTasks
@@ -125,26 +132,31 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     };
 
     const moveTaskToColumn = (taskId: string, toStatusId: string): void => {
-        // const task = tasks.value.find((task: ITask) => task.id === taskId);
-        //
-        // if (!task) {
-        //     console.log('таска не найдена')
-        //     return
-        // }
-        //
-        // tasks.value.splice(tasks.value.indexOf(task), 1);
-        //
-        // if (!task) {
-        //     return
-        // }
-        //
-        // task.status_id = toStatusId;
-        // const columnTasks = sortedTasks(toStatusId);
-        // columnTasks.splice(0, 0, task);
-        // tasks.value = [
-        //     ...tasks.value.filter((task: ITask) => task.status_id !== toStatusId),
-        //     ...columnTasks
-        // ]
+        const task = tasks.value.find((task: ITask) => task.id === taskId);
+
+        if (!task) {
+            console.log('таска не найдена')
+            return
+        }
+
+        tasks.value.splice(tasks.value.indexOf(task), 1);
+
+        if (!task) {
+            return
+        }
+
+        task.status_id = toStatusId;
+        const columnTasks = sortedTasks(toStatusId);
+        columnTasks.splice(0, 0, task);
+
+        columnTasks.forEach((task, index) => {
+            task.position_id = index
+        })
+
+        tasks.value = [
+            ...tasks.value.filter((task: ITask) => task.status_id !== toStatusId),
+            ...columnTasks
+        ]
     }
 
     const moveColumn = (columnId: string, toId: string): void => {

@@ -71,7 +71,7 @@ const onDragStart = (event: DragEvent) => {
         <UButton variant="ghost" icon="cil:options"/>
       </UDropdownMenu>
     </div>
-    <div class="flex flex-col gap-y-2 mt-3 max-h-[68vh] overflow-y-auto">
+    <div @drop.stop class="flex flex-col gap-y-2 mt-3 max-h-[68vh] overflow-y-auto">
 
       <!-- начало тасок -->
       <TransitionGroup name="list">
