@@ -6,12 +6,13 @@ const newColumnName = ref('')
 
 // создание колонки
 const createColumn = () => {
+  console.log(newColumnName.value);
   if (newColumnName.value !== '') {
-    const order = columns.reduce((a, b) => Math.max(a, b.order), -Infinity) + 1
+    const position_id = columns.reduce((a, b) => Math.max(a, b.order), -Infinity) + 1
     addColumn({
       id: Math.random().toString(36).substr(2, 10),
       name: newColumnName.value,
-      order
+      position_id,
     })
   }
   newColumnName.value = ''

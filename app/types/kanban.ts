@@ -9,7 +9,7 @@ export interface ITask {
     // в какой колонке
     status_id: string;
     // позиция в колонке
-    position_id: number;
+    position_id?: number;
     // на ком задача висит
     user_id?: number;
 }

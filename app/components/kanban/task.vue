@@ -6,7 +6,7 @@ const toast = useToast();
 
 const {task} = defineProps<{ task: ITask }>();
 
-const {moveTask} = useKanbanStore()
+const {moveTask, sortedTasks} = useKanbanStore()
 
 const isHover = ref(false)
 const items: DropdownMenuItem[][] = [
@@ -35,7 +35,7 @@ const items: DropdownMenuItem[][] = [
 
 const onDragStart = (event: DragEvent) => {
   const dt = event.dataTransfer;
-  if (!dt) return toast.add({title:"Произошла ошибка"})
+  if (!dt) return toast.add({title: "Произошла ошибка"})
   dt.setData("task_id", task.id);
   dt.setData("action", "task")
   dt.dropEffect = "move"
@@ -51,19 +51,35 @@ const onDrop = (event: DragEvent) => {
   const movedTask = dt.getData("task_id");
 
   moveTask(task.id, movedTask);
+  isDragOver.value = false
+  console.log(sortedTasks(task.status_id))
 }
+
+const onDragOver = (event: DragEvent) => {
+  if (!event.target) return
+  isDragOver.value = true
+}
+
+const onDragLeave = (event: DragEvent) => {
+  isDragOver.value = false
+}
+
+const isDragOver = ref(false)
 
 </script>
 
 <template>
   <div
-      class="px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative"
+      :class="['px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative', {
+        'translate-y-1' : isDragOver
+      }]"
       @mouseenter="isHover= true"
       @mouseleave="isHover= false"
       draggable="true"
       @dragstart.stop="onDragStart($event)"
       @drop="onDrop($event)"
-      @dragover.prevent
+      @dragover.prevent="onDragOver($event)"
+      @dragleave="onDragLeave($event)"
       @dragend.prevent
   >
     <UCheckbox/>
@@ -84,5 +100,7 @@ const onDrop = (event: DragEvent) => {
 </template>
 
 <style scoped>
-
+.hovered {
+  opacity: 0.5;
+}
 </style>
