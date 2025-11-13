@@ -7,7 +7,7 @@ export interface ITask {
     // крайний срок
     deadline?: string;
     // в какой колонке
-    status_id: string;
+    column_id: string;
     // позиция в колонке
     position_id: number;
     // на ком задача висит

@@ -8,7 +8,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
             description: "Сделать слайды для встречи с клиентом",
             is_completed: false,
             deadline: "2025-11-10T12:00:00Z",
-            status_id: 'asd',
+            column_id: 'asd',
             position_id: 1,
             user_id: 101
         },
@@ -18,7 +18,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
             description: "Добавить новый раздел про API",
             is_completed: true,
             deadline: "2025-11-05T18:00:00Z",
-            status_id: 'asd',
+            column_id: 'asd',
             position_id: 2,
             user_id: 102
         },
@@ -28,7 +28,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
             description: "Проверить работу формы регистрации",
             is_completed: false,
             deadline: "2025-11-12T15:00:00Z",
-            status_id: 'fds',
+            column_id: 'fds',
             position_id: 2,
             user_id: 103
         },
@@ -38,7 +38,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
             description: "Верстка главной страницы сайта",
             is_completed: false,
             deadline: "2025-11-15T20:00:00Z",
-            status_id: 'fds',
+            column_id: 'fds',
             position_id: 1
         },
         {
@@ -47,7 +47,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
             description: "Обсудить прогресс и блокеры",
             is_completed: false,
             deadline: "2025-11-08T10:00:00Z",
-            status_id: 'asfwq',
+            column_id: 'asfwq',
             position_id: 2,
             user_id: 104
         }
@@ -88,15 +88,15 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     /**
      * Обновляет список задач в указанной колонке.
      *
-     * Заменяет все задачи с данным `statusId` на новый список `list`.
+     * Заменяет все задачи с данным `columnId` на новый список `list`.
      * Используется после перемещения или сортировки задач внутри колонки.
      *
-     * @param statusId - колонка в которой будет обновляться.
+     * @param columnId - колонка в которой будет обновляться.
      * @param list - новые данные для колонки.
      */
-    const updateColumnTasks = (statusId: string, list: ITask[]) => {
+    const updateColumnTasks = (columnId: string, list: ITask[]) => {
         tasks.value = [
-            ...tasks.value.filter((task: ITask) => task.status_id !== statusId),
+            ...tasks.value.filter((task: ITask) => task.column_id !== columnId),
             ...list,
         ]
     }
@@ -106,10 +106,10 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     /**
      * Возвращает все задачи в указанной колонке.
      *
-     * @param column_id - `status_id` в колонке.
+     * @param column_id - `column_id` в колонке.
      */
     const sortedTasks = (column_id: string): ITask[] => {
-        return tasks.value.filter((el: ITask) => el.status_id === column_id).sort((a, b) => a.position_id - b.position_id)
+        return tasks.value.filter((el: ITask) => el.column_id === column_id).sort((a, b) => a.position_id - b.position_id)
     }
 
     /**
@@ -126,7 +126,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
      * Двигает задачи в колонке.
      *
      * Обновляет порядок задач и их `position_id` после перемещения.
-     * Если задача переносится в другую колонку - обновляет ей `status_id`.
+     * Если задача переносится в другую колонку - обновляет ей `column_id`.
      *
      * @param taskId - таска на которую перетаскиваю.
      * @param movedTaskId - таска которую перетаскиваю.
@@ -137,41 +137,41 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
         if (!draggedTask || !hoveredTask || hoveredTask.id === draggedTask.id) return
 
-        const columnTasks = sortedTasks(hoveredTask.status_id);
+        const columnTasks = sortedTasks(hoveredTask.column_id);
         const hoveredIndex = columnTasks.indexOf(hoveredTask);
 
-        if (draggedTask.status_id === hoveredTask.status_id) {
+        if (draggedTask.column_id === hoveredTask.column_id) {
             columnTasks.splice(columnTasks.indexOf(draggedTask), 1);
         } else {
             tasks.value.splice(tasks.value.indexOf(draggedTask), 1);
-            draggedTask.status_id = hoveredTask.status_id;
+            draggedTask.column_id = hoveredTask.column_id;
         }
 
         columnTasks.splice(hoveredIndex, 0, draggedTask);
         reindexTasks(columnTasks);
-        updateColumnTasks(hoveredTask.status_id, columnTasks);
+        updateColumnTasks(hoveredTask.column_id, columnTasks);
     };
 
     /**
      * Перемещает задачу в указанную колонку.
      *
-     * Меняет `status_id` в указанной задаче и перемещает ее в начало списка.
+     * Меняет `column_id` в указанной задаче и перемещает ее в начало списка.
      *
      * @param taskId - айди задачи, которую перемещают.
-     * @param toStatusId - айди колонки в которую перетягивают.
+     * @param toColumnId - айди колонки в которую перетягивают.
      */
-    const moveTaskToColumn = (taskId: string, toStatusId: string): void => {
+    const moveTaskToColumn = (taskId: string, toColumnId: string): void => {
         const task = tasks.value.find((task: ITask) => task.id === taskId);
         if (!task) return
 
         tasks.value.splice(tasks.value.indexOf(task), 1);
 
-        task.status_id = toStatusId;
-        const columnTasks = sortedTasks(toStatusId);
+        task.column_id = toColumnId;
+        const columnTasks = sortedTasks(toColumnId);
         columnTasks.splice(0, 0, task);
 
         reindexTasks(columnTasks);
-        updateColumnTasks(toStatusId, columnTasks);
+        updateColumnTasks(toColumnId, columnTasks);
     }
 
     /**
@@ -179,11 +179,11 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
      *
      * Обновляет список колонок и их `position_id`.
      *
-     * @param columnId - айди перетягиваемой колонки.
+     * @param column_id - айди перетягиваемой колонки.
      * @param toId - айди колонки на которую перетянули.
      */
-    const moveColumn = (columnId: string, toId: string): void => {
-        const fromIndex = columns.value.findIndex((column: IColumn) => column.id === columnId);
+    const moveColumn = (column_id: string, toId: string): void => {
+        const fromIndex = columns.value.findIndex((column: IColumn) => column.id === column_id);
         const toIndex = columns.value.findIndex((column: IColumn) => column.id === toId);
 
         const [movedColumn] = columns.value.splice(fromIndex, 1)
