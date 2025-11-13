@@ -41,6 +41,7 @@ const onDrop = (event: DragEvent) => {
   } else if (action === "column") {
     const columnId = dt.getData("column_id");
     moveColumn(columnId, column.id)
+    console.log('move column')
   }
 }
 

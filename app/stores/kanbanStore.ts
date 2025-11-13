@@ -117,10 +117,10 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
      */
     const sortedColumns = computed(() => {
         return columns.value.sort((a, b) => a.position_id - b.position_id);
+        // return columns.value;
     });
 
     // main functions
-
 
     /**
      * Двигает задачи в колонке.
@@ -174,18 +174,24 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         updateColumnTasks(toStatusId, columnTasks);
     }
 
+    /**
+     * Двигает колонки.
+     *
+     * Обновляет список колонок и их `position_id`.
+     *
+     * @param columnId - айди перетягиваемой колонки.
+     * @param toId - айди колонки на которую перетянули.
+     */
     const moveColumn = (columnId: string, toId: string): void => {
-        const toColumn = columns.value.find((column: IColumn) => column.id === columnId);
-        const movedColumn = columns.value.find((column: IColumn) => column.id === toId);
+        const fromIndex = columns.value.findIndex((column: IColumn) => column.id === columnId);
+        const toIndex = columns.value.findIndex((column: IColumn) => column.id === toId);
 
-        if (!toColumn || !movedColumn) {
-            return
-        }
-        const toPosition = toColumn.position_id;
-        toColumn.position_id = movedColumn.position_id;
+        const [movedColumn] = columns.value.splice(fromIndex, 1)
+        if (!movedColumn) return
+        columns.value.splice(toIndex, 0, movedColumn)
 
-        movedColumn.position_id = toPosition
-    }
+        columns.value.forEach((col, index) => col.position_id = index);
+    };
 
     // создание
 
