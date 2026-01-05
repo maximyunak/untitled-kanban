@@ -33,53 +33,13 @@ const items: DropdownMenuItem[][] = [
   ]
 ]
 
-const onDragStart = (event: DragEvent) => {
-  const dt = event.dataTransfer;
-  if (!dt) return toast.add({title: "Произошла ошибка"})
-  dt.setData("task_id", task.id);
-  dt.setData("action", "task")
-  dt.dropEffect = "move"
-  dt.effectAllowed = 'move'
-
-  isHover.value = false
-}
-
-const onDrop = (event: DragEvent) => {
-  const dt = event.dataTransfer;
-  if (!dt) return toast.add({title: "Произошла ошибка"});
-
-  const movedTask = dt.getData("task_id");
-
-  moveTask(task.id, movedTask);
-  isDragOver.value = false
-}
-
-const onDragOver = (event: DragEvent) => {
-  if (!event.target) return
-  isDragOver.value = true
-}
-
-const onDragLeave = (event: DragEvent) => {
-  isDragOver.value = false
-}
-
-const isDragOver = ref(false)
-
 </script>
 
 <template>
   <div
-      :class="['px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative', {
-        'active' : isDragOver
-      }]"
+      class="px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative"
       @mouseenter="isHover= true"
       @mouseleave="isHover= false"
-      draggable="true"
-      @dragstart.stop="onDragStart($event)"
-      @drop="onDrop($event)"
-      @dragover.prevent="onDragOver($event)"
-      @dragleave="onDragLeave($event)"
-      @dragend.prevent
   >
     <UCheckbox/>
     <p class="overflow-hidden wrap-break-word">

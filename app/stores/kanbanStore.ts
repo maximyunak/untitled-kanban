@@ -102,7 +102,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
                 "tasks": [
                     {
                         "id": 2,
-                        "name": "make",
+                        "name": "make 1",
                         "description": "asdsadsada",
                         "is_completed": 1,
                         "position": 1,
@@ -115,7 +115,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
                     },
                     {
                         "id": 3,
-                        "name": "make",
+                        "name": "make 2",
                         "description": null,
                         "is_completed": 0,
                         "position": 2,
@@ -128,7 +128,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
                     },
                     {
                         "id": 4,
-                        "name": "make",
+                        "name": "make 3",
                         "description": null,
                         "is_completed": 0,
                         "position": 1,
@@ -151,7 +151,20 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
                 "tasks": [
                     {
                         "id": 1,
-                        "name": "make",
+                        "name": "make 4",
+                        "description": null,
+                        "is_completed": 0,
+                        "position": 1,
+                        "deadline": null,
+                        "creator_id": 1,
+                        "assignee_id": null,
+                        "column_id": 4,
+                        "created_at": "2025-11-29T13:14:16.000000Z",
+                        "updated_at": "2025-11-29T20:10:16.000000Z"
+                    },
+                    {
+                        "id": 2,
+                        "name": "make 5",
                         "description": null,
                         "is_completed": 0,
                         "position": 1,

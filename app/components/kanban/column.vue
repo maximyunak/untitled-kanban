@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {IColumn, ITask} from "~/types/kanban";
 import type {DropdownMenuItem} from "@nuxt/ui";
+import draggable from "vuedraggable";
 
 const {column} = defineProps<{ column: IColumn }>();
 
@@ -28,42 +29,10 @@ const items: DropdownMenuItem[][] = [
     }
   ]
 ]
-
-const onDrop = (event: DragEvent) => {
-  const dt = event.dataTransfer;
-  if (!dt) return;
-  const action = dt.getData("action")
-
-  if (action === "task") {
-    const taskId = dt.getData("task_id");
-
-    moveTaskToColumn(taskId, column.id)
-  } else if (action === "column") {
-    const columnId = dt.getData("column_id");
-    moveColumn(columnId, column.id)
-  }
-}
-
-const onDragStart = (event: DragEvent) => {
-  const dt = event.dataTransfer;
-  if (!dt) return;
-
-  dt.setData("column_id", column.id);
-  dt.setData("action", "column")
-
-  dt.dropEffect = "move"
-  dt.effectAllowed = 'move'
-}
-
 </script>
 
 <template>
-  <div @drop="onDrop($event)"
-       @dragover.prevent
-       @dragend.prevent
-       @dragstart="onDragStart($event)"
-       draggable="true"
-       class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-[300px] max-w-[300px] items-start">
+  <div class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-[300px] max-w-[300px] items-start">
     <div class="flex justify-between items-center">
       <h4>{{ column.name }}</h4>
       <!-- настройка столбца -->
@@ -71,15 +40,20 @@ const onDragStart = (event: DragEvent) => {
         <UButton variant="ghost" icon="cil:options"/>
       </UDropdownMenu>
     </div>
-    <div @drop.stop class="flex flex-col gap-y-2 mt-3 max-h-[68vh] overflow-y-auto">
+    <div class="flex flex-col gap-2">
 
       <!-- начало тасок -->
-      <TransitionGroup name="list">
-        <KanbanTask :key="task.id"
-                    v-for="task in column.tasks"
-                    :task="task"
+      <draggable :list="column.tasks"
+                 item-key="id"
+                 class="flex flex-col gap-y-2 mt-3"
+                 ghost-class="opacity-70"
+                 :group="{name: 'tasks'}"
+                 animation="150">
+        <template #item="{ element }">
+        </template>
+        <KanbanTask :task="element"
         />
-      </TransitionGroup>
+      </draggable>
       <!-- конец тасок -->
 
       <!-- создание таски в этой колонке -->
