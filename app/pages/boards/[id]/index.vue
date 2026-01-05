@@ -1,14 +1,25 @@
 <script setup lang="ts">
-const {sortedColumns} = useKanbanStore()
+const {data, sortedColumns} = useKanbanStore()
+import draggable from "vuedraggable";
+
 
 </script>
 
 <template>
-  <div class="flex gap-7 items-start w-auto">
+  <div class="w-auto flex gap-7 items-start">
 
     <!-- начало колонок -->
     <TransitionGroup name="list" mode="out-in">
-      <KanbanColumn v-for="column in sortedColumns" :key="column.id" :column="column"/>
+      <!--      <KanbanColumn v-for="column in sortedColumns" :key="column.id" :column="column"/>-->
+      <draggable :list="data.columns"
+                 class="flex gap-7 items-start w-auto"
+                 item-key="id"
+                 ghost-class="opacity-80"
+                 animation="150">
+        <template #item="{element}">
+          <KanbanColumn :column="element"/>
+        </template>
+      </draggable>
     </TransitionGroup>
     <!-- конец колонок -->
 
@@ -28,7 +39,7 @@ const {sortedColumns} = useKanbanStore()
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
-  scale:0.5
+  scale: 0.5
 }
 
 .list-leave-active {

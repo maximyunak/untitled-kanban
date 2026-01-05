@@ -76,7 +76,7 @@ const onDragStart = (event: DragEvent) => {
       <!-- начало тасок -->
       <TransitionGroup name="list">
         <KanbanTask :key="task.id"
-                    v-for="task in sortedTasks(column.id)"
+                    v-for="task in column.tasks"
                     :task="task"
         />
       </TransitionGroup>

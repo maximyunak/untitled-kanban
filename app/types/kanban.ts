@@ -20,4 +20,5 @@ export interface IColumn {
     description?: string;
     // позиция в строке
     position_id: number;
+    tasks: ITask[];
 }
