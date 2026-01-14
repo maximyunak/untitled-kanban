@@ -50,9 +50,10 @@ const items: DropdownMenuItem[][] = [
                  :group="{name: 'tasks'}"
                  animation="150">
         <template #item="{ element }">
+          <KanbanTask :task="element"
+          />
         </template>
-        <KanbanTask :task="element"
-        />
+
       </draggable>
       <!-- конец тасок -->
 
