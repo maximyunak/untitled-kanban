@@ -28,6 +28,7 @@ type Schema = z.output<typeof schema>
 const userSchema = z.object({
   first_name: z.string('First name is required').min(1, 'First name is required'),
   last_name: z.string('Last name is required').min(1, 'Last name is required'),
+  patronymic: z.string().optional()
 })
 
 // oauth
@@ -71,14 +72,25 @@ function submitFirstStep(payload: FormSubmitEvent<Schema>) {
   step.value++
 }
 
-const submit = () => {
-  const res = register(userData)
+const submit = async () => {
+  const res = await register(userData)
+
   if (!res.errors) {
     toast.add({
       title: 'Registration successful',
       description: 'You can now log in using your credentials',
       color: 'success',
     })
+  } else {
+    const description = Object.values(res.errors).flat().join('\n')
+    toast.add({
+      title: 'Registration failed',
+      description,
+      color: 'error',
+    })
+    if (Object.keys(res.errors).includes('email')) {
+      step.value = 1
+    }
   }
 };
 
