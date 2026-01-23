@@ -7,7 +7,7 @@ export const useLogin = () => {
 
   // submit
   const login = async (userData: ILoginData): Promise<ILoginResponse> => {
-    const res = await $fetch(`/login`, {
+    const res = await $api(`/login`, {
       body: userData,
       method: 'POST',
     });

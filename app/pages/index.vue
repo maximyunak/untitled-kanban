@@ -1,4 +1,9 @@
 <script setup lang="ts">
+const fetch = async () => {
+  const res = await $api('/me');
+  console.log(res.data);
+};
+onMounted(() => {fetch()})
 </script>
 
 <template>
