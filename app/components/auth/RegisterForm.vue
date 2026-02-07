@@ -11,8 +11,8 @@ const {register} = useRegister()
 const userData = reactive<IRegisterData>({
   email: '',
   password: '',
-  first_name: '',
-  last_name: '',
+  firstName: '',
+  lastName: '',
   patronymic: ''
 })
 
@@ -26,8 +26,8 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const userSchema = z.object({
-  first_name: z.string('First name is required').min(1, 'First name is required'),
-  last_name: z.string('Last name is required').min(1, 'Last name is required'),
+  firstName: z.string('First name is required').min(1, 'First name is required'),
+  lastName: z.string('Last name is required').min(1, 'Last name is required'),
   patronymic: z.string().optional()
 })
 
@@ -118,11 +118,11 @@ const submit = async () => {
       </div>
 
       <UForm :schema="userSchema" :state="userData" @submit.prevent="submit" class="flex flex-col gap-5">
-        <UFormField label="First Name" name="first_name">
-          <UInput v-model="userData.first_name" placeholder="First Name" class="w-full"/>
+        <UFormField label="First Name" name="firstName">
+          <UInput v-model="userData.firstName" placeholder="First Name" class="w-full"/>
         </UFormField>
-        <UFormField label="Last Name" name="last_name">
-          <UInput v-model="userData.last_name" placeholder="Last Name" class="w-full"/>
+        <UFormField label="Last Name" name="lastName">
+          <UInput v-model="userData.lastName" placeholder="Last Name" class="w-full"/>
         </UFormField>
         <UFormField label="Patronymic" name="patronymic">
           <UInput v-model="userData.patronymic" placeholder="Patronymic" class="w-full"/>

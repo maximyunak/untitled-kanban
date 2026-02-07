@@ -7,14 +7,14 @@ export const useRegister = () => {
     // submit
     const register = async (userData: IRegisterData): Promise<IRegisterResponse> => {
         try {
-            const res: IRegisterResponse = await $api('/register', {
+            const res: IRegisterResponse = await $api('/auth/register', {
                 method: 'post',
                 body: userData
             })
 
             if (!res.errors) {
                 setTimeout(async () => {
-                    await router.push(localePath('login'))
+                    await router.push(localePath('/'))
                 }, 250)
             }
 
