@@ -2,35 +2,24 @@ import type {BoardType} from "~/types/board";
 
 export const useBoardStore = defineStore("boardStore", () => {
     const {$api} = useNuxtApp()
-    const boards = ref();
+    const boards = ref<BoardType[]>([]);
 
     const getData = async () => {
-
-        // const res = useAsyncData(() => {
-        //     return $api<{
-        //         boards: BoardType[]
-        //     }>("/boards/my")
-        // })
-        // const response = await useFetch("http://localhost:8000/api/boards/my", {
-        //     credentials: "include"
-        // })
-
-        const apires = await $api("/boards/my")
-        console.log(apires)
-        // console.log(response.data.value, "usefetch")
-        boards.value = apires.boards
-        // console.log(res.data.value, "async")
+        const res = await $api<{
+            boards: BoardType[];
+        }>("/boards/my")
+        boards.value = res.boards
     }
 
-    const createBoard = async (data: any) => {
-        const res = await $api('/boards', {
+    const createBoard = async (data: Pick<BoardType, 'name' | 'description'>) => {
+        const res = await $api<{
+            board: BoardType;
+        }>('/boards', {
             method: "POST",
             body: data
         });
 
         boards.value.push(res.board)
-
-        console.log(res, 'res');
     }
 
     return {
