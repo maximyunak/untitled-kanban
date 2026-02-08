@@ -24,7 +24,7 @@ const {toggleSidebar} = useSidebar();
     <UApp>
       <Sidebar/>
       <main class='max-h-screen overflow-y-hidden w-full'>
-        <div class="px-15 mt-10 h-full w-auto overflow-x-auto min-w-max">
+        <div class="px-12 mt-10 h-full w-auto overflow-x-auto min-w-max">
           <div class="flex gap-2 items-center relative">
 <!--            <UButton @click="toggleSidebar" variant="subtle" icon="mynaui:sidebar" />-->
             <UBreadcrumb :items="items" />

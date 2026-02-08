@@ -1,15 +1,17 @@
 <script setup lang="ts">
-const {data, sortedColumns} = useKanbanStore()
+const store = useKanbanStore()
 import draggable from "vuedraggable";
 
+const route = useRoute()
 
+await store.getData(route.params.id)
 </script>
 
 <template>
   <div class="w-auto flex gap-7 items-start">
 
     <!-- начало колонок -->
-      <draggable :list="data.columns"
+      <draggable :list="store.data.columns"
                  class="flex gap-7 items-start"
                  item-key="id"
                  ghost-class="opacity-80"
