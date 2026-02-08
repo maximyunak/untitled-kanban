@@ -28,7 +28,9 @@ export const useBoardStore = defineStore("boardStore", () => {
             body: data
         });
 
-        console.log(res);
+        boards.value.push(res.board)
+
+        console.log(res, 'res');
     }
 
     return {

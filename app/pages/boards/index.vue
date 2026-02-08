@@ -21,18 +21,22 @@ const create = () => {
 
 <template>
   <div>
-    <!--    {{ store.boards }}-->
-    <h2>тут все доски будут</h2>
-    <ULink :to="$localePath('/boards/1')">к 1 доске</ULink>
-
-    <div>
-      <div v-for="board in store.boards">
-        <h4>{{board.name}}</h4>
-      </div>
+    <h2>Доски</h2>
+    <div class="grid grid-cols-4 gap-4 mt-5">
+        <UPageCard
+            v-for="board in store.boards"
+            :to="`/boards/${board.id}`"
+            class="max-w-[350px]"
+            variant="soft"
+        >
+          <template #default>
+            <span class="truncate max-w-80">{{board.name}}</span>
+          </template>
+        </UPageCard>
     </div>
 
     <UModal v-model:open="open" title="Создать новую доску">
-      <UButton>Создать новую доску</UButton>
+      <UButton class="mt-10 flex justify-self-center">Создать новую доску</UButton>
       <template #body>
 
         <UForm>
