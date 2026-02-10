@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {column_id} = defineProps<{column_id: string}>()
+const {column_id} = defineProps<{column_id: number}>()
 const {addTask} = useKanbanStore()
 
 const isActive = ref(false)

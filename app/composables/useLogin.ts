@@ -4,6 +4,7 @@ export const useLogin = () => {
   const router = useRouter();
   const localePath = useLocalePath();
   const config = useRuntimeConfig();
+  const {$api} = useNuxtApp()
 
   // submit
   const login = async (userData: ILoginData): Promise<ILoginResponse> => {

@@ -4,6 +4,10 @@ import draggable from "vuedraggable";
 
 const route = useRoute()
 
+onMounted(() => {
+  store.socketConnect(route.params.id)
+})
+
 await store.getData(route.params.id)
 </script>
 
