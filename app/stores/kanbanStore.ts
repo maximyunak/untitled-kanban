@@ -31,10 +31,6 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         await $api<{ column: IColumn }>(`/boards/${data.value.id}/columns/${id}`, {
             method: "DELETE"
         })
-
-        const index = data.value.columns.findIndex(column => column.id === id)
-
-        data.value.columns.splice(index, 1)
     }
 
     // редактирование колонки
@@ -71,6 +67,19 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
             users: number
         }) => console.log(res))
     }
+
+    $io?.on('column:move', (res: IColumn[]) => {
+        if (!data.value) return
+        data.value.columns = res
+    })
+
+    $io?.on('column:delete', (res: IColumn) => {
+        if (!data.value) return
+
+        const index = data.value.columns.findIndex(column => column.id === res.id)
+
+        if (index !== -1) data.value.columns.splice(index, 1)
+    })
 
 
     return {
