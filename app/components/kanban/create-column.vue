@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {addColumn} = useKanbanStore()
+const store = useKanbanStore()
 
 const isActiveNewColumn = ref(false)
 const newColumnName = ref('')
@@ -8,10 +8,7 @@ const newColumnName = ref('')
 const createColumn = () => {
   console.log(newColumnName.value);
   if (newColumnName.value !== '') {
-    addColumn({
-      id: Math.random().toString(36).substr(2, 10),
-      name: newColumnName.value,
-    })
+    store.createColumn(newColumnName.value)
   }
   newColumnName.value = ''
 }

@@ -2,20 +2,30 @@ export interface ITask {
     id: string;
     name: string;
     description?: string;
-    is_completed: boolean;
+    isCompleted: boolean;
     deadline?: string;
-    status_id: string;
+    columnId: string;
     position: number;
-    creator_id: string,
-    assignee_id: string,
-    created_at: string,
-    updated_at: string
+    creatorId: string,
+    assigneeId: string,
+    createdAt: string,
+    updatedAt: string
 }
 
 export interface IColumn {
-    id: string;
+    id: number;
     name: string;
-    description?: string;
     position: number;
     tasks?: ITask[];
+    createdAt: string,
+    updatedAt: string
+}
+
+
+export type BoardDataType = {
+    id: number,
+    name: string,
+    description: string,
+    columns: IColumn[],
+
 }

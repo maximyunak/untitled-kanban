@@ -1,29 +1,51 @@
-import type {IColumn, ITask} from "~/types/kanban";
+import type {BoardDataType, IColumn, ITask} from "~/types/kanban";
 
 export const useKanbanStore = defineStore('kanbanStore', () => {
-    const data = ref()
+    const data = ref<BoardDataType>()
     const {$api, $io} = useNuxtApp()
 
     const getData = async (id: number) => {
-        const res = await $api<any>(`/boards/${id}`)
+        const res = await $api<{
+            board: BoardDataType
+        }>(`/boards/${id}`)
 
         data.value = res.board
     }
 
     // создание
 
-    const addTask = (task: Partial<ITask>, columnId: string) => {
-        if (!task) return
-        const column = data.value.columns.find((x: { id: string }) => x.id === columnId);
-        // поменять на то что из запроса
-        column?.tasks.push(task)
-    };
-    const addColumn = (column: Partial<IColumn>) => {
-        data.value.columns.push({
-            ...column,
-            tasks: []
+    const createColumn = async (name: string) => {
+        if (!data.value) return
+        const res = await $api<{
+            column: IColumn
+        }>(`/boards/${data.value.id}/columns`, {
+            body: {name},
+            method: "POST"
         })
-        console.log(column)
+
+        data.value.columns.push(res.column)
+    }
+
+    const deleteColumn = async (id: number) => {
+        if (!data.value) return
+        await $api<{ column: IColumn }>(`/boards/${data.value.id}/columns/${id}`, {
+            method: "DELETE"
+        })
+
+        const index = data.value.columns.findIndex(column => column.id === id)
+
+        data.value.columns.splice(index, 1)
+    }
+
+    const updateColumn = async (body: Partial<IColumn>) => {
+        if (!data.value) return
+        const res = await $api<{ column: IColumn }>(`/boards/${data.value.id}/columns/${body.id}`, {
+            method: "PATCH",
+            body,
+        })
+        const column = data.value.columns.find(column => column.id === body.id);
+        if (!column) return
+        column.name = res.column.name
     }
 
 
@@ -37,11 +59,13 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         }) => console.log(res))
     }
 
+
     return {
         data,
         getData,
-        addTask,
-        addColumn,
         socketConnect,
+        createColumn,
+        deleteColumn,
+        updateColumn,
     };
 })

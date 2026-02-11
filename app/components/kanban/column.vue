@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import type {IColumn, ITask} from "~/types/kanban";
+import type {IColumn} from "~/types/kanban";
 import type {DropdownMenuItem} from "@nuxt/ui";
 import draggable from "vuedraggable";
 
 const {column} = defineProps<{ column: IColumn }>();
 
-const {sortedTasks, moveTaskToColumn, moveColumn} = useKanbanStore()
+const store = useKanbanStore()
 const items: DropdownMenuItem[][] = [
   [
     {
       label: 'View',
-      icon: 'i-lucide-eye'
+      icon: 'i-lucide-eye',
+      onClick: () => {
+        openModel.value = true
+      }
     },
     {
       label: 'Copy',
@@ -25,10 +28,33 @@ const items: DropdownMenuItem[][] = [
     {
       label: 'Delete',
       color: 'error',
-      icon: 'i-lucide-trash'
+      icon: 'i-lucide-trash',
+      onClick: () => {
+        store.deleteColumn(column.id)
+      }
     }
   ]
 ]
+
+const openModel = ref(false)
+
+const deleteColumn = () => {
+  store.deleteColumn(column.id)
+  openModel.value = false
+}
+
+const newColumnName = ref(column.name)
+
+const updateColumn = () => {
+  if (column.name !== newColumnName.value) {
+    const data = {
+      id: column.id,
+      name: newColumnName.value,
+    }
+    store.updateColumn(data)
+  }
+  openModel.value = false
+}
 </script>
 
 <template>
@@ -36,9 +62,7 @@ const items: DropdownMenuItem[][] = [
     <div class="flex justify-between items-center">
       <h4>{{ column.name }}</h4>
       <!-- настройка столбца -->
-      <UDropdownMenu :items="items">
-        <UButton variant="ghost" icon="cil:options"/>
-      </UDropdownMenu>
+      <UButton variant="ghost" icon="cil:options" @click="openModel=true"/>
     </div>
     <div class="flex flex-col gap-2">
 
@@ -60,7 +84,28 @@ const items: DropdownMenuItem[][] = [
       <!-- создание таски в этой колонке -->
       <KanbanCreateTask :column_id="column.id"/>
 
+      <UModal v-model:open="openModel">
+        <template #title>
+          {{ column.name }}
+        </template>
+
+        <template #body>
+          <UForm>
+
+            <UFormField label="Новое название колонки" size="xl">
+              <UInput v-model="newColumnName" placeholder="New Column Name"/>
+            </UFormField>
+
+          </UForm>
+        </template>
+
+        <template #footer>
+          <UButton color="error" @click="deleteColumn" label="Delete" variant="outline"/>
+          <UButton label="Submit" @click="updateColumn" color="neutral"/>
+        </template>
+      </UModal>
     </div>
+
   </div>
 </template>
 

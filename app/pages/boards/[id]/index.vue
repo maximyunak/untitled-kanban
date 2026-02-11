@@ -5,30 +5,38 @@ import draggable from "vuedraggable";
 const route = useRoute()
 
 onMounted(() => {
-  store.socketConnect(route.params.id)
+  store.socketConnect(Number(route.params.id))
 })
 
-await store.getData(route.params.id)
+await store.getData(Number(route.params.id))
 </script>
 
 <template>
-  <div class="w-auto flex gap-7 items-start">
+  <div>
+    <div>
+      <h2>{{ store?.data?.name }}</h2>
+    </div>
+    <div :class="['mt-4 w-auto flex items-start', {
+      'gap-7': store.data?.columns?.length ?? 0 > 0,
+    }]">
 
-    <!-- начало колонок -->
-      <draggable :list="store.data.columns"
+
+      <!-- начало колонок -->
+      <draggable :list="store.data?.columns"
                  class="flex gap-7 items-start"
                  item-key="id"
                  ghost-class="opacity-80"
                  animation="150">
         <template #item="{element}">
-          <KanbanColumn :column="element" />
+          <KanbanColumn :column="element"/>
         </template>
       </draggable>
-    <!-- конец колонок -->
+      <!-- конец колонок -->
 
-    <!--  создание колонки  -->
-    <KanbanCreateColumn/>
+      <!--  создание колонки  -->
+      <KanbanCreateColumn/>
 
+    </div>
   </div>
 </template>
 
