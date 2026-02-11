@@ -6,7 +6,7 @@ const toast = useToast();
 
 const {task} = defineProps<{ task: ITask }>();
 
-const {moveTask} = useKanbanStore()
+const store = useKanbanStore()
 
 const isHover = ref(false)
 const items: DropdownMenuItem[][] = [
@@ -28,7 +28,8 @@ const items: DropdownMenuItem[][] = [
     {
       label: 'Delete',
       color: 'error',
-      icon: 'i-lucide-trash'
+      icon: 'i-lucide-trash',
+      onClick: () => store.deleteTask(task.id)
     }
   ]
 ]
