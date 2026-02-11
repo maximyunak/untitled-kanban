@@ -1,49 +1,18 @@
 <script setup lang="ts">
 import type {IColumn} from "~/types/kanban";
-import type {DropdownMenuItem} from "@nuxt/ui";
 import draggable from "vuedraggable";
 
 const {column} = defineProps<{ column: IColumn }>();
 
 const store = useKanbanStore()
-const items: DropdownMenuItem[][] = [
-  [
-    {
-      label: 'View',
-      icon: 'i-lucide-eye',
-      onClick: () => {
-        openModel.value = true
-      }
-    },
-    {
-      label: 'Copy',
-      icon: 'i-lucide-copy'
-    },
-    {
-      label: 'Edit',
-      icon: 'i-lucide-pencil'
-    }
-  ],
-  [
-    {
-      label: 'Delete',
-      color: 'error',
-      icon: 'i-lucide-trash',
-      onClick: () => {
-        store.deleteColumn(column.id)
-      }
-    }
-  ]
-]
 
+const newColumnName = ref(column.name)
 const openModel = ref(false)
 
 const deleteColumn = () => {
   store.deleteColumn(column.id)
   openModel.value = false
 }
-
-const newColumnName = ref(column.name)
 
 const updateColumn = () => {
   if (column.name !== newColumnName.value) {

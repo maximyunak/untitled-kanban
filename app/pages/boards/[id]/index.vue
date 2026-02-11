@@ -9,6 +9,13 @@ onMounted(() => {
 })
 
 await store.getData(Number(route.params.id))
+
+const change = (event) => {
+  console.log(event.moved.element.id, event.moved.newIndex, "change")
+
+  store.moveColumn(event.moved.element.id, event.moved.newIndex)
+}
+
 </script>
 
 <template>
@@ -22,11 +29,13 @@ await store.getData(Number(route.params.id))
 
 
       <!-- начало колонок -->
-      <draggable :list="store.data?.columns"
-                 class="flex gap-7 items-start"
-                 item-key="id"
-                 ghost-class="opacity-80"
-                 animation="150">
+      <draggable
+          @change="change"
+          :list="store.data?.columns"
+          class="flex gap-7 items-start"
+          item-key="id"
+          ghost-class="opacity-80"
+          animation="150">
         <template #item="{element}">
           <KanbanColumn :column="element"/>
         </template>

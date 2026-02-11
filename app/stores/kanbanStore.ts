@@ -12,8 +12,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         data.value = res.board
     }
 
-    // создание
-
+    // создание колонки
     const createColumn = async (name: string) => {
         if (!data.value) return
         const res = await $api<{
@@ -26,6 +25,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         data.value.columns.push(res.column)
     }
 
+    // удаление колонки
     const deleteColumn = async (id: number) => {
         if (!data.value) return
         await $api<{ column: IColumn }>(`/boards/${data.value.id}/columns/${id}`, {
@@ -37,6 +37,7 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         data.value.columns.splice(index, 1)
     }
 
+    // редактирование колонки
     const updateColumn = async (body: Partial<IColumn>) => {
         if (!data.value) return
         const res = await $api<{ column: IColumn }>(`/boards/${data.value.id}/columns/${body.id}`, {
@@ -46,6 +47,18 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         const column = data.value.columns.find(column => column.id === body.id);
         if (!column) return
         column.name = res.column.name
+    }
+
+    // mode column
+    const moveColumn = async (id: number, toPosition: number) => {
+        if (!data.value) return
+
+        const res = await $api(`/boards/${data.value.id}/columns/${id}/move`, {
+            method: "PATCH",
+            body: {
+                toPosition,
+            }
+        })
     }
 
 
@@ -67,5 +80,6 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
         createColumn,
         deleteColumn,
         updateColumn,
+        moveColumn
     };
 })
