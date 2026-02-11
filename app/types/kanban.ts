@@ -1,10 +1,10 @@
 export interface ITask {
-    id: string;
+    id: number;
     name: string;
     description?: string;
     isCompleted: boolean;
     deadline?: string;
-    columnId: string;
+    columnId: number;
     position: number;
     creatorId: string,
     assigneeId: string,

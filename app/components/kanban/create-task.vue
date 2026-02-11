@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const {column_id} = defineProps<{column_id: number}>()
-const {addTask} = useKanbanStore()
+const {columnId} = defineProps<{columnId: number}>()
+const store = useKanbanStore()
 
 const isActive = ref(false)
 const newTaskName = ref('')
@@ -8,11 +8,9 @@ const newTaskName = ref('')
 // создание таски
 const createTask = () => {
   if (newTaskName.value.trim() !== '') {
-    addTask({
+    store.createTask(columnId, {
       name: newTaskName.value,
-      description: "",
-      is_completed: false,
-    }, column_id)
+    })
   }
   newTaskName.value = ''
   isActive.value = false

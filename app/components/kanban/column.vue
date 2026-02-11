@@ -6,7 +6,7 @@ const {column} = defineProps<{ column: IColumn }>();
 
 const store = useKanbanStore()
 
-const newColumnName = ref(column.name)
+const newColumnName = ref('')
 const openModel = ref(false)
 
 const deleteColumn = () => {
@@ -22,6 +22,7 @@ const updateColumn = () => {
     }
     store.updateColumn(data)
   }
+  newColumnName.value = ''
   openModel.value = false
 }
 </script>
@@ -51,7 +52,7 @@ const updateColumn = () => {
       <!-- конец тасок -->
 
       <!-- создание таски в этой колонке -->
-      <KanbanCreateTask :column_id="column.id"/>
+      <KanbanCreateTask :columnId="column.id"/>
 
       <UModal v-model:open="openModel">
         <template #title>

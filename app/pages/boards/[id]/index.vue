@@ -11,8 +11,6 @@ onMounted(() => {
 await store.getData(Number(route.params.id))
 
 const change = (event) => {
-  console.log(event.moved.element.id, event.moved.newIndex, "change")
-
   store.moveColumn(event.moved.element.id, event.moved.newIndex)
 }
 
@@ -31,7 +29,7 @@ const change = (event) => {
       <!-- начало колонок -->
       <draggable
           @change="change"
-          :list="store.data?.columns"
+          :list="store.board.columns"
           class="flex gap-7 items-start"
           item-key="id"
           ghost-class="opacity-80"
