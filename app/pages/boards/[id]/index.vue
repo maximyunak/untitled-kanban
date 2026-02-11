@@ -21,10 +21,10 @@ const change = (event) => {
 <template>
   <div>
     <div>
-      <h2>{{ store?.data?.name }}</h2>
+      <h2>{{ store.board.name }}</h2>
     </div>
     <div :class="['mt-4 w-auto flex items-start', {
-      'gap-7': store.data?.columns?.length ?? 0 > 0,
+      'gap-7': store.board.columns.length ?? 0 > 0,
     }]">
 
 

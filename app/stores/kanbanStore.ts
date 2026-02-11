@@ -4,6 +4,13 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     const data = ref<BoardDataType>()
     const {$api, $io} = useNuxtApp()
 
+    const board = computed<BoardDataType>(() => {
+            if (!data.value) throw new Error('Value is null')
+            return data.value
+        }
+    )
+
+
     const getData = async (id: number) => {
         const res = await $api<{
             board: BoardDataType
@@ -14,42 +21,38 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
     // создание колонки
     const createColumn = async (name: string) => {
-        if (!data.value) return
         const res = await $api<{
             column: IColumn
-        }>(`/boards/${data.value.id}/columns`, {
+        }>(`/boards/${board.value.id}/columns`, {
             body: {name},
             method: "POST"
         })
 
-        data.value.columns.push(res.column)
+        board.value.columns.push(res.column)
     }
 
     // удаление колонки
     const deleteColumn = async (id: number) => {
-        if (!data.value) return
-        await $api<{ column: IColumn }>(`/boards/${data.value.id}/columns/${id}`, {
+        await $api<{ column: IColumn }>(`/boards/${board.value.id}/columns/${id}`, {
             method: "DELETE"
         })
     }
 
     // редактирование колонки
     const updateColumn = async (body: Partial<IColumn>) => {
-        if (!data.value) return
-        const res = await $api<{ column: IColumn }>(`/boards/${data.value.id}/columns/${body.id}`, {
+        const res = await $api<{ column: IColumn }>(`/boards/${board.value.id}/columns/${body.id}`, {
             method: "PATCH",
             body,
         })
-        const column = data.value.columns.find(column => column.id === body.id);
+        const column = board.value.columns.find(column => column.id === body.id);
         if (!column) return
         column.name = res.column.name
     }
 
     // mode column
     const moveColumn = async (id: number, toPosition: number) => {
-        if (!data.value) return
 
-        const res = await $api(`/boards/${data.value.id}/columns/${id}/move`, {
+        const res = await $api(`/boards/${board.value.id}/columns/${id}/move`, {
             method: "PATCH",
             body: {
                 toPosition,
@@ -69,21 +72,18 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     }
 
     $io?.on('column:move', (res: IColumn[]) => {
-        if (!data.value) return
-        data.value.columns = res
+        board.value.columns = res
     })
 
     $io?.on('column:delete', (res: IColumn) => {
-        if (!data.value) return
+        const index = board.value.columns.findIndex(column => column.id === res.id)
 
-        const index = data.value.columns.findIndex(column => column.id === res.id)
-
-        if (index !== -1) data.value.columns.splice(index, 1)
+        if (index !== -1) board.value.columns.splice(index, 1)
     })
 
 
     return {
-        data,
+        board,
         getData,
         socketConnect,
         createColumn,

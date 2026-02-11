@@ -17,7 +17,6 @@ const themeIcon = computed(() => {
 const items = computed<NavigationMenuItem[][]>(() => [[{
   label: 'Dashboard',
   icon: 'i-lucide-house',
-  active: true,
   to: localePath('/'),
 }, {
   label: 'Boards',
