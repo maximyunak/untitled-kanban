@@ -7,11 +7,11 @@ const {column} = defineProps<{ column: IColumn }>();
 const store = useKanbanStore()
 
 const newColumnName = ref('')
-const openModel = ref(false)
+const openModal = ref(false)
 
 const deleteColumn = () => {
   store.deleteColumn(column.id)
-  openModel.value = false
+  openModal.value = false
 }
 
 const updateColumn = () => {
@@ -23,7 +23,7 @@ const updateColumn = () => {
     store.updateColumn(data)
   }
   newColumnName.value = ''
-  openModel.value = false
+  openModal.value = false
 }
 </script>
 
@@ -32,7 +32,7 @@ const updateColumn = () => {
     <div class="flex justify-between items-center">
       <h4>{{ column.name }}</h4>
       <!-- настройка столбца -->
-      <UButton variant="ghost" icon="cil:options" @click="openModel=true"/>
+      <UButton variant="ghost" icon="cil:options" @click="openModal=true"/>
     </div>
     <div class="flex flex-col gap-2">
 
@@ -54,7 +54,7 @@ const updateColumn = () => {
       <!-- создание таски в этой колонке -->
       <KanbanCreateTask :columnId="column.id"/>
 
-      <UModal v-model:open="openModel">
+      <UModal v-model:open="openModal">
         <template #title>
           {{ column.name }}
         </template>

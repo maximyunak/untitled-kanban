@@ -123,22 +123,46 @@ export const useKanbanStore = defineStore("kanbanStore", () => {
             },
         );
     };
-
+    // ws delete task
     $io?.on("task:delete", (res: ITask) => {
         const column = board.value.columns.find((col) => col.id === res.columnId);
-        if (!column?.tasks) return;
+        if (!column) return;
         column.tasks = column.tasks.filter((task) => task.id !== res.id);
     })
+
+    // update task
+    const updateTask = async (taskId: number, data: Partial<ITask>) => {
+        const res = await $api<{ task: ITask }>(
+            `/boards/${board.value.id}/tasks/${taskId}`, {
+                method: "PATCH",
+                body: data,
+            }
+        )
+    }
+
+    $io?.on("task:update", (res: ITask) => {
+        const column = board.value.columns.find((col) => col.id === res.columnId);
+        if (!column) return;
+        const index = column.tasks?.findIndex(task => task.id === res.id);
+        if (index === -1) return
+        column.tasks.splice(index, 1, res)
+    })
+
 
     return {
         board,
         getData,
         socketConnect,
+
+        // cols
         createColumn,
         deleteColumn,
         updateColumn,
         moveColumn,
+
+        // tasks
         createTask,
-        deleteTask
+        deleteTask,
+        updateTask,
     };
 });

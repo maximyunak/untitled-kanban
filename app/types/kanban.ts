@@ -3,11 +3,11 @@ export interface ITask {
     name: string;
     description?: string;
     isCompleted: boolean;
-    deadline?: string;
+    deadline?: Date;
     columnId: number;
     position: number;
-    creatorId: string,
-    assigneeId: string,
+    creatorId: number,
+    assigneeId: number,
     createdAt: string,
     updatedAt: string
 }
@@ -16,7 +16,7 @@ export interface IColumn {
     id: number;
     name: string;
     position: number;
-    tasks?: ITask[];
+    tasks: ITask[];
     createdAt: string,
     updatedAt: string
 }
@@ -27,5 +27,4 @@ export type BoardDataType = {
     name: string,
     description: string,
     columns: IColumn[],
-
 }

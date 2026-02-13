@@ -1,38 +1,47 @@
 <script setup lang="ts">
 import type {ITask} from "~/types/kanban";
-import type {DropdownMenuItem} from "@nuxt/ui";
+import {CalendarDate} from "@internationalized/date";
 
 const toast = useToast();
 
-const {task} = defineProps<{ task: ITask }>();
-
 const store = useKanbanStore()
 
+
+const {task} = defineProps<{ task: ITask }>();
 const isHover = ref(false)
-const items: DropdownMenuItem[][] = [
-  [
-    {
-      label: 'View',
-      icon: 'i-lucide-eye'
-    },
-    {
-      label: 'Copy',
-      icon: 'i-lucide-copy'
-    },
-    {
-      label: 'Edit',
-      icon: 'i-lucide-pencil'
-    }
-  ],
-  [
-    {
-      label: 'Delete',
-      color: 'error',
-      icon: 'i-lucide-trash',
-      onClick: () => store.deleteTask(task.id)
-    }
-  ]
-]
+
+
+const deadlineValue = shallowRef<CalendarDate | null>(
+    task.deadline
+        ? new CalendarDate(
+            new Date(task.deadline).getFullYear(),
+            new Date(task.deadline).getMonth(),
+            new Date(task.deadline).getDay()
+        )
+        : null
+)
+
+const inputDate = useTemplateRef('inputDate')
+const openModal = ref(false)
+const updateTaskData = reactive<Partial<ITask>>({
+  name: task.name,
+  description: task.description,
+  isCompleted: task.isCompleted,
+  assigneeId: task.assigneeId,
+})
+
+
+const handleUpdateTask = () => {
+  const data = {} as Partial<ITask>
+  if (deadlineValue.value !== null) data.deadline = new Date(deadlineValue.value.year, deadlineValue.value.month, deadlineValue.value.day)
+  if (updateTaskData.description) data.description = updateTaskData.description
+  if (updateTaskData.assigneeId) data.assigneeId = updateTaskData.assigneeId
+  if (updateTaskData.name) data.name = updateTaskData.name;
+  if (updateTaskData.isCompleted) data.isCompleted = updateTaskData.isCompleted
+
+  store.updateTask(task.id, data)
+  openModal.value = false
+}
 
 </script>
 
@@ -48,14 +57,62 @@ const items: DropdownMenuItem[][] = [
     </p>
 
     <!-- настройка таски -->
-    <UDropdownMenu :content="{
-              align: 'start',
-              side: 'right',
-            }" :class="['absolute right-3 top-2 opacity-0 invisible transition-opacity', {
+
+    <UButton :class="['absolute right-3 top-2 opacity-0 invisible transition-opacity', {
               'opacity-100 visible' : isHover
-            }]" :items="items">
-      <UButton variant="subtle" size="sm" icon="cil:options"/>
-    </UDropdownMenu>
+            }]" variant="subtle" size="sm" icon="cil:options" @click="openModal=true"/>
+
+    <UModal v-model:open="openModal">
+      <template #title>
+        {{ task.name }}
+      </template>
+
+      <template #body>
+        <UForm>
+
+          <UFormField label="Новое название таски" size="xl">
+            <UInput class="mb-2" v-model="updateTaskData.name" placeholder="New Task Name"/>
+          </UFormField>
+
+          <UFormField label="Новое описание таски" size="xl">
+            <UInput class="mb-2" v-model="updateTaskData.description" placeholder="New Task Description"/>
+          </UFormField>
+
+          <UFormField label="assignee" size="xl">
+            <UInput class="mb-2" v-model="updateTaskData.assigneeId" placeholder="Id на кого назначена"/>
+          </UFormField>
+
+
+          <UFormField label="Deadline" size="xl">
+            <UInputDate class="mb-2" ref="inputDate" v-model="deadlineValue">
+              <template #trailing>
+                <UPopover :reference="inputDate?.inputsRef[3]?.$el">
+                  <UButton
+                      color="neutral"
+                      variant="link"
+                      size="sm"
+                      icon="i-lucide-calendar"
+                      aria-label="Select a date"
+                      class="px-0"
+                  />
+
+                  <template #content>
+                    <UCalendar v-model="deadlineValue" class="p-2"/>
+                  </template>
+                </UPopover>
+              </template>
+            </UInputDate>
+          </UFormField>
+
+
+        </UForm>
+      </template>
+
+      <template #footer>
+        <!--        <UButton color="error" @click="deleteColumn" label="Delete" variant="outline"/>-->
+        <UButton label="Submit" @click="handleUpdateTask" color="neutral"/>
+      </template>
+    </UModal>
   </div>
 </template>
 
