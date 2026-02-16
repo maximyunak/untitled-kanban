@@ -28,10 +28,10 @@ const updateColumn = () => {
 
 const change = (event: any, columnId: number) => {
   if (event.moved) {
-    store.moveTask(event.moved.element.id, event.moved.newIndex);
+    store.moveTask(event.moved.element.id, columnId, event.moved.newIndex);
   }
   if (event.added) {
-    console.log(event.added.element.id, event.added.newIndex, columnId);
+    store.moveTaskToColumn(event.added.element.id, columnId, event.added.newIndex);
   }  
 }
 </script>

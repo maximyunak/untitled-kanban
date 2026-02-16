@@ -139,21 +139,54 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
   });
 
   //   move task
-  const moveTask = async (taskId: number, toPosition: number) => {
+
+  const moveTask = async (taskId: number, columnId: number, toPosition: number) => {
     const res = await $api(`/boards/${board.value.id}/tasks/${taskId}/move`, {
       method: 'patch',
       body: {
         toPosition,
+        columnId,
       },
     });
   };
 
-  $io?.on('task:move', (res: ITask[]) => {
-    const column = board.value.columns.find((col) => col.id === res[0].columnId);
+  $io?.on('task:move', (res: { columnId: number; tasks: ITask[] }) => {
+    const column = board.value.columns.find((col) => col.id === res.columnId);
     if (!column) return;
+    console.log(res);
 
-    column.tasks = res;
+    column.tasks = res.tasks;
   });
+
+  const moveTaskToColumn = async (taskId: number, columnId: number, toPosition: number) => {
+    const res = await $api(`/boards/${board.value.id}/tasks/${taskId}/move-to-column`, {
+      method: 'patch',
+      body: {
+        toPosition,
+        columnId,
+      },
+    });
+  };
+
+  $io?.on(
+    'task:move-to-column',
+    (res: {
+      sourceTasks: ITask[];
+      targetTasks: ITask[];
+      sourceColumnId: number;
+      targetColumnId: number;
+    }) => {
+      // перемещение в исходной колонке
+      const sourceColumn = board.value.columns.find((col) => col.id === res.sourceColumnId);
+      if (!sourceColumn) return;
+      sourceColumn.tasks = res.sourceTasks;
+
+      // перемещение в новой колонке
+      const targetColumn = board.value.columns.find((col) => col.id === res.targetColumnId);
+      if (!targetColumn) return;
+      targetColumn.tasks = res.targetTasks;
+    },
+  );
 
   return {
     board,
@@ -171,5 +204,6 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
     deleteTask,
     updateTask,
     moveTask,
+    moveTaskToColumn,
   };
 });
