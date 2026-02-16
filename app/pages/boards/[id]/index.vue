@@ -10,7 +10,7 @@ onMounted(() => {
 
 await store.getData(Number(route.params.id))
 
-const change = (event) => {
+const change = (event: any) => {
   store.moveColumn(event.moved.element.id, event.moved.newIndex)
 }
 

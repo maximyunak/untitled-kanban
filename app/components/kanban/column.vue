@@ -25,10 +25,19 @@ const updateColumn = () => {
   newColumnName.value = ''
   openModal.value = false
 }
+
+const change = (event: any, columnId: number) => {
+  if (event.moved) {
+    store.moveTask(event.moved.element.id, event.moved.newIndex);
+  }
+  if (event.added) {
+    console.log(event.added.element.id, event.added.newIndex, columnId);
+  }  
+}
 </script>
 
 <template>
-  <div class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-[300px] max-w-[300px] items-start">
+  <div class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-75 max-w-75 items-start">
     <div class="flex justify-between items-center">
       <h4>{{ column.name }}</h4>
       <!-- настройка столбца -->
@@ -42,7 +51,8 @@ const updateColumn = () => {
                  class="flex flex-col gap-y-2 mt-3"
                  ghost-class="opacity-70"
                  :group="{name: 'tasks'}"
-                 animation="150">
+                 animation="150"
+                 @change="change($event, column.id)">
         <template #item="{ element }">
           <KanbanTask :task="element"
           />
