@@ -18,8 +18,16 @@ const change = (event: any) => {
 
 <template>
   <div>
-    <div>
+    <div class="flex justify-between">
       <h2>{{ store.board.name }}</h2>
+      <div>
+        users:
+        <UAvatarGroup max="2">
+          <UTooltip   v-for="user in store.board.users" :text="`${user.firstName} ${user.lastName}`">
+            <UAvatar :alt="`${user.firstName} ${user.lastName}`" />
+          </UTooltip>
+      </UAvatarGroup>
+      </div>
     </div>
     <div :class="['mt-4 w-auto flex items-start', {
       'gap-7': store.board.columns.length ?? 0 > 0,
@@ -44,6 +52,13 @@ const change = (event: any) => {
       <KanbanCreateColumn/>
 
     </div>
+    <UModal>
+      <template #body>
+          <div>
+            heloo
+          </div>
+        </template>
+    </UModal>
   </div>
 </template>
 

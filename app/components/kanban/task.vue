@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {ITask} from "~/types/kanban";
 import {CalendarDate} from "@internationalized/date";
+import { el } from "@nuxt/ui/runtime/locale/index.js";
 
 const toast = useToast();
 
@@ -43,6 +44,19 @@ const handleUpdateTask = () => {
   openModal.value = false
 }
 
+const usersMenu = computed(() => {
+  const users =  store.board.users.map(el => {
+    return {
+      id: el.id,
+      label: el.firstName + " " + el.lastName,
+      onSelect: () => {
+        updateTaskData.assigneeId = el.id
+      }
+    }
+  }) 
+  return users
+})
+
 </script>
 
 <template>
@@ -71,20 +85,20 @@ const handleUpdateTask = () => {
         <UForm>
 
           <UFormField label="Новое название таски" size="xl">
-            <UInput class="mb-2" v-model="updateTaskData.name" placeholder="New Task Name"/>
+            <UInput class="mb-2 w-4/7" v-model="updateTaskData.name" placeholder="New Task Name" />
           </UFormField>
 
           <UFormField label="Новое описание таски" size="xl">
-            <UInput class="mb-2" v-model="updateTaskData.description" placeholder="New Task Description"/>
+            <UInput class="mb-2 w-4/7" v-model="updateTaskData.description" placeholder="New Task Description" />
           </UFormField>
 
           <UFormField label="assignee" size="xl">
-            <UInput class="mb-2" v-model="updateTaskData.assigneeId" placeholder="Id на кого назначена"/>
+            <USelectMenu :default-value="usersMenu.find(el => task.assigneeId === el.id)" item-text="fullName" :items="usersMenu" placeholder="Выберите чтобы назначить задачу" class="w-4/7" /> 
           </UFormField>
 
 
           <UFormField label="Deadline" size="xl">
-            <UInputDate class="mb-2" ref="inputDate" v-model="deadlineValue">
+            <UInputDate class="mb-2 w-4/7" ref="inputDate" v-model="deadlineValue">
               <template #trailing>
                 <UPopover :reference="inputDate?.inputsRef[3]?.$el">
                   <UButton
