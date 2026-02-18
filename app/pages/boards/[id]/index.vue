@@ -18,6 +18,10 @@ const change = (event: any) => {
 const {invite} = useInvite()
 const inviteUserEmail = ref('')
 
+const handleInvite = async () => {
+  await invite(inviteUserEmail.value, store.board.id)
+}
+
 </script>
 
 <template>
@@ -88,8 +92,13 @@ const inviteUserEmail = ref('')
                   <UInput v-model="inviteUserEmail" placeholder="Email" />
                 </UFormField>
 
-                <UButton class="mt-2" @click="invite(inviteUserEmail, store.board.id)">Пригласить</UButton>
               </template>
+
+              <template #footer="{ close }">
+                <UButton label="Cancel" color="neutral" variant="outline" @click="close"/>
+                <UButton class="mt-2" @click="handleInvite">Пригласить</UButton>
+
+      </template>
 
             </UModal>
           </div>

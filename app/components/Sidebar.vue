@@ -30,7 +30,13 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
   label: 'Notifications',
   badge: '4',
   icon: 'material-symbols:notifications-outline-rounded'
-}, {
+},
+{
+  label: "Invites",
+  icon: "mingcute:invite-fill",
+  to: localePath('invites')
+},
+ {
   label: 'Settings',
   icon: 'i-lucide-settings',
   defaultOpen: true,
