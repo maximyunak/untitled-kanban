@@ -60,15 +60,13 @@ const handleInvite = async () => {
       <KanbanCreateColumn/>
 
     </div>
-    <UModal v-model:open="isOpenUserModal">
-      <template #header>
-        Users
-      </template>
+    <UModal v-model:open="isOpenUserModal" title="Участники доски">
       <template #body>
         <!-- Все юзеры -->
           <div class="flex flex-col gap-4">
             <NuxtLink :to="`/profile/${user.id}`" class="p-4 flex items-center justify-between rounded-lg bg-elevated/50 has-focus-visible:ring-2 has-focus-visible:ring-primary transition hover:bg-elevated max-w-full" v-for="user in store.board.users">
-              <div>{{ user.firstName }} {{ user.lastName }}</div>
+              <div><div class="text-lg">{{ user.firstName }} {{ user.lastName }}</div>
+            <div class="text-sm text-muted">{{ user.email }}</div></div>
 
               <div>
                 <UTooltip text="Закрыть доступ">
@@ -80,12 +78,8 @@ const handleInvite = async () => {
           <div class="flex justify-center">
             
             <!-- Модалка приглашения -->
-            <UModal>
+            <UModal title="Пригласить пользователя">
               <UButton class="mt-4" variant="subtle">Добавить юзера</UButton>
-
-              <template #header>
-                Пригласить пользователя
-              </template>
 
               <template #body>
                 <UFormField label="Email">
@@ -94,9 +88,9 @@ const handleInvite = async () => {
 
               </template>
 
-              <template #footer="{ close }">
+              <template #footer="{ close }" class="flex items-center">
                 <UButton label="Cancel" color="neutral" variant="outline" @click="close"/>
-                <UButton class="mt-2" @click="handleInvite">Пригласить</UButton>
+                <UButton @click="handleInvite">Пригласить</UButton>
 
       </template>
 

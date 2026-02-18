@@ -64,11 +64,7 @@ const change = (event: any, columnId: number) => {
       <!-- создание таски в этой колонке -->
       <KanbanCreateTask :columnId="column.id"/>
 
-      <UModal v-model:open="openModal">
-        <template #title>
-          {{ column.name }}
-        </template>
-
+      <UModal :title="column.name" v-model:open="openModal">
         <template #body>
           <UForm>
 

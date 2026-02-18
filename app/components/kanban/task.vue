@@ -75,11 +75,7 @@ const usersMenu = computed(() => {
               'opacity-100 visible' : isHover
             }]" variant="subtle" size="sm" icon="cil:options" @click="openModal=true"/>
 
-    <UModal v-model:open="openModal">
-      <template #title>
-        {{ task.name }}
-      </template>
-
+    <UModal :title="task.name" v-model:open="openModal">
       <template #body>
         <UForm>
 

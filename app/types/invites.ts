@@ -11,7 +11,7 @@ export interface IInvite {
 }
 
 export enum InviteStatus {
-  PENDING,
-  ACCEPTED,
-  REJECTED,
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED',
 }
