@@ -8,7 +8,6 @@ const route = useRoute()
 const { $api } = useNuxtApp();
 const fetchData = async (id: string) => {
   const res = await $api<IUser>(`/users/${id}`);
-  console.log(res);
 
   user.value = res;
 };

@@ -15,6 +15,9 @@ const change = (event: any) => {
   store.moveColumn(event.moved.element.id, event.moved.newIndex)
 }
 
+const {invite} = useInvite()
+const inviteUserEmail = ref('')
+
 </script>
 
 <template>
@@ -60,7 +63,7 @@ const change = (event: any) => {
       <template #body>
         <!-- Все юзеры -->
           <div class="flex flex-col gap-4">
-            <div class="p-4 flex items-center justify-between rounded-lg bg-elevated/50 has-focus-visible:ring-2 has-focus-visible:ring-primary transition hover:bg-elevated max-w-full" v-for="user in store.board.users">
+            <NuxtLink :to="`/profile/${user.id}`" class="p-4 flex items-center justify-between rounded-lg bg-elevated/50 has-focus-visible:ring-2 has-focus-visible:ring-primary transition hover:bg-elevated max-w-full" v-for="user in store.board.users">
               <div>{{ user.firstName }} {{ user.lastName }}</div>
 
               <div>
@@ -68,7 +71,7 @@ const change = (event: any) => {
                   <UButton variant="subtle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#f2f2f2" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z"/></svg></UButton>
                 </UTooltip>
               </div>
-            </div>
+            </NuxtLink>
           </div>
           <div class="flex justify-center">
             
@@ -82,10 +85,10 @@ const change = (event: any) => {
 
               <template #body>
                 <UFormField label="Email">
-                  <UInput placeholder="Email" />
+                  <UInput v-model="inviteUserEmail" placeholder="Email" />
                 </UFormField>
 
-                <UButton class="mt-2">Пригласить</UButton>
+                <UButton class="mt-2" @click="invite(inviteUserEmail, store.board.id)">Пригласить</UButton>
               </template>
 
             </UModal>

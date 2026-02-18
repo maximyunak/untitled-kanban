@@ -3,8 +3,7 @@ import type { ILoginData, ILoginResponse } from '~/types/auth';
 export const useLogin = () => {
   const router = useRouter();
   const localePath = useLocalePath();
-  const config = useRuntimeConfig();
-  const {$api} = useNuxtApp()
+  const { $api } = useNuxtApp();
 
   // submit
   const login = async (userData: ILoginData): Promise<ILoginResponse> => {
