@@ -26,7 +26,7 @@ const create = () => {
         <UPageCard
             v-for="board in store.boards"
             :to="`/boards/${board.id}`"
-            class="max-w-[350px]"
+            class="max-w-87.5"
             variant="soft"
         >
           <template #default>

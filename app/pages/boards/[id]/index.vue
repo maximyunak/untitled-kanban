@@ -3,6 +3,7 @@ const store = useKanbanStore()
 import draggable from "vuedraggable";
 
 const route = useRoute()
+const isOpenUserModal = ref(false)
 
 onMounted(() => {
   store.socketConnect(Number(route.params.id))
@@ -20,14 +21,14 @@ const change = (event: any) => {
   <div>
     <div class="flex justify-between">
       <h2>{{ store.board.name }}</h2>
-      <div>
+      <ULink @click="isOpenUserModal=true">
         users:
         <UAvatarGroup max="2">
-          <UTooltip   v-for="user in store.board.users" :text="`${user.firstName} ${user.lastName}`">
+        <UTooltip   v-for="user in store.board.users" :text="`${user.firstName} ${user.lastName}`">
             <UAvatar :alt="`${user.firstName} ${user.lastName}`" />
           </UTooltip>
       </UAvatarGroup>
-      </div>
+      </ULink>
     </div>
     <div :class="['mt-4 w-auto flex items-start', {
       'gap-7': store.board.columns.length ?? 0 > 0,
@@ -52,10 +53,42 @@ const change = (event: any) => {
       <KanbanCreateColumn/>
 
     </div>
-    <UModal>
+    <UModal v-model:open="isOpenUserModal">
+      <template #header>
+        Users
+      </template>
       <template #body>
-          <div>
-            heloo
+        <!-- Все юзеры -->
+          <div class="flex flex-col gap-4">
+            <div class="p-4 flex items-center justify-between rounded-lg bg-elevated/50 has-focus-visible:ring-2 has-focus-visible:ring-primary transition hover:bg-elevated max-w-full" v-for="user in store.board.users">
+              <div>{{ user.firstName }} {{ user.lastName }}</div>
+
+              <div>
+                <UTooltip text="Закрыть доступ">
+                  <UButton variant="subtle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#f2f2f2" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z"/></svg></UButton>
+                </UTooltip>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-center">
+            
+            <!-- Модалка приглашения -->
+            <UModal>
+              <UButton class="mt-4" variant="subtle">Добавить юзера</UButton>
+
+              <template #header>
+                Пригласить пользователя
+              </template>
+
+              <template #body>
+                <UFormField label="Email">
+                  <UInput placeholder="Email" />
+                </UFormField>
+
+                <UButton class="mt-2">Пригласить</UButton>
+              </template>
+
+            </UModal>
           </div>
         </template>
     </UModal>

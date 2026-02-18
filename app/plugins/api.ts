@@ -14,7 +14,7 @@ export default defineNuxtPlugin(() => {
       }
     },
 
-    async onResponseError({ response, options }) {
+    async onResponseError({ response, options, request }) {
       if (response.status === 401) {
         try {
           await $fetch('/auth/refresh', {
@@ -23,7 +23,7 @@ export default defineNuxtPlugin(() => {
             headers: ssrHeaders,
           });
 
-          return $fetch(response.url, options);
+          return $fetch(request, options);
         } catch (e) {
           console.error('Refresh failed', e);
           if (process.client) {

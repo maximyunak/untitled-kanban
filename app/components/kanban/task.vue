@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type {ITask} from "~/types/kanban";
 import {CalendarDate} from "@internationalized/date";
-import { el } from "@nuxt/ui/runtime/locale/index.js";
 
 const toast = useToast();
 
@@ -93,7 +92,7 @@ const usersMenu = computed(() => {
           </UFormField>
 
           <UFormField label="assignee" size="xl">
-            <USelectMenu :default-value="usersMenu.find(el => task.assigneeId === el.id)" item-text="fullName" :items="usersMenu" placeholder="Выберите чтобы назначить задачу" class="w-4/7" /> 
+            <USelectMenu :default-value="usersMenu.find(el => task.assigneeId === el.id)" :items="usersMenu" placeholder="Выберите чтобы назначить задачу" class="w-4/7" /> 
           </UFormField>
 
 

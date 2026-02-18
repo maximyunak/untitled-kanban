@@ -62,6 +62,7 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
   to: 'https://github.com/maximyunak/untitled-kanban',
   target: '_blank'
 }]])
+
 </script>
 
 <template>
@@ -139,7 +140,7 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
           text: 'M',
           size: 'sm',
         }"
-          :label="collapsed ? undefined : 'Maxim Yunak'"
+          :label="collapsed ? undefined : 'ny ya'"
           color="neutral"
           variant="ghost"
           class="w-full"
