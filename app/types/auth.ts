@@ -9,7 +9,6 @@ export interface IRegisterData {
 export interface IRegisterResponse {
   errors?: string[];
 }
-
 export interface ILoginData {
   email: string;
   password: string;

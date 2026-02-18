@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type {NavigationMenuItem} from '@nuxt/ui'
 
+const {
+  data, fetchData
+} = useProfile()
+
+await fetchData()
+
 const localePath = useLocalePath()
 const {locales} = useI18n()
 
@@ -26,10 +32,6 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
   label: 'Tasks',
   icon: 'i-lucide-users',
   to: localePath('tasks'),
-}, {
-  label: 'Notifications',
-  badge: '4',
-  icon: 'material-symbols:notifications-outline-rounded'
 },
 {
   label: "Invites",
@@ -43,7 +45,7 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
   children: [{
     label: 'Profile',
     icon: 'i-lucide-user',
-    to: localePath('profile'),
+    to: localePath('/profile/me'),
   },
     {
       label: 'Change color theme',
@@ -59,10 +61,6 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
       }))
     }]
 }], [{
-  label: 'Feedback',
-  icon: 'i-lucide-message-circle',
-  to: localePath('feedback'),
-}, {
   label: 'Help & Support',
   icon: 'i-lucide-info',
   to: 'https://github.com/maximyunak/untitled-kanban',
@@ -141,17 +139,21 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
     </template>
 
     <template #footer="{ collapsed }">
+     <NuxtLink
+     class="w-full" 
+     to="/profile/me">
       <UButton
           :avatar="{
-          text: 'M',
+          text: data?.firstName[0],
           size: 'sm',
         }"
-          :label="collapsed ? undefined : 'ny ya'"
+          :label="data?.firstName + ' ' + data?.lastName"
           color="neutral"
           variant="ghost"
           class="w-full"
           :block="collapsed"
       />
+     </NuxtLink>
     </template>
   </UDashboardSidebar>
 </template>

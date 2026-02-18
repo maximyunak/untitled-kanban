@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import type {AuthFormField} from "#ui/components/AuthForm.vue";
-import * as z from "zod";
-import type {FormSubmitEvent} from "#ui/types";
-
 definePageMeta({
   layout: "auth"
 });

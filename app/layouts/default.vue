@@ -29,7 +29,7 @@ const {toggleSidebar} = useSidebar();
 <!--            <UButton @click="toggleSidebar" variant="subtle" icon="mynaui:sidebar" />-->
 <!--            <UBreadcrumb :items="items" />-->
           </div>
-          <div class="mt-5 ">
+          <div class="mt-5 mb-20">
             <slot/>
           </div>
         </div>

@@ -14,6 +14,10 @@ export interface ITask {
   updatedAt: string;
 }
 
+export interface ITaskWithBoardId extends ITask {
+  boardId: number;
+}
+
 export interface IColumn {
   id: number;
   name: string;

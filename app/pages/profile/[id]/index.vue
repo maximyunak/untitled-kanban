@@ -1,7 +1,6 @@
 <script setup lang='ts'>
 import type { IUser } from '~/types/user';
 
-
 const user = ref<IUser>();
 const route = useRoute()
 
@@ -38,7 +37,6 @@ const boards = computed(() => {
         <USelectMenu placeholder="Выберите доску в которую приглашаете" :items="boards" class="w-4/7" />
       </template>
       <template #footer>
-        <!--        <UButton color="error" @click="deleteColumn" label="Delete" variant="outline"/>-->
         <UButton label="Submit" color="neutral"/>
       </template>
     </UModal>
