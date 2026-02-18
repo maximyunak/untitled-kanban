@@ -1,8 +1,7 @@
 <script setup lang="ts">
 
 import * as z from "zod";
-import type {AuthFormField} from "#ui/components/AuthForm.vue";
-import type {FormSubmitEvent} from "#ui/types";
+import type {AuthFormField, FormSubmitEvent} from "#ui/types";
 import type {IRegisterData} from "~/types/auth";
 
 const toast = useToast()

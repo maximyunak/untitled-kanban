@@ -1,20 +1,20 @@
 export interface IRegisterData {
-    email: string;
-    password: string;
-    first_name: string;
-    last_name: string;
-    patronymic?: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  patronymic?: string;
 }
 
 export interface IRegisterResponse {
-    errors?: string[]
+  errors?: string[];
 }
 
 export interface ILoginData {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 export interface ILoginResponse {
-    errors?: string[]
+  errors?: string[];
 }
