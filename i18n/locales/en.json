@@ -1,6 +1,12 @@
 {
   "welcome": "welcome",
   "auth": {
-    "login": "Login"
+    "login": "Login",
+    "credentials": "Enter your credentials to access your account.",
+    "loginButton": "Login",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password"
   }
 }

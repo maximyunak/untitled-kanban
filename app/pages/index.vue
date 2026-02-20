@@ -4,7 +4,7 @@
 <template>
   <div>
     <h2>{{ $t("welcome") }}</h2>
-    <UButton><RouterLink to="/login">Login</RouterLink></UButton>
+    <UButton><RouterLink :to="$localePath('/login')">Login</RouterLink></UButton>
     <UButton><RouterLink to="/register">register</RouterLink></UButton>
   </div>
 </template>

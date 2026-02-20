@@ -1,5 +1,4 @@
 import type { BoardDataType, IColumn, ITask } from '~/types/kanban';
-import column from '~/components/kanban/column.vue';
 
 export const useKanbanStore = defineStore('kanbanStore', () => {
   const data = ref<BoardDataType>();

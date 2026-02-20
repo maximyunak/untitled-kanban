@@ -1,6 +1,12 @@
 {
-  "welcome": "бамжур",
+  "welcome": "привет",
   "auth": {
-    "login": "Вход"
+    "login": "Вход",
+    "credentials": "Введите свои данные для доступа к вашему аккаунту.",
+    "loginButton": "Войти",
+    "email": "Электронная почта",
+    "emailPlaceholder": "Введите свою почту",
+    "password": "Пароль",
+    "passwordPlaceholder": "Введите ваш пароль"
   }
 }

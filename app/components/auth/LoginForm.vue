@@ -9,16 +9,16 @@ const {login} = useLogin()
 // поля формы
 const fields:AuthFormField[] = [
   {
-    label: "Email",
+    label: $t("auth.email"),
     type: "email",
-    placeholder: "Enter your email",
+    placeholder: $t("auth.emailPlaceholder"),
     required: true,
     name: "email",
   },
   {
-    label: "Password",
+    label: $t('auth.password'),
     type: "password",
-    placeholder: "Enter your password",
+    placeholder: $t('auth.passwordPlaceholder'),
     required: true,
     name: "password",
   }
@@ -65,14 +65,14 @@ const submit = (userData: FormSubmitEvent<Schema>) =>{
 <template>
   <UAuthForm
       :schema="schema"
-      title="Login"
-      description="Enter your credentials to access your account."
+      :title="$t('auth.login')"
+      :description="$t('auth.credentials')"
       :fields="fields"
       icon="i-lucide-user"
       :providers="providers"
       @submit="submit"
       :submit="{
-        label: 'Login',
+        label: $t('auth.loginButton'),
       }"
   />
 </template>
