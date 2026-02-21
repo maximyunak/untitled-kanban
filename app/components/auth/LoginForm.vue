@@ -25,8 +25,8 @@ const fields:AuthFormField[] = [
 ]
 // валидация
 const schema = z.object({
-  email: z.email('Invalid email'),
-  password: z.string("Password is required").min(3, "Must be at least 8 characters"),
+  email: z.email($t('auth.errors.email')),
+  password: z.string($t('auth.errors.password_required')).min(8, $t('auth.errors.password_min')),
 })
 type Schema = z.output<typeof schema>
 
@@ -66,7 +66,7 @@ const submit = (userData: FormSubmitEvent<Schema>) =>{
   <UAuthForm
       :schema="schema"
       :title="$t('auth.login')"
-      :description="$t('auth.credentials')"
+      :description="$t('auth.loginInfo')"
       :fields="fields"
       icon="i-lucide-user"
       :providers="providers"

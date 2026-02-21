@@ -2,11 +2,31 @@
   "welcome": "привет",
   "auth": {
     "login": "Вход",
-    "credentials": "Введите свои данные для доступа к вашему аккаунту.",
+    "loginInfo": "Введите свои данные для доступа к вашему аккаунту.",
     "loginButton": "Войти",
     "email": "Электронная почта",
     "emailPlaceholder": "Введите свою почту",
     "password": "Пароль",
-    "passwordPlaceholder": "Введите ваш пароль"
+    "passwordPlaceholder": "Введите ваш пароль",
+    "register": "Регистрация",
+    "registerInfo": "Создайте аккаунт для доступа к сервису",
+    "continue": "Продолжить",
+    "firstName": "Имя",
+    "firstNamePlaceholder": "Введите ваше имя",
+    "lastName": "Фамилия",
+    "lastNamePlaceholder": "Введите вашу фамилию",
+    "patronymic": "Отчество",
+    "patronymicPlaceholder": "Введите ваше отчество",
+    "profile": "Личные данные",
+    "profileInfo": "Заполните имя и фамилию, чтобы закончить регистрацию",
+    "finish": "Зарегистрироваться",
+    "errors": {
+      "email": "Некорректный email",
+      "email_required": "Email обязателен для заполнения",
+      "password_min": "Пароль должен содержать минимум 8 символов",
+      "password_required": "Пароль обязателен для заполнения",
+      "first_name_required": "Имя обязательно для заполнения",
+      "last_name_required": "Фамилия обязательна для заполнения"
+    }
   }
 }
