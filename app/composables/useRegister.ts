@@ -4,13 +4,19 @@ export const useRegister = () => {
   const router = useRouter();
   const localePath = useLocalePath();
   const { $api } = useNuxtApp();
-
+  const { handleError } = useErrorHandler()
+  const toast = useToast();
   // submit
-  const register = async (userData: IRegisterData): Promise<IRegisterResponse> => {
+  const register = async (userData: IRegisterData) => {
     try {
       const res: IRegisterResponse = await $api('/auth/register', {
         method: 'post',
         body: userData,
+      });
+
+      toast.add({
+        title: 'Registration successful',
+        color: 'success',
       });
 
       setTimeout(async () => {
@@ -18,8 +24,8 @@ export const useRegister = () => {
       }, 250);
 
       return res;
-    } catch (err: any) {
-      return err.data as IRegisterResponse;
+    } catch (error: any) {
+      return handleError(error)
     }
   };
   // oath

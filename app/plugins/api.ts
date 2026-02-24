@@ -1,3 +1,5 @@
+import type { FetchResponse, FetchOptions, ResolvedFetchOptions } from 'ofetch';
+
 export default defineNuxtPlugin(() => {
   const ssrHeaders = process.server ? useRequestHeaders(['cookie']) : undefined;
 
@@ -15,7 +17,9 @@ export default defineNuxtPlugin(() => {
     },
 
     async onResponseError({ response, options, request }) {
-      if (response.status === 401) {
+      if (response.status === 401 && typeof request === 'string' && !request.includes('auth/login')) {
+        console.log(request);
+
         try {
           await $fetch('/auth/refresh', {
             baseURL: 'http://localhost:8000/api',

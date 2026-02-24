@@ -74,22 +74,8 @@ function submitFirstStep(payload: FormSubmitEvent<Schema>) {
 const submit = async () => {
   const res = await register(userData)
 
-  if (!res.errors) {
-    toast.add({
-      title: 'Registration successful',
-      description: 'You can now log in using your credentials',
-      color: 'success',
-    })
-  } else {
-    const description = Object.values(res.errors).flat().join('\n')
-    toast.add({
-      title: 'Registration failed',
-      description,
-      color: 'error',
-    })
-    if (Object.keys(res.errors).includes('email')) {
-      step.value = 1
-    }
+  if (res.error) {
+    step.value = 1
   }
 };
 
@@ -111,7 +97,7 @@ const submit = async () => {
         label: $t('auth.continue'),
       }"
     />
-    
+
 
     <div v-else>
       <div class="flex items-center justify-between flex-col mb-4">

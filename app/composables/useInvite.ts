@@ -4,6 +4,7 @@ import type { IInvite } from '~/types/invites';
 export const useInvite = () => {
   const { $api } = useNuxtApp();
   const toast = useToast();
+  const { handleError } = useErrorHandler()
 
   const invites = useState<IInvite[]>('invite', () => []);
 
@@ -24,17 +25,7 @@ export const useInvite = () => {
 
       console.log(res, 'res');
     } catch (error) {
-      if (error instanceof FetchError) {
-        const res = error?.response?._data;
-        console.log(res);
-
-        const message = Array.isArray(res?.message) ? res.message.join('/n') : res.message;
-
-        toast.add({
-          title: message,
-          color: 'error',
-        });
-      }
+      return handleError(error)
     }
   };
 
@@ -46,7 +37,7 @@ export const useInvite = () => {
 
       invites.value = res.invites;
       return res;
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const acceptInvite = async (id: number) => {
@@ -64,17 +55,7 @@ export const useInvite = () => {
         color: 'success',
       });
     } catch (error) {
-      if (error instanceof FetchError) {
-        const res = error?.response?._data;
-        console.log(res);
-
-        const message = !Array.isArray(res?.message) ? res.message : res.message.toString();
-
-        toast.add({
-          title: message,
-          color: 'error',
-        });
-      }
+      return handleError(error)
     }
   };
 
@@ -92,17 +73,7 @@ export const useInvite = () => {
         color: 'success',
       });
     } catch (error) {
-      if (error instanceof FetchError) {
-        const res = error?.response?._data;
-        console.log(res);
-
-        const message = Array.isArray(res?.message) ? res.message.join('/n') : res.message;
-
-        toast.add({
-          title: message,
-          color: 'error',
-        });
-      }
+      handleError(error)
     }
   };
 
