@@ -5,6 +5,7 @@ const {
   data, fetchData
 } = useProfile()
 
+
 await fetchData()
 
 const localePath = useLocalePath()

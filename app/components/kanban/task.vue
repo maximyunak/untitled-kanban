@@ -2,21 +2,16 @@
 import type {ITask} from "~/types/kanban";
 import {CalendarDate} from "@internationalized/date";
 
-const toast = useToast();
-
 const store = useKanbanStore()
-
-
 const {task} = defineProps<{ task: ITask }>();
 const isHover = ref(false)
-
 
 const deadlineValue = shallowRef<CalendarDate | null>(
     task.deadline
         ? new CalendarDate(
             new Date(task.deadline).getFullYear(),
-            new Date(task.deadline).getMonth(),
-            new Date(task.deadline).getDay()
+            new Date(task.deadline).getMonth() + 1,
+            new Date(task.deadline).getDate()
         )
         : null
 )
@@ -33,7 +28,7 @@ const updateTaskData = reactive<Partial<ITask>>({
 
 const handleUpdateTask = () => {
   const data = {} as Partial<ITask>
-  if (deadlineValue.value !== null) data.deadline = new Date(deadlineValue.value.year, deadlineValue.value.month, deadlineValue.value.day)
+  if (deadlineValue.value !== null) data.deadline = new Date(deadlineValue.value.year, deadlineValue.value.month -1, deadlineValue.value.day)
   if (updateTaskData.description) data.description = updateTaskData.description
   if (updateTaskData.assigneeId) data.assigneeId = updateTaskData.assigneeId
   if (updateTaskData.name) data.name = updateTaskData.name;
