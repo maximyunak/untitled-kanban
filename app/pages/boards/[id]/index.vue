@@ -22,22 +22,33 @@ const handleInvite = async () => {
   await invite(inviteUserEmail.value, store.board.id)
 }
 
+definePageMeta({
+  layout: "board"
+})
 </script>
 
 <template>
-  <div>
-    <div class="flex justify-between">
-      <h2>{{ store.board.name }}</h2>
-      <ULink @click="isOpenUserModal=true">
-        users:
-        <UAvatarGroup max="2">
-        <UTooltip   v-for="user in store.board.users" :text="`${user.firstName} ${user.lastName}`">
-            <UAvatar :alt="`${user.firstName} ${user.lastName}`" />
-          </UTooltip>
-      </UAvatarGroup>
-      </ULink>
-    </div>
-    <div :class="['mt-4 w-auto flex items-start', {
+  <div class="w-full min-w-max">
+    <!--  title  -->
+    <UDashboardNavbar class="fixed z-10 bg-default w-[85%] justify-between" >
+      <template #left>
+        <h2>{{store.board.name}}</h2>
+      </template>
+      <template #right>
+          <div class="flex w-full justify-between">
+            <ULink @click="isOpenUserModal=true">
+              users:
+              <UAvatarGroup max="2">
+                <UTooltip v-for="user in store.board.users" :text="`${user.firstName} ${user.lastName}`">
+                  <UAvatar :alt="`${user.firstName} ${user.lastName}`"/>
+                </UTooltip>
+              </UAvatarGroup>
+            </ULink>
+          </div>
+        </template>
+    </UDashboardNavbar>
+
+    <div :class="['pt-25 px-10 w-auto flex items-start', {
       'gap-7': store.board.columns.length ?? 0 > 0,
     }]">
 
@@ -60,43 +71,48 @@ const handleInvite = async () => {
       <KanbanCreateColumn/>
 
     </div>
+    <!--  модалка с участниками доски  -->
     <UModal v-model:open="isOpenUserModal" title="Участники доски">
       <template #body>
         <!-- Все юзеры -->
-          <div class="flex flex-col gap-4">
-            <NuxtLink :to="`/profile/${user.id}`" class="p-4 flex items-center justify-between rounded-lg bg-elevated/50 has-focus-visible:ring-2 has-focus-visible:ring-primary transition hover:bg-elevated max-w-full" v-for="user in store.board.users">
-              <div><div class="text-lg">{{ user.firstName }} {{ user.lastName }}</div>
-            <div class="text-sm text-muted">{{ user.email }}</div></div>
+        <div class="flex flex-col gap-4">
+          <NuxtLink :to="`/profile/${user.id}`"
+                    class="p-4 flex items-center justify-between rounded-lg bg-elevated/50 has-focus-visible:ring-2 has-focus-visible:ring-primary transition hover:bg-elevated max-w-full"
+                    v-for="user in store.board.users">
+            <div>
+              <div class="text-lg">{{ user.firstName }} {{ user.lastName }}</div>
+              <div class="text-sm text-muted">{{ user.email }}</div>
+            </div>
 
-              <div>
-                <UTooltip text="Закрыть доступ">
-                  <UButton variant="subtle" icon="material-symbols:delete" />
-                </UTooltip>
-              </div>
-            </NuxtLink>
-          </div>
-          <div class="flex justify-center">
-            
-            <!-- Модалка приглашения -->
-            <UModal title="Пригласить пользователя">
-              <UButton class="mt-4" variant="subtle">Добавить юзера</UButton>
+            <div>
+              <UTooltip text="Закрыть доступ">
+                <UButton variant="subtle" icon="material-symbols:delete"/>
+              </UTooltip>
+            </div>
+          </NuxtLink>
+        </div>
+        <div class="flex justify-center">
 
-              <template #body>
-                <UFormField label="Email">
-                  <UInput v-model="inviteUserEmail" placeholder="Email" />
-                </UFormField>
+          <!-- Модалка приглашения -->
+          <UModal title="Пригласить пользователя">
+            <UButton class="mt-4" variant="subtle">Добавить юзера</UButton>
 
-              </template>
+            <template #body>
+              <UFormField label="Email">
+                <UInput v-model="inviteUserEmail" placeholder="Email"/>
+              </UFormField>
 
-              <template #footer="{ close }" class="flex items-center">
-                <UButton label="Cancel" color="neutral" variant="outline" @click="close"/>
-                <UButton @click="handleInvite">Пригласить</UButton>
+            </template>
 
+            <template #footer="{ close }" class="flex items-center">
+              <UButton label="Cancel" color="neutral" variant="outline" @click="close"/>
+              <UButton @click="handleInvite">Пригласить</UButton>
+
+            </template>
+
+          </UModal>
+        </div>
       </template>
-
-            </UModal>
-          </div>
-        </template>
     </UModal>
   </div>
 </template>

@@ -34,34 +34,34 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
   icon: 'i-lucide-users',
   to: localePath('tasks'),
 },
-{
-  label: "Invites",
-  icon: "mingcute:invite-fill",
-  to: localePath('invites')
-},
- {
-  label: 'Settings',
-  icon: 'i-lucide-settings',
-  defaultOpen: true,
-  children: [{
-    label: 'Profile',
-    icon: 'i-lucide-user',
-    to: localePath('/profile/me'),
+  {
+    label: "Invites",
+    icon: "mingcute:invite-fill",
+    to: localePath('invites')
   },
-    {
-      label: 'Change color theme',
-      icon: themeIcon.value,
-      onClick: () => toggleColorTheme()
-    }, {
-      label: 'Switch language',
-      icon: 'prime:language',
-      defaultOpen: true,
-      children: locales.value.map((lng) => ({
-        label: lng.name,
-        onClick: () => toggleLocale(lng.code)
-      }))
-    }]
-}], [{
+  {
+    label: 'Settings',
+    icon: 'i-lucide-settings',
+    defaultOpen: true,
+    children: [{
+      label: 'Profile',
+      icon: 'i-lucide-user',
+      to: localePath('/profile/me'),
+    },
+      {
+        label: 'Change color theme',
+        icon: themeIcon.value,
+        onClick: () => toggleColorTheme()
+      }, {
+        label: 'Switch language',
+        icon: 'prime:language',
+        defaultOpen: true,
+        children: locales.value.map((lng) => ({
+          label: lng.name,
+          onClick: () => toggleLocale(lng.code)
+        }))
+      }]
+  }], [{
   label: 'Help & Support',
   icon: 'i-lucide-info',
   to: 'https://github.com/maximyunak/untitled-kanban',
@@ -140,21 +140,21 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
     </template>
 
     <template #footer="{ collapsed }">
-     <NuxtLink
-     class="w-full" 
-     to="/profile/me">
-      <UButton
-          :avatar="{
+      <NuxtLink
+          class="w-full"
+          :to="$localePath('/profile/me')">
+        <UButton
+            :avatar="{
           text: data?.firstName[0],
           size: 'sm',
         }"
-          :label="data?.firstName + ' ' + data?.lastName"
-          color="neutral"
-          variant="ghost"
-          class="w-full"
-          :block="collapsed"
-      />
-     </NuxtLink>
+            :label="data?.firstName + ' ' + data?.lastName"
+            color="neutral"
+            variant="ghost"
+            class="w-full"
+            :block="collapsed"
+        />
+      </NuxtLink>
     </template>
   </UDashboardSidebar>
 </template>

@@ -20,7 +20,7 @@ await fetchData()
 
         <div v-if="data?.boards.length" class="flex flex-wrap max-w-[80vw] gap-2 mt-2">
           <NuxtLink
-              :to="`/boards/${board.id}`"
+              :to="$localePath(`/boards/${board.id}`)"
               v-for="board in data?.boards"
               class="p-4 w-87 bg-elevated/50 rounded-lg hover:bg-elevated transition flex justify-between items-center"
           >
