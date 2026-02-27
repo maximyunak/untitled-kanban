@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBoardStore } from "~/stores/boardStore";
+import {useBoardStore} from "~/stores/boardStore";
 
 const open = ref(false);
 
@@ -14,6 +14,8 @@ await store.getData()
 
 const create = () => {
   store.createBoard(newBoardData)
+  newBoardData.name = ''
+  newBoardData.description = ''
   open.value = false
 }
 </script>
