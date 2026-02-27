@@ -2,7 +2,6 @@
 import type { ITask } from "~/types/kanban";
 import { CalendarDate } from "@internationalized/date";
 
-const { t } = useI18n()
 const store = useKanbanStore()
 const { task } = defineProps<{ task: ITask }>();
 const isHover = ref(false)
@@ -62,6 +61,15 @@ const usersMenu = computed(() => {
     }
   }))
 })
+
+const handleCheckboxChange = (checked: boolean | "indeterminate") => {
+  if (typeof checked === "boolean") {
+    store.updateTask(task.id, {
+      isCompleted: checked
+    })
+  }
+}
+
 </script>
 
 <template>
@@ -70,7 +78,7 @@ const usersMenu = computed(() => {
       @mouseenter="isHover = true"
       @mouseleave="isHover = false"
   >
-    <UCheckbox />
+    <UCheckbox v-model="task.isCompleted" @update:model-value="handleCheckboxChange" />
     <p class="overflow-hidden wrap-break-word">
       {{ task.name }}
     </p>

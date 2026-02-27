@@ -73,7 +73,8 @@
       "delete": "Delete",
       "submit": "Submit",
       "create": "Create column",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "error": "Column name should be not empty"
     }
   }
 }

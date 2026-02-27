@@ -3,14 +3,20 @@ const store = useKanbanStore()
 
 const isActiveNewColumn = ref(false)
 const newColumnName = ref('')
+const toast = useToast()
+
 
 // создание колонки
 const createColumn = () => {
-  console.log(newColumnName.value);
   if (newColumnName.value !== '') {
     store.createColumn(newColumnName.value)
+    newColumnName.value = ''
+  } else {
+    toast.add({
+      title: $t('board.column.error'),
+      color: "error"
+    })
   }
-  newColumnName.value = ''
 }
 
 // отмена создания
@@ -31,12 +37,12 @@ const cancelNewColumn = () => {
             autoresize
             :placeholder="$t('board.column.newName')"/>
     <div class="flex gap-2 w-full justify-between">
-      <UButton @mousedown="createColumn" variant="subtle" block>{{$t('board.column.create')}}</UButton>
-      <UButton @mousedown="cancelNewColumn" variant="ghost">{{$t('board.column.cancel')}}</UButton>
+      <UButton @mousedown="createColumn" variant="subtle" block>{{ $t('board.column.create') }}</UButton>
+      <UButton @mousedown="cancelNewColumn" variant="ghost">{{ $t('board.column.cancel') }}</UButton>
     </div>
   </div>
   <UButton v-else @click="isActiveNewColumn=true" variant="outline" class="min-w-50 opacity-70"
-           icon="material-symbols:add-rounded">{{$t('board.column.create')}}
+           icon="material-symbols:add-rounded">{{ $t('board.column.create') }}
   </UButton>
 </template>
 

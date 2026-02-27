@@ -3,6 +3,7 @@ import type { BoardDataType, IColumn, ITask } from '~/types/kanban';
 export const useKanbanStore = defineStore('kanbanStore', () => {
   const data = ref<BoardDataType>();
   const { $api, $io } = useNuxtApp();
+  const {handleError} = useErrorHandler()
 
   const board = computed<BoardDataType>(() => {
     if (!data.value) throw new Error('Value is null');
@@ -33,40 +34,56 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
   // создание колонки
   const createColumn = async (name: string) => {
-    const res = await $api<{
-      column: IColumn;
-    }>(`/boards/${board.value.id}/columns`, {
-      body: { name },
-      method: 'POST',
-    });
+   try {
+     const res = await $api<{
+       column: IColumn;
+     }>(`/boards/${board.value.id}/columns`, {
+       body: { name },
+       method: 'POST',
+     });
+   } catch (error) {
+     handleError(error);
+   }
   };
 
   // удаление колонки
   const deleteColumn = async (id: number) => {
-    await $api<{ column: IColumn }>(`/boards/${board.value.id}/columns/${id}`, {
-      method: 'DELETE',
-    });
+   try {
+     await $api<{ column: IColumn }>(`/boards/${board.value.id}/columns/${id}`, {
+       method: 'DELETE',
+     });
+   } catch (error) {
+     handleError(error)
+   }
   };
 
   // редактирование колонки
   const updateColumn = async (body: Partial<IColumn>) => {
-    const res = await $api<{ column: IColumn }>(`/boards/${board.value.id}/columns/${body.id}`, {
-      method: 'PATCH',
-      body,
-    });
-    const column = board.value.columns.find((column) => column.id === body.id);
-    if (!column) return;
-    column.name = res.column.name;
+    try {
+      const res = await $api<{ column: IColumn }>(`/boards/${board.value.id}/columns/${body.id}`, {
+        method: 'PATCH',
+        body,
+      });
+      const column = board.value.columns.find((column) => column.id === body.id);
+      if (!column) return;
+      column.name = res.column.name;
+    } catch (error) {
+      handleError(error)
+    }
   };
 
   // move column
   const moveColumn = async (id: number, toPosition: number) => {
-    const res = await $api(`/boards/${board.value.id}/columns/${id}/move`, {
-      method: 'PATCH',
-      body: {
-        toPosition,
-      },
-    });
+    try {
+      const res = await $api(`/boards/${board.value.id}/columns/${id}/move`, {
+        method: 'PATCH',
+        body: {
+          toPosition,
+        },
+      });
+    } catch (error) {
+      handleError(error)
+    }
   };
 
   // ws move column
@@ -94,12 +111,16 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
   // создание таски
   const createTask = async (columnId: number, data: any) => {
-    const res = await $api<{
-      task: ITask;
-    }>(`/boards/${board.value.id}/columns/${columnId}/tasks`, {
-      method: 'POST',
-      body: data,
-    });
+    try {
+      const res = await $api<{
+        task: ITask;
+      }>(`/boards/${board.value.id}/columns/${columnId}/tasks`, {
+        method: 'POST',
+        body: data,
+      });
+    } catch (error) {
+      handleError(error)
+    }
   };
   // ws create column
   $io?.on('task:create', (res: ITask) => {
@@ -110,9 +131,13 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
   // delete task
   const deleteTask = async (taskId: number) => {
-    await $api<{ task: ITask }>(`/boards/${board.value.id}/tasks/${taskId}`, {
-      method: 'DELETE',
-    });
+    try {
+      await $api<{ task: ITask }>(`/boards/${board.value.id}/tasks/${taskId}`, {
+        method: 'DELETE',
+      });
+    } catch (error) {
+      handleError(error)
+    }
   };
   // ws delete task
   $io?.on('task:delete', (res: ITask) => {
@@ -123,10 +148,14 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
 
   // update task
   const updateTask = async (taskId: number, data: Partial<ITask>) => {
-    const res = await $api<{ task: ITask }>(`/boards/${board.value.id}/tasks/${taskId}`, {
-      method: 'PATCH',
-      body: data,
-    });
+    try {
+      const res = await $api<{ task: ITask }>(`/boards/${board.value.id}/tasks/${taskId}`, {
+        method: 'PATCH',
+        body: data,
+      });
+    } catch (error) {
+      handleError(error)
+    }
   };
 
   $io?.on('task:update', (res: ITask) => {
@@ -140,13 +169,17 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
   //   move task
 
   const moveTask = async (taskId: number, columnId: number, toPosition: number) => {
-    const res = await $api(`/boards/${board.value.id}/tasks/${taskId}/move`, {
-      method: 'patch',
-      body: {
-        toPosition,
-        columnId,
-      },
-    });
+    try {
+      const res = await $api(`/boards/${board.value.id}/tasks/${taskId}/move`, {
+        method: 'patch',
+        body: {
+          toPosition,
+          columnId,
+        },
+      });
+    } catch (error) {
+      handleError(error)
+    }
   };
 
   $io?.on('task:move', (res: { columnId: number; tasks: ITask[] }) => {
@@ -158,13 +191,17 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
   });
 
   const moveTaskToColumn = async (taskId: number, columnId: number, toPosition: number) => {
-    const res = await $api(`/boards/${board.value.id}/tasks/${taskId}/move-to-column`, {
-      method: 'patch',
-      body: {
-        toPosition,
-        columnId,
-      },
-    });
+    try {
+      const res = await $api(`/boards/${board.value.id}/tasks/${taskId}/move-to-column`, {
+        method: 'patch',
+        body: {
+          toPosition,
+          columnId,
+        },
+      });
+    } catch (error) {
+      handleError(error)
+    }
   };
 
   $io?.on(

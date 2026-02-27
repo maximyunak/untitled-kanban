@@ -2,7 +2,6 @@
 import type { IColumn } from "~/types/kanban";
 import draggable from "vuedraggable";
 
-const { t } = useI18n()
 const { column } = defineProps<{ column: IColumn }>();
 
 const store = useKanbanStore()
