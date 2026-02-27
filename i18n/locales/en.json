@@ -76,5 +76,14 @@
       "cancel": "Cancel",
       "error": "Column name should be not empty"
     }
+  },
+  "invites": {
+    "title": "My Invites",
+    "empty": "No invites yet",
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    }
   }
 }
