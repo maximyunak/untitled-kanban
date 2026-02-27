@@ -38,5 +38,16 @@
     "notAssigned": "Not assigned",
     "edit": "Edit",
     "delete": "Delete"
+  },
+  "boards": {
+    "title": "Boards",
+    "createButton": "Create new board",
+    "createModalTitle": "Create new board",
+    "boardName": "Board name",
+    "boardNamePlaceholder": "Board name",
+    "boardDescription": "Board description",
+    "boardDescriptionPlaceholder": "Board description",
+    "cancel": "Cancel",
+    "submit": "Create"
   }
 }

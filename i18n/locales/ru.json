@@ -38,5 +38,16 @@
     "notAssigned": "Не назначен",
     "edit": "Редактировать",
     "delete": "Удалить"
+  },
+  "boards": {
+    "title": "Доски",
+    "createButton": "Создать новую доску",
+    "createModalTitle": "Создать новую доску",
+    "boardName": "Название доски",
+    "boardNamePlaceholder": "Название доски",
+    "boardDescription": "Описание доски",
+    "boardDescriptionPlaceholder": "Описание доски",
+    "cancel": "Отмена",
+    "submit": "Создать"
   }
 }
