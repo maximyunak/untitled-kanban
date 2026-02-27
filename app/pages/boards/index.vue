@@ -28,7 +28,7 @@ const create = () => {
       <UPageCard
           v-for="board in store.boards"
           :key="board.id"
-          :to="`/boards/${board.id}`"
+          :to="$localePath(`/boards/${board.id}`)"
           class="max-w-87.5"
           variant="soft"
       >

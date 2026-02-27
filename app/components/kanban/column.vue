@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type {IColumn} from "~/types/kanban";
+import type { IColumn } from "~/types/kanban";
 import draggable from "vuedraggable";
 
-const {column} = defineProps<{ column: IColumn }>();
+const { t } = useI18n()
+const { column } = defineProps<{ column: IColumn }>();
 
 const store = useKanbanStore()
 
@@ -32,7 +33,7 @@ const change = (event: any, columnId: number) => {
   }
   if (event.added) {
     store.moveTaskToColumn(event.added.element.id, columnId, event.added.newIndex);
-  }  
+  }
 }
 </script>
 
@@ -40,51 +41,68 @@ const change = (event: any, columnId: number) => {
   <div class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-75 max-w-75 items-start">
     <div class="flex justify-between items-center">
       <h4>{{ column.name }}</h4>
+
       <!-- настройка столбца -->
-      <UButton variant="ghost" icon="cil:options" @click="openModal=true"/>
+      <UButton
+          variant="ghost"
+          icon="cil:options"
+          @click="openModal = true"
+      />
     </div>
+
     <div class="flex flex-col gap-2">
 
-      <!-- начало тасок -->
-      <draggable :list="column.tasks"
-                 item-key="id"
-                 class="flex flex-col gap-y-2 mt-3"
-                 ghost-class="opacity-70"
-                 :group="{name: 'tasks'}"
-                 animation="150"
-                 @change="change($event, column.id)">
+      <!-- таски -->
+      <draggable
+          :list="column.tasks"
+          item-key="id"
+          class="flex flex-col gap-y-2 mt-3"
+          ghost-class="opacity-70"
+          :group="{ name: 'tasks' }"
+          animation="150"
+          @change="change($event, column.id)"
+      >
         <template #item="{ element }">
-          <KanbanTask :task="element"
-          />
+          <KanbanTask :task="element" />
         </template>
-
       </draggable>
-      <!-- конец тасок -->
 
-      <!-- создание таски в этой колонке -->
-      <KanbanCreateTask :columnId="column.id"/>
+      <!-- создание таски -->
+      <KanbanCreateTask :columnId="column.id" />
 
-      <UModal :title="column.name" v-model:open="openModal">
+      <!-- модалка -->
+      <UModal
+          :title="column.name"
+          v-model:open="openModal"
+      >
         <template #body>
           <UForm>
-
-            <UFormField label="Новое название колонки" size="xl">
-              <UInput v-model="newColumnName" placeholder="New Column Name"/>
+            <UFormField
+                :label="$t('board.column.newName')"
+                size="xl"
+            >
+              <UInput
+                  v-model="newColumnName"
+                  :placeholder="$t('board.column.newName')"
+              />
             </UFormField>
-
           </UForm>
         </template>
 
         <template #footer>
-          <UButton color="error" @click="deleteColumn" label="Delete" variant="outline"/>
-          <UButton label="Submit" @click="updateColumn" color="neutral"/>
+          <UButton
+              color="error"
+              variant="outline"
+              @click="deleteColumn"
+              :label="$t('board.column.delete')"
+          />
+          <UButton
+              @click="updateColumn"
+              color="neutral"
+              :label="$t('board.column.submit')"
+          />
         </template>
       </UModal>
     </div>
-
   </div>
 </template>
-
-<style scoped>
-
-</style>

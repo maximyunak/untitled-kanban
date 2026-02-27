@@ -49,5 +49,31 @@
     "boardDescriptionPlaceholder": "Board description",
     "cancel": "Cancel",
     "submit": "Create"
+  },
+  "board": {
+    "users": "Board members",
+    "inviteUser": "Invite user",
+    "addUser": "Add user",
+    "email": "Email",
+    "cancel": "Cancel",
+    "invite": "Invite",
+    "removeAccess": "Remove access",
+    "task": {
+      "newName": "New task name",
+      "newDescription": "New task description",
+      "assignee": "Assignee",
+      "selectAssignee": "Select assignee",
+      "deadline": "Deadline",
+      "selectDate": "Select a date",
+      "submit": "Submit",
+      "create": "Add task"
+    },
+    "column": {
+      "newName": "New column name",
+      "delete": "Delete",
+      "submit": "Submit",
+      "create": "Create column",
+      "cancel": "Cancel"
+    }
   }
 }

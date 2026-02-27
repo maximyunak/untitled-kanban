@@ -19,8 +19,8 @@ const createTask = () => {
 
 <template>
   <UInput autofocus v-model="newTaskName" @keydown.enter="createTask" @blur="createTask"
-          v-if="isActive" variant="outline" autoresize placeholder="New Task Name"/>
-  <UButton @click="isActive=true" variant="ghost" icon="material-symbols:add-rounded">Add Task</UButton>
+          v-if="isActive" variant="outline" autoresize :placeholder="$t('board.task.newName')"/>
+  <UButton @click="isActive=true" variant="ghost" icon="material-symbols:add-rounded">{{$t('board.task.create')}}</UButton>
 </template>
 
 <style scoped>

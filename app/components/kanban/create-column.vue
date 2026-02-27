@@ -29,14 +29,14 @@ const cancelNewColumn = () => {
             class="w-full"
             variant="outline"
             autoresize
-            placeholder="New Task Name"/>
+            :placeholder="$t('board.column.newName')"/>
     <div class="flex gap-2 w-full justify-between">
-      <UButton @mousedown="createColumn" variant="subtle" block>Add Column</UButton>
-      <UButton @mousedown="cancelNewColumn" variant="ghost">Cancel</UButton>
+      <UButton @mousedown="createColumn" variant="subtle" block>{{$t('board.column.create')}}</UButton>
+      <UButton @mousedown="cancelNewColumn" variant="ghost">{{$t('board.column.cancel')}}</UButton>
     </div>
   </div>
   <UButton v-else @click="isActiveNewColumn=true" variant="outline" class="min-w-50 opacity-70"
-           icon="material-symbols:add-rounded">Add Column
+           icon="material-symbols:add-rounded">{{$t('board.column.create')}}
   </UButton>
 </template>
 
