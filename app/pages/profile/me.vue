@@ -6,7 +6,8 @@ const {
   fetchData
 } = useProfile()
 
-await fetchData()
+await useAsyncData('user', () => fetchData())
+
 </script>
 
 <template>
@@ -49,11 +50,9 @@ await fetchData()
             <span class="truncate max-w-3/4">{{ task.name }}</span>
             <span>{{ $t('profile.deadline') }}:
               <span v-if="task.deadline">
-                {{ new CalendarDate(
-                  new Date(task?.deadline).getFullYear(),
-                  new Date(task?.deadline).getMonth() + 1,
-                  new Date(task?.deadline).getDate()
-              ) }}
+                {{
+                    new Date(task?.deadline).toLocaleDateString()
+                }}
               </span>
               <span v-else>
                 {{ $t('profile.notAssigned') }}

@@ -10,7 +10,7 @@ const newBoardData = reactive({
 
 const store = useBoardStore()
 
-await store.getData()
+await useAsyncData('boards', () => store.getData())
 
 const create = () => {
   store.createBoard(newBoardData)

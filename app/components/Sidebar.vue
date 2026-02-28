@@ -5,8 +5,7 @@ const {
   data, fetchData
 } = useProfile()
 
-
-await fetchData()
+await useAsyncData('user', () => fetchData())
 
 const localePath = useLocalePath()
 const {locales} = useI18n()
