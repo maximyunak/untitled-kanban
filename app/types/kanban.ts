@@ -16,6 +16,7 @@ export interface ITask {
 
 export interface ITaskWithBoardId extends ITask {
   boardId: number;
+  boardName: string;
 }
 
 export interface IColumn {

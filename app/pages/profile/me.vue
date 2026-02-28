@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {CalendarDate} from "@internationalized/date";
 
 const {
   data,
@@ -34,31 +33,6 @@ await useAsyncData('user', () => fetchData())
         </div>
         <div v-else>
           {{ $t('profile.noBoards') }}
-        </div>
-      </section>
-
-      <!-- назначенные задачи -->
-      <section class="mt-10" v-if="data?.assigneeTasks.length">
-        <h2>{{ $t('profile.yourTasks') }}</h2>
-
-        <div class="flex flex-wrap max-w-[80vw] gap-3 mt-2">
-          <NuxtLink
-              :to="$localePath(`/boards/${task.boardId}`)"
-              v-for="task in data?.assigneeTasks"
-              class="p-4 w-87 bg-elevated/50 rounded-lg hover:bg-elevated transition flex justify-between flex-col"
-          >
-            <span class="truncate max-w-3/4">{{ task.name }}</span>
-            <span>{{ $t('profile.deadline') }}:
-              <span v-if="task.deadline">
-                {{
-                    new Date(task?.deadline).toLocaleDateString()
-                }}
-              </span>
-              <span v-else>
-                {{ $t('profile.notAssigned') }}
-              </span>
-            </span>
-          </NuxtLink>
         </div>
       </section>
     </div>

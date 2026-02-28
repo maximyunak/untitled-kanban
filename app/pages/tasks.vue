@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {SelectMenuItem} from '@nuxt/ui'
 
-const {data, fetchData} = useProfile()
+const {data, fetchData} = useTasks()
 await fetchData()
 
 const items = ref([
@@ -46,11 +46,12 @@ const UnCompletedValue = ref(items.value[0])
       <div class="grid grid-cols-3 gap-2 mt-2">
         <transition-group name="list">
           <NuxtLink
+              :key="`assignee-task-${task.id}`"
               :to="$localePath(`/boards/${task.boardId}`)"
-              v-for="task in data?.assigneeTasks.filter((task) => !task.isCompleted)"
+              v-for="task in data.filter((task) => !task.isCompleted)"
               class="p-4 bg-elevated/50 rounded-lg hover:bg-elevated transition flex gap- justify-between flex-col"
           >
-            <span class="truncate max-w-3/4">{{ task.name }}</span>
+            <span class="truncate max-w-3/4">{{task.boardName}} - {{ task.name }}</span>
             <UCheckbox v-model="task.isCompleted" @click.prevent
                        :label="`Отметить ${task.isCompleted ? 'невыполненной' : 'выполненной'}`"/>
             <span>{{ $t('profile.deadline') }}:
@@ -79,11 +80,12 @@ const UnCompletedValue = ref(items.value[0])
       <div class="grid grid-cols-3 gap-2 mt-2">
         <transition-group name="list">
           <NuxtLink
+              :key="`assignee-task-${task.id}`"
               :to="$localePath(`/boards/${task.boardId}`)"
-              v-for="task in data?.assigneeTasks.filter((task) => task.isCompleted)"
+              v-for="task in data.filter((task) => task.isCompleted)"
               class="p-4 bg-elevated/50 rounded-lg hover:bg-elevated transition flex gap- justify-between flex-col"
           >
-            <span class="truncate max-w-3/4">{{ task.name }}</span>
+            <span class="truncate max-w-3/4">{{task.boardName}} - {{ task.name }}</span>
             <UCheckbox v-model="task.isCompleted" @click.prevent
                        :label="`Отметить ${task.isCompleted ? 'невыполненной' : 'выполненной'}`"/>
             <span>{{ $t('profile.deadline') }}:

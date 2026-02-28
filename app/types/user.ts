@@ -11,5 +11,4 @@ export interface IUser {
 
 export interface IFullUser extends IUser {
   boards: BoardType[];
-  assigneeTasks: ITaskWithBoardId[];
 }
