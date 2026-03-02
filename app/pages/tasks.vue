@@ -1,8 +1,22 @@
 <script setup lang="ts">
 import {SORT_OPTIONS} from "~/shared/sort-options";
+import type {ITaskWithBoardId} from "~/types/kanban";
 
 const {fetchData, completedTasks, unCompletedTasks, sortData} = useTasks()
 await fetchData()
+
+const {updateTask} = useKanbanStore()
+
+const handleCheckboxChange = (isCompleted: string | boolean, task :ITaskWithBoardId) => {
+  if (typeof isCompleted === "boolean") {
+    console.log('ok')
+    updateTask(task.id, {
+      isCompleted
+    }, task.boardId)
+  } else {
+    console.log('err')
+  }
+}
 
 </script>
 
@@ -27,7 +41,9 @@ await fetchData()
               class="p-4 bg-elevated/50 rounded-lg hover:bg-elevated transition flex gap- justify-between flex-col"
           >
             <span class="truncate max-w-3/4">{{ task.boardName }} - {{ task.name }}</span>
-            <UCheckbox v-model="task.isCompleted" @click.prevent
+            <UCheckbox
+                @update:model-value="handleCheckboxChange($event, task)"
+                v-model="task.isCompleted" @click.prevent
                        :label="`Отметить ${task.isCompleted ? 'невыполненной' : 'выполненной'}`"/>
             <span>{{ $t('profile.deadline') }}:
               <span v-if="task.deadline">
@@ -49,7 +65,7 @@ await fetchData()
         <h3>Выполненные</h3>
         <div class="flex gap-3 items-center">
           Сортировать по:
-          <USelectMenu v-model="sortData.completed" :icon="sortData.completed?.icon" variant="outline" class="w-70"
+          <USelectMenu  v-model="sortData.completed" :icon="sortData.completed?.icon" variant="outline" class="w-70"
                        :items="SORT_OPTIONS"/>
         </div>
       </div>
@@ -63,7 +79,7 @@ await fetchData()
               class="p-4 bg-elevated/50 rounded-lg hover:bg-elevated transition flex gap- justify-between flex-col"
           >
             <span class="truncate max-w-3/4">{{ task.boardName }} - {{ task.name }}</span>
-            <UCheckbox v-model="task.isCompleted" @click.prevent
+            <UCheckbox @update:model-value="handleCheckboxChange($event, task)" v-model="task.isCompleted" @click.prevent
                        :label="`Отметить ${task.isCompleted ? 'невыполненной' : 'выполненной'}`"/>
             <span>{{ $t('profile.deadline') }}:
               <span v-if="task.deadline">

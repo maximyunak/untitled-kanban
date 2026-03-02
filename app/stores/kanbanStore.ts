@@ -147,9 +147,9 @@ export const useKanbanStore = defineStore('kanbanStore', () => {
   });
 
   // update task
-  const updateTask = async (taskId: number, data: Partial<ITask>) => {
+  const updateTask = async (taskId: number, data: Partial<ITask>, boardId?: number) => {
     try {
-      const res = await $api<{ task: ITask }>(`/boards/${board.value.id}/tasks/${taskId}`, {
+      await $api<{ task: ITask }>(`/boards/${boardId ? boardId : board.value.id}/tasks/${taskId}`, {
         method: 'PATCH',
         body: data,
       });

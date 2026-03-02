@@ -62,10 +62,10 @@ const usersMenu = computed(() => {
   }))
 })
 
-const handleCheckboxChange = (checked: boolean | "indeterminate") => {
-  if (typeof checked === "boolean") {
+const handleCheckboxChange = (isCompleted: boolean | "indeterminate") => {
+  if (typeof isCompleted === "boolean") {
     store.updateTask(task.id, {
-      isCompleted: checked
+      isCompleted
     })
   }
 }
