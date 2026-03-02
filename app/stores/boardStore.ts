@@ -28,7 +28,6 @@ export const useBoardStore = defineStore("boardStore", () => {
     }
 
     const updateBoard = async (id: number, data: Pick<BoardType, 'name' | 'description'>) => {
-        console.log('asdda')
         try {
             const res = await $api<{
                 board: BoardType;
@@ -44,10 +43,26 @@ export const useBoardStore = defineStore("boardStore", () => {
         }
     }
 
+    const deleteBoard = async (id: number) => {
+        try {
+            const res = await $api<{
+                board: BoardType;
+            }>(
+                `/boards/${id}`,
+                {
+                    method: "delete",
+                }
+            )
+        } catch (error) {
+            handleError(error)
+        }
+    }
+
     return {
         getData,
         createBoard,
         updateBoard,
+        deleteBoard,
         boards
     }
 })

@@ -7,7 +7,7 @@ const {
   fetchData
 } = useProfile()
 
-const {updateBoard} = useBoardStore()
+const {updateBoard, deleteBoard} = useBoardStore()
 
 await useAsyncData('user', () => fetchData())
 
@@ -33,13 +33,16 @@ const handleUpdateBoard = () => {
       fetchData()
     })
     openModal.value = false
-  } else {
-    console.log('bad')
   }
 }
 
-const deleteBoard = () => {
-  console.log()
+const handleDeleteBoard = () => {
+  if (selectedBoardData.value) {
+    deleteBoard(selectedBoardData.value.id).finally(() => {
+      fetchData()
+    })
+    openModal.value = false
+  }
 }
 
 </script>
@@ -61,9 +64,8 @@ const deleteBoard = () => {
           >
             <span class="truncate max-w-3/4">{{ board?.name }}</span>
             <div class="flex gap-2">
-              <UButton @click.stop.prevent="editBoard(board)" variant="subtle" icon="material-symbols:edit-outline"
+              <UButton @click.stop.prevent="editBoard(board)" variant="subtle" icon="mi:options-vertical"
                        :aria-label="$t('profile.edit')"/>
-              <UButton variant="subtle" icon="material-symbols:delete" :aria-label="$t('profile.delete')"/>
             </div>
           </NuxtLink>
         </div>
@@ -101,12 +103,28 @@ const deleteBoard = () => {
       </template>
 
       <template #footer>
-        <UButton
-            color="error"
-            variant="outline"
-            @click="deleteBoard"
-            :label="$t('board.column.delete')"
-        />
+        <UModal :title="$t('Подтверждение удаления')">
+          <UButton
+              color="error"
+              variant="outline"
+              :label="$t('board.column.delete')"
+          />
+          <template #body>
+            <h5>Вы действительно хотите удалить доску?</h5>
+          </template>
+
+          <template #footer="{close}">
+            <div class="flex gap-2 mts-3">
+              <UButton
+                  color="error"
+                  variant="outline"
+                  @click="handleDeleteBoard"
+                  :label="$t('board.column.delete')"
+              />
+              <UButton @click="close">Отмена</UButton>
+            </div>
+            </template>
+        </UModal>
         <UButton
             @click="handleUpdateBoard"
             color="neutral"
