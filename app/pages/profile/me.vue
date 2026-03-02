@@ -1,11 +1,46 @@
 <script setup lang="ts">
 
+import type {BoardType} from "~/types/board";
+
 const {
   data,
   fetchData
 } = useProfile()
 
+const {updateBoard} = useBoardStore()
+
 await useAsyncData('user', () => fetchData())
+
+const openModal = ref<boolean>(false)
+
+const selectedBoardData = ref<BoardType>()
+const updateBoardData = reactive<Pick<BoardType, "name" | "description">>({
+  name: '',
+  description: '',
+})
+
+const editBoard = (board: BoardType) => {
+  selectedBoardData.value = board
+  openModal.value = true
+  updateBoardData.name = board.name
+  updateBoardData.description = board.description
+}
+
+
+const handleUpdateBoard = () => {
+  if (selectedBoardData.value) {
+    updateBoard(selectedBoardData.value.id, updateBoardData).finally(() => {
+      fetchData()
+    })
+    openModal.value = false
+  } else {
+    console.log('bad')
+  }
+}
+
+const deleteBoard = () => {
+  console.log()
+}
 
 </script>
 
@@ -26,8 +61,9 @@ await useAsyncData('user', () => fetchData())
           >
             <span class="truncate max-w-3/4">{{ board?.name }}</span>
             <div class="flex gap-2">
-              <UButton variant="subtle" icon="material-symbols:edit-outline" :aria-label="$t('profile.edit')" />
-              <UButton variant="subtle" icon="material-symbols:delete" :aria-label="$t('profile.delete')" />
+              <UButton @click.stop.prevent="editBoard(board)" variant="subtle" icon="material-symbols:edit-outline"
+                       :aria-label="$t('profile.edit')"/>
+              <UButton variant="subtle" icon="material-symbols:delete" :aria-label="$t('profile.delete')"/>
             </div>
           </NuxtLink>
         </div>
@@ -36,5 +72,47 @@ await useAsyncData('user', () => fetchData())
         </div>
       </section>
     </div>
+
+    <UModal
+        :title="selectedBoardData?.name"
+        v-model:open="openModal"
+    >
+      <template #body>
+        <UForm>
+          <UFormField
+              :label="$t('board.update.label')"
+              size="xl"
+          >
+            <UInput
+                v-model="updateBoardData.name"
+                :placeholder="$t('board.update.newName')"
+            />
+          </UFormField>
+          <UFormField
+              :label="$t('board.update.label')"
+              size="xl"
+          >
+            <UInput
+                v-model="updateBoardData.description"
+                :placeholder="$t('board.update.newName')"
+            />
+          </UFormField>
+        </UForm>
+      </template>
+
+      <template #footer>
+        <UButton
+            color="error"
+            variant="outline"
+            @click="deleteBoard"
+            :label="$t('board.column.delete')"
+        />
+        <UButton
+            @click="handleUpdateBoard"
+            color="neutral"
+            :label="$t('board.column.submit')"
+        />
+      </template>
+    </UModal>
   </div>
 </template>

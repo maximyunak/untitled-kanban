@@ -1,5 +1,5 @@
 export type BoardType = {
-  id: string;
+  id: number;
   name: string;
   description: string;
   creatorId: string;

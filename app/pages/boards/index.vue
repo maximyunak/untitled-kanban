@@ -34,6 +34,7 @@ const create = () => {
       >
         <template #default>
           <span class="truncate max-w-80">{{ board.name }}</span>
+          <span v-if="board.description">{{board.description}}</span>
         </template>
       </UPageCard>
     </div>

@@ -13,23 +13,41 @@ export const useBoardStore = defineStore("boardStore", () => {
     }
 
     const createBoard = async (data: Pick<BoardType, 'name' | 'description'>) => {
-       try {
-           const res = await $api<{
-               board: BoardType;
-           }>('/boards', {
-               method: "POST",
-               body: data
-           });
+        try {
+            const res = await $api<{
+                board: BoardType;
+            }>('/boards', {
+                method: "POST",
+                body: data
+            });
 
-           boards.value.push(res.board)
-       } catch (error) {
-           handleError(error)
-       }
+            boards.value.push(res.board)
+        } catch (error) {
+            handleError(error)
+        }
+    }
+
+    const updateBoard = async (id: number, data: Pick<BoardType, 'name' | 'description'>) => {
+        console.log('asdda')
+        try {
+            const res = await $api<{
+                board: BoardType;
+            }>(
+                `/boards/${id}`,
+                {
+                    method: "PATCH",
+                    body: data
+                }
+            )
+        } catch (error) {
+            handleError(error)
+        }
     }
 
     return {
         getData,
         createBoard,
+        updateBoard,
         boards
     }
 })
