@@ -13,10 +13,11 @@ const store = useBoardStore()
 await useAsyncData('boards', () => store.getData())
 
 const create = () => {
-  store.createBoard(newBoardData)
-  newBoardData.name = ''
-  newBoardData.description = ''
-  open.value = false
+  store.createBoard(newBoardData).finally(() => {
+    newBoardData.name = ''
+    newBoardData.description = ''
+    open.value = false
+  })
 }
 </script>
 
