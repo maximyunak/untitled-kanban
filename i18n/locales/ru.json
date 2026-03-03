@@ -85,5 +85,20 @@
       "accepted": "Принято",
       "rejected": "Отклонено"
     }
+  },
+  "tasks": {
+    "title": "Мои задачи",
+    "uncompleted": "Невыполненные",
+    "completed": "Выполненные",
+    "sortBy": "Сортировать по:",
+    "empty": "Таковых пока нет",
+    "deadline": "Дедлайн",
+    "notAssigned": "Не назначен",
+    "markAsCompleted": "Отметить выполненной",
+    "markAsUncompleted": "Отметить невыполненной",
+    "sort": {
+      "createdDate": "Дате создания",
+      "deadline": "Дедлайну"
+    }
   }
 }

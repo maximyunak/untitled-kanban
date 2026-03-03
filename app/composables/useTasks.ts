@@ -1,15 +1,16 @@
 import type {ITaskWithBoardId} from "~/types/kanban";
-import {SORT_OPTIONS} from "~/shared/sort-options";
+import {useSortOptions} from "~/shared/sort-options";
 
 export const useTasks = () => {
     const data = ref<ITaskWithBoardId[]>([])
     const {$api} = useNuxtApp()
+    const sortOptions = useSortOptions()
     const sortData = reactive<{
-        completed: typeof SORT_OPTIONS[number],
-        unCompleted: typeof SORT_OPTIONS[number]
+        completed: typeof sortOptions[number],
+        unCompleted: typeof sortOptions[number]
     }>({
-        completed: SORT_OPTIONS[0],
-        unCompleted: SORT_OPTIONS[0],
+        completed: sortOptions[0],
+        unCompleted: sortOptions[0],
     })
 
     const comparator = (a: ITaskWithBoardId, b: ITaskWithBoardId, on: 'deadline' | 'createdAt', direction: "asc" | "desc"): number => {

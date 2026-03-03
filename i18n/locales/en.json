@@ -85,5 +85,20 @@
       "accepted": "Accepted",
       "rejected": "Rejected"
     }
+  },
+  "tasks": {
+    "title": "My Tasks",
+    "uncompleted": "Uncompleted",
+    "completed": "Completed",
+    "sortBy": "Sort by:",
+    "empty": "Nothing here yet",
+    "deadline": "Deadline",
+    "notAssigned": "Not assigned",
+    "markAsCompleted": "Mark as completed",
+    "markAsUncompleted": "Mark as uncompleted",
+    "sort": {
+      "createdDate": "Creation date",
+      "deadline": "Deadline"
+    }
   }
 }
