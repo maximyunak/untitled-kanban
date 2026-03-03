@@ -23,17 +23,19 @@ const {toggleSidebar} = useSidebar();
   <div class='flex'>
     <UApp>
       <Sidebar/>
-      <main class='max-h-screen overflow-y-hidden w-full'>
-        <div class="px-12 mt-10 h-full w-auto overflow-x-auto min-w-auto">
-          <div class="flex gap-2 items-center relative">
-<!--            <UButton @click="toggleSidebar" variant="subtle" icon="mynaui:sidebar" />-->
-<!--            <UBreadcrumb :items="items" />-->
-          </div>
-          <div class="mt-5 mb-20">
-            <slot/>
-          </div>
-        </div>
-      </main>
+<!--     <div class="flex gap-15">-->
+       <main class='z-20 max-h-screen md:overflow-y-h w-full max-md:mt-5'>
+         <div class="px-5 md:px-12 mt-10 w-auto overflow-x-auto min-w-auto">
+           <div class="flex gap-2 items-center relative">
+             <!--            <UButton @click="toggleSidebar" variant="subtle" icon="mynaui:sidebar" />-->
+             <!--            <UBreadcrumb :items="items" />-->
+           </div>
+           <div class="mt-5 mb-20">
+             <slot/>
+           </div>
+         </div>
+       </main>
+<!--     </div>-->
     </UApp>
   </div>
 

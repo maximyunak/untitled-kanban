@@ -24,9 +24,16 @@ export const useSidebar = () => {
         await setLocale(code)
     }
 
+    // открытие на мобилке
+    const open = useState('open', () => false)
+    const toggle = () => {
+        open.value = !open.value
+    }
+
     return {
         collapsed, toggleSidebar,
         colorMode, toggleColorTheme,
         toggleLocale,
+        open, toggle
     }
 }

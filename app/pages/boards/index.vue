@@ -19,13 +19,14 @@ const create = () => {
     open.value = false
   })
 }
+
 </script>
 
 <template>
   <div>
     <h2>{{ $t("boards.title") }}</h2>
 
-    <div class="grid grid-cols-4 gap-4 mt-5">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-5">
       <UPageCard
           v-for="board in store.boards"
           :key="board.id"
