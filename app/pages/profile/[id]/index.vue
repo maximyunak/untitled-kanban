@@ -22,6 +22,10 @@ const boards = computed(() => {
   })
 })
 
+definePageMeta({
+  titleKey: 'page.profile'
+})
+
 </script>
 
 <template>

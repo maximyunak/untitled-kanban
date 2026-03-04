@@ -45,6 +45,9 @@ const handleDeleteBoard = () => {
   }
 }
 
+definePageMeta({
+  titleKey: 'page.profile'
+})
 </script>
 
 <template>

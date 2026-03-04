@@ -9,16 +9,20 @@ const {
 } = useInvite()
 
 await useAsyncData('invites', () => getMyInvites())
+
+definePageMeta({
+  titleKey: 'page.invites'
+})
 </script>
 
 <template>
   <div>
-    <h2>{{ $t('invites.title') }}</h2>
-    <div class="flex flex-wrap max-w-[80vw] gap-4 mt-4">
+    <h2 class="max-lg:hidden">{{ $t('invites.title') }}</h2>
+    <div class="grid grid-cols-1 max-[500px]:items-center min-[500px]:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
       <template v-if="invites.length !== 0">
         <div
           v-for="invite in invites"
-          class="w-87 rounded-lg bg-elevated/50 p-4 hover:bg-elevated transition max-w-87 flex justify-between"
+          class=" rounded-lg bg-elevated/50 p-4 hover:bg-elevated transition md:max-w-87 flex justify-between"
         >
           <div>{{ invite.board.name }}</div>
           <div class="flex gap-2" v-if="invite.status === InviteStatus.PENDING">

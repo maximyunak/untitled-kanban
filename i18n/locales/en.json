@@ -101,5 +101,8 @@
       "createdDate": "Creation date",
       "deadline": "Deadline"
     }
+  },
+  "page": {
+    "profile": "Profile"
   }
 }

@@ -20,11 +20,14 @@ const create = () => {
   })
 }
 
+definePageMeta({
+  titleKey: 'page.boards'
+})
 </script>
 
 <template>
   <div>
-    <h2>{{ $t("boards.title") }}</h2>
+    <h2 class="max-lg:hidden">{{ $t("boards.title") }}</h2>
 
     <div class="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-5">
       <UPageCard

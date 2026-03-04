@@ -179,10 +179,10 @@ const {
   </UDashboardSidebar>
 
   <!-- мобильная верхняя панель -->
-  <div v-if="isMobile && typeof $route.name === 'string' && !$route?.name?.includes('boards-id')" class="header-bg shadow-2xl w-full z-100 fixed top-0 left-0 right-0 px-5 py-3">
+  <div v-if="isMobile && typeof $route.name === 'string' && !$route?.name?.includes('boards-id')" class="header-bg shadow-2xl w-full z-100 fixed top-0 left-0 right-0 px-5 py-3 items-center">
     <div class="flex gap-2">
       <UDashboardSidebarToggle @click="toggle"/>
-      <h3>{{ $route.name }}</h3>
+      <h3>{{ $route.meta.titleKey ? $t($route.meta.titleKey as string) : 'Страница' }}</h3>
     </div>
   </div>
 </template>

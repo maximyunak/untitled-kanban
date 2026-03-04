@@ -15,19 +15,20 @@ const change = (event: any) => {
   store.moveColumn(event.moved.element.id, event.moved.newIndex)
 }
 
-const { invite } = useInvite()
+const {invite} = useInvite()
 const inviteUserEmail = ref('')
 
 const handleInvite = async () => {
   await invite(inviteUserEmail.value, store.board.id)
+  isOpenUserModal.value = false
 }
 
 const {
-toggle
+  toggle
 } = useSidebar()
 
 definePageMeta({
-  layout: "board"
+  layout: "board",
 })
 </script>
 
@@ -54,7 +55,7 @@ definePageMeta({
                   :key="user.id"
                   :text="`${user.firstName} ${user.lastName}`"
               >
-                <UAvatar :alt="`${user.firstName} ${user.lastName}`" />
+                <UAvatar :alt="`${user.firstName} ${user.lastName}`"/>
               </UTooltip>
             </UAvatarGroup>
           </ULink>
@@ -78,12 +79,12 @@ definePageMeta({
           animation="150"
       >
         <template #item="{ element }">
-          <KanbanColumn :column="element" />
+          <KanbanColumn :column="element"/>
         </template>
       </draggable>
 
       <!-- создание колонки -->
-      <KanbanCreateColumn />
+      <KanbanCreateColumn/>
     </div>
 
     <!-- модалка участников -->

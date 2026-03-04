@@ -16,11 +16,15 @@ const handleCheckboxChange = (isCompleted: string | boolean, task :ITaskWithBoar
 }
 
 const sortOptions = useSortOptions()
+
+definePageMeta({
+  titleKey: 'page.tasks'
+})
 </script>
 
 <template>
   <div>
-    <h2>{{ $t('tasks.title') }}</h2>
+    <h2 class="max-lg:hidden">{{ $t('tasks.title') }}</h2>
 
     <div>
       <div class="flex justify-between sm:gap-3 sm:items-center max-sm:flex-col">
