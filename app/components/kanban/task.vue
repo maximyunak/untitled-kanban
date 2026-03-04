@@ -74,7 +74,7 @@ const handleCheckboxChange = (isCompleted: boolean | "indeterminate") => {
 
 <template>
   <div
-      class="px-3 py-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative"
+      class="p-2 md:p-3 text-sm bg-default rounded-lg ring ring-default flex gap-2 relative"
       @mouseenter="isHover = true"
       @mouseleave="isHover = false"
   >

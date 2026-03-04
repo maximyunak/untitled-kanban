@@ -2,7 +2,6 @@
 const store = useKanbanStore()
 import draggable from "vuedraggable";
 
-const { t } = useI18n()
 const route = useRoute()
 const isOpenUserModal = ref(false)
 
@@ -23,6 +22,10 @@ const handleInvite = async () => {
   await invite(inviteUserEmail.value, store.board.id)
 }
 
+const {
+toggle
+} = useSidebar()
+
 definePageMeta({
   layout: "board"
 })
@@ -31,15 +34,20 @@ definePageMeta({
 <template>
   <div class="w-full min-w-max">
     <!--  title  -->
-    <UDashboardNavbar class="fixed z-10 bg-default w-[85%] justify-between">
+    <UDashboardNavbar class="fixed z-10 bg-default w-full lg:w-[85%] justify-between">
       <template #left>
-        <h2>{{ store.board.name }}</h2>
+        <h2 class="truncate mr-2">{{ store.board.name }}</h2>
+      </template>
+
+      <template #toggle>
+        <UDashboardSidebarToggle @click="toggle"/>
       </template>
 
       <template #right>
         <div class="flex w-full justify-between">
           <ULink @click="isOpenUserModal = true">
-            {{ $t("board.users") }}:
+            <span class="max-[400px]:hidden">{{ $t("board.users") }}:</span>
+            <span class="min-[400px]:hidden">{{ $t("board.members") }}:</span>
             <UAvatarGroup max="2">
               <UTooltip
                   v-for="user in store.board.users"
@@ -56,7 +64,7 @@ definePageMeta({
 
     <div
         :class="[
-        'pt-25 px-10 w-auto flex items-start',
+        'pt-20 md:pt-25 px-5 md:px-10 w-auto flex items-start',
         { 'gap-7': store.board.columns.length ?? 0 > 0 }
       ]"
     >

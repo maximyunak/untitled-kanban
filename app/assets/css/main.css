@@ -36,16 +36,6 @@ body {
     font-display: swap;
 }
 
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-h3 {
-    font-size: 20px;
-    font-weight: 600;
-}
-
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: oklch(98.5% 0 0);
@@ -64,7 +54,17 @@ h3 {
     border-radius: 10px;
 }
 
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    @media (max-width: 400px) {
+        font-size: 20px;
+    }
+}
+
 h3 {
+    font-size: 20px;
+    font-weight: 600;
     @media (max-width: 400px) {
         font-size: 18px;
     }

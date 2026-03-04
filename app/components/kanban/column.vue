@@ -37,7 +37,7 @@ const change = (event: any, columnId: number) => {
 </script>
 
 <template>
-  <div class="p-4 rounded-lg bg-elevated/50 ring ring-default min-w-75 max-w-75 items-start">
+  <div class="p-3 md:p-4 rounded-lg bg-elevated/50 ring ring-default min-w-56 md:min-w-75 md:max-w-75 items-start">
     <div class="flex justify-between items-center">
       <h4>{{ column.name }}</h4>
 

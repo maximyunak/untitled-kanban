@@ -52,6 +52,7 @@
   },
   "board": {
     "users": "Board members",
+    "members": "Members",
     "inviteUser": "Invite user",
     "addUser": "Add user",
     "email": "Email",
