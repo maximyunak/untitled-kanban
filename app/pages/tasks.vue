@@ -23,22 +23,23 @@ const sortOptions = useSortOptions()
     <h2>{{ $t('tasks.title') }}</h2>
 
     <div>
-      <div class="flex justify-between gap-3 items-center">
+      <div class="flex justify-between sm:gap-3 sm:items-center max-sm:flex-col">
         <h3>{{ $t('tasks.uncompleted') }}</h3>
 
-        <div class="flex gap-3 items-center">
-          {{ $t('tasks.sortBy') }}
+          <div class="flex gap-3 items-center max-sm:justify-between">
+
+          <span class="max-[400px]:text-sm">{{ $t('tasks.sortBy') }}</span>
           <USelectMenu
               v-model="sortData.unCompleted"
               :icon="sortData.unCompleted?.icon"
               variant="outline"
-              class="w-70"
+              class="w-1/2 sm:w-70"
               :items="sortOptions"
           />
         </div>
       </div>
 
-      <div class="grid grid-cols-3 gap-2 mt-2" v-if="unCompletedTasks.length">
+      <div class="grid min-[500px]:grid-cols-2 lg:grid-cols-3 gap-2 mt-2" v-if="unCompletedTasks.length">
         <transition-group name="list">
           <NuxtLink
               v-for="task in unCompletedTasks"
@@ -80,22 +81,22 @@ const sortOptions = useSortOptions()
     </div>
 
     <div class="mt-5">
-      <div class="flex justify-between gap-3 items-center">
+      <div class="flex justify-between sm:gap-3 sm:items-center max-sm:flex-col">
         <h3>{{ $t('tasks.completed') }}</h3>
 
-        <div class="flex gap-3 items-center">
-          {{ $t('tasks.sortBy') }}
+        <div class="flex gap-3 items-center max-sm:justify-between">
+          <span class="max-[400px]:text-sm">{{ $t('tasks.sortBy') }}</span>
           <USelectMenu
               v-model="sortData.completed"
               :icon="sortData.completed?.icon"
               variant="outline"
-              class="w-70"
+              class="w-1/2 sm:w-70"
               :items="sortOptions"
           />
         </div>
       </div>
 
-      <div class="grid grid-cols-3 gap-2 mt-2" v-if="completedTasks.length">
+      <div class="grid min-[500px]:grid-cols-2 lg:grid-cols-3 gap-2 mt-2" v-if="completedTasks.length">
         <transition-group name="list">
           <NuxtLink
               v-for="task in completedTasks"

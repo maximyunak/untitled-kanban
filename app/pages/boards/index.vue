@@ -42,11 +42,7 @@ const create = () => {
     </div>
 
 
-    <div
-
-        class="mt-10 flex justify-center w-full"
-    >
-
+    <div class="mt-10 flex justify-center w-full">
       <UModal
           v-model:open="open"
           :title="$t('boards.createModalTitle')"
