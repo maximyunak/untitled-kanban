@@ -179,7 +179,7 @@ const {
   </UDashboardSidebar>
 
   <!-- мобильная верхняя панель -->
-  <div v-if="isMobile" class="bg-[#10192d] shadow-2xl w-full z-100 fixed top-0 left-0 right-0 px-5 py-3">
+  <div v-if="isMobile" class="header-bg shadow-2xl w-full z-100 fixed top-0 left-0 right-0 px-5 py-3">
     <div class="flex gap-2">
       <UDashboardSidebarToggle @click="toggle"/>
       <h3>Profile</h3>

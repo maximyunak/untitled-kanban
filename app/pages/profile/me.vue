@@ -53,14 +53,14 @@ const handleDeleteBoard = () => {
     <div>
       <h3 class="mt-2">{{ data?.id }}. {{ data?.firstName }} {{ data?.lastName }} {{ data?.patronymic }}</h3>
 
-      <section class="mt-10">
+      <section class="mt-4">
         <h2>{{ $t('profile.yourBoards') }}</h2>
 
-        <div v-if="data?.boards.length" class="flex flex-wrap max-w-[80vw] gap-2 mt-2">
+        <div v-if="data?.boards.length" class="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
           <NuxtLink
               :to="$localePath(`/boards/${board.id}`)"
               v-for="board in data?.boards"
-              class="p-4 w-87 bg-elevated/50 rounded-lg hover:bg-elevated transition flex justify-between items-center"
+              class="p-4 max-w-87 bg-elevated/50 rounded-lg hover:bg-elevated transition flex justify-between items-center"
           >
             <span class="truncate max-w-3/4">{{ board?.name }}</span>
             <div class="flex gap-2">

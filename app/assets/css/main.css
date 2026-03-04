@@ -9,6 +9,17 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+:root {
+    --bg-default-lighter: #ffffff;
+}
+
+.dark {
+    --bg-default-lighter: #10192d;
+}
+.header-bg {
+    background-color: var(--bg-default-lighter);
+}
+
 @font-face {
     font-family: 'Inter';
     src: url('../fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
