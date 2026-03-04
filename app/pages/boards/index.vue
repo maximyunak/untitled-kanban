@@ -26,7 +26,7 @@ const create = () => {
   <div>
     <h2>{{ $t("boards.title") }}</h2>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-5">
+    <div class="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-5">
       <UPageCard
           v-for="board in store.boards"
           :key="board.id"
@@ -35,64 +35,71 @@ const create = () => {
           variant="soft"
       >
         <template #default>
-          <span class="truncate max-w-80">{{ board.name }}</span>
-          <span v-if="board.description">{{board.description}}</span>
+          <span class="truncate max-w-[80%]">{{ board.name }}</span>
+          <span v-if="board.description">{{ board.description }}</span>
         </template>
       </UPageCard>
     </div>
 
-    <UModal
-        v-model:open="open"
-        :title="$t('boards.createModalTitle')"
+
+    <div
+
+        class="mt-10 flex justify-center w-full"
     >
-      <UButton
-          class="mt-10 flex justify-self-center"
-          @click="open = true"
+
+      <UModal
+          v-model:open="open"
+          :title="$t('boards.createModalTitle')"
       >
-        {{ $t("boards.createButton") }}
-      </UButton>
-
-      <template #body>
-        <UForm>
-          <UFormField
-              :label="$t('boards.boardName')"
-              required
-              size="xl"
-          >
-            <UInput
-                v-model="newBoardData.name"
-                :placeholder="$t('boards.boardNamePlaceholder')"
-            />
-          </UFormField>
-
-          <UFormField
-              class="mt-2"
-              :label="$t('boards.boardDescription')"
-              size="xl"
-          >
-            <UInput
-                v-model="newBoardData.description"
-                :placeholder="$t('boards.boardDescriptionPlaceholder')"
-            />
-          </UFormField>
-        </UForm>
-      </template>
-
-      <template #footer="{ close }">
         <UButton
-            :label="$t('boards.cancel')"
-            color="neutral"
-            variant="outline"
-            @click="close"
-        />
-        <UButton
-            @click="create"
-            :label="$t('boards.submit')"
-            color="neutral"
-        />
-      </template>
-    </UModal>
+            @click="open = true"
+        >
+          {{ $t("boards.createButton") }}
+        </UButton>
+
+        <template #body>
+          <UForm>
+            <UFormField
+                :label="$t('boards.boardName')"
+                required
+                size="xl"
+            >
+              <UInput
+                  v-model="newBoardData.name"
+                  :placeholder="$t('boards.boardNamePlaceholder')"
+              />
+            </UFormField>
+
+            <UFormField
+                class="mt-2"
+                :label="$t('boards.boardDescription')"
+                size="xl"
+            >
+              <UInput
+                  v-model="newBoardData.description"
+                  :placeholder="$t('boards.boardDescriptionPlaceholder')"
+              />
+            </UFormField>
+          </UForm>
+        </template>
+
+        <template #footer="{ close }">
+          <UButton
+              :label="$t('boards.cancel')"
+              color="neutral"
+              variant="outline"
+              @click="close"
+          />
+          <UButton
+              @click="create"
+              :label="$t('boards.submit')"
+              color="neutral"
+          />
+        </template>
+      </UModal>
+    </div>
   </div>
+
 </template>
 
 <style scoped>

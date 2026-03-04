@@ -71,7 +71,7 @@ const isMobile = ref(false)
 
 onMounted(() => {
   const update = () => {
-    isMobile.value = window.innerWidth <= 768
+    isMobile.value = window.innerWidth <= 1023
   }
 
   update()
@@ -80,7 +80,7 @@ onMounted(() => {
 
 const {
   toggleSidebar,
-    open, toggle
+  open, toggle
 } = useSidebar()
 
 </script>
@@ -174,20 +174,12 @@ const {
     </template>
 
     <template #toggle>
-      <UDashboardSidebarToggle @click="toggle" />
+      <UDashboardSidebarToggle @click="toggle"/>
     </template>
   </UDashboardSidebar>
 
-  <!--    <UDashboardPanel class="z-10">-->
-  <!--      <template #header>-->
-  <!--        <UDashboardNavbar-->
-  <!--            title="Home"-->
-  <!--            class="sticky top-0 bg-default! backdrop-blur border-b bg-background/80"-->
-  <!--        />-->
-  <!--      </template>-->
-  <!--    </UDashboardPanel>-->
-
-  <div v-if="isMobile" class="bg-default shadow-2xl w-full z-100 fixed top-0 left-0 right-0 px-5 py-5">
+  <!-- мобильная верхняя панель -->
+  <div v-if="isMobile" class="bg-default shadow-2xl w-full z-100 fixed top-0 left-0 right-0 px-5 py-3">
     <div class="flex gap-2">
       <UDashboardSidebarToggle @click="toggle"/>
       <h3>Profile</h3>

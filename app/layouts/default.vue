@@ -23,8 +23,7 @@ const {toggleSidebar} = useSidebar();
   <div class='flex'>
     <UApp>
       <Sidebar/>
-<!--     <div class="flex gap-15">-->
-       <main class='z-20 max-h-screen md:overflow-y-h w-full max-md:mt-5'>
+       <main class='z-20 max-h-screen md:overflow-y-h w-full max-[1024px]:mt-5'>
          <div class="px-5 md:px-12 mt-10 w-auto overflow-x-auto min-w-auto">
            <div class="flex gap-2 items-center relative">
              <!--            <UButton @click="toggleSidebar" variant="subtle" icon="mynaui:sidebar" />-->
@@ -35,7 +34,6 @@ const {toggleSidebar} = useSidebar();
            </div>
          </div>
        </main>
-<!--     </div>-->
     </UApp>
   </div>
 
