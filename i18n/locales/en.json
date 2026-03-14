@@ -84,7 +84,7 @@
     "status": {
       "pending": "Pending",
       "accepted": "Accepted",
-      "rejected": "Rejected"
+      "declined": "Rejected"
     }
   },
   "tasks": {
@@ -103,6 +103,10 @@
     }
   },
   "page": {
-    "profile": "Profile"
+    "profile": "Profile",
+    "boards": "Your boards",
+    "home": "Home",
+    "tasks": "My tasks",
+    "invites": "My invitations"
   }
 }

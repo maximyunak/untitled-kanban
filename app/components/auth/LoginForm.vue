@@ -67,6 +67,9 @@ const submit = (userData: FormSubmitEvent<Schema>) =>{
         label: $t('auth.loginButton'),
       }"
   />
+  <div class="flex justify-end">
+    <UButton variant="link">register</UButton>
+  </div>
 </template>
 
 <style scoped>

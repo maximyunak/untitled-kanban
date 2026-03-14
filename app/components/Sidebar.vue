@@ -2,10 +2,9 @@
 import type {NavigationMenuItem} from '@nuxt/ui'
 
 const {
-  data, fetchData
+  data,
+  onLogout,
 } = useProfile()
-
-await useAsyncData('user', () => fetchData())
 
 const localePath = useLocalePath()
 const {locales} = useI18n()
@@ -35,7 +34,7 @@ const items = computed<NavigationMenuItem[][]>(() => [[{
 },
   {
     label: "Invites",
-    icon: "mingcute:invite-fill",
+    icon: "mingcute:invite-line",
     to: localePath('invites')
   },
   {
@@ -79,10 +78,15 @@ onMounted(() => {
 })
 
 const {
-  toggleSidebar,
   open, toggle
 } = useSidebar()
 
+const router = useRouter()
+const handleLogout =async  () => {
+  await onLogout().then(() => {
+    router.push('/login')
+  })
+}
 </script>
 
 <template>
@@ -95,27 +99,28 @@ const {
       <div class="flex items-center gap-3">
         <UIcon name="vscode-icons:file-type-nuxt" :class="['size-8 text-primary',
       collapsed ? 'mx-auto' : '']"/>
-        <h3 v-if="!collapsed">Untitled</h3>
+        <h3 v-if="!collapsed">Облако дел</h3>
       </div>
     </template>
 
     <template #default>
+      <USeparator/>
 
-      <UButton
-          :label="collapsed ? undefined : 'Search...'"
-          icon="i-lucide-search"
-          color="neutral"
-          variant="outline"
-          block
-          :square="collapsed"
-      >
-        <template v-if="!collapsed" #trailing>
-          <div class="flex items-center gap-0.5 ms-auto">
-            <UKbd value="meta" variant="subtle"/>
-            <UKbd value="K" variant="subtle"/>
-          </div>
-        </template>
-      </UButton>
+      <!--      <UButton-->
+      <!--          :label="collapsed ? undefined : 'Search...'"-->
+      <!--          icon="i-lucide-search"-->
+      <!--          color="neutral"-->
+      <!--          variant="outline"-->
+      <!--          block-->
+      <!--          :square="collapsed"-->
+      <!--      >-->
+      <!--        <template v-if="!collapsed" #trailing>-->
+      <!--          <div class="flex items-center gap-0.5 ms-auto">-->
+      <!--            <UKbd value="meta" variant="subtle"/>-->
+      <!--            <UKbd value="K" variant="subtle"/>-->
+      <!--          </div>-->
+      <!--        </template>-->
+      <!--      </UButton>-->
 
       <!--навигация когда свернуто с тултипом сверху-->
       <div v-if="collapsed" class="flex flex-col gap-2 items-center py-2">
@@ -157,20 +162,21 @@ const {
 
     <template #footer="{ collapsed }">
       <NuxtLink
-          class="w-full"
+          class="w-3/4"
           :to="$localePath('/profile/me')">
         <UButton
             :avatar="{
           text: data?.firstName[0],
           size: 'sm',
         }"
-            :label="data?.firstName + ' ' + data?.lastName"
+            :label="data?.firstName"
             color="neutral"
             variant="ghost"
             class="w-full"
             :block="collapsed"
         />
       </NuxtLink>
+      <UButton icon="line-md:log-out" variant="ghost" color="error" @click="handleLogout"/>
     </template>
 
     <template #toggle>
@@ -179,7 +185,8 @@ const {
   </UDashboardSidebar>
 
   <!-- мобильная верхняя панель -->
-  <div v-if="isMobile && typeof $route.name === 'string' && !$route?.name?.includes('boards-id')" class="header-bg shadow-2xl w-full z-100 fixed top-0 left-0 right-0 px-5 py-3 items-center">
+  <div v-if="isMobile && typeof $route.name === 'string' && !$route?.name?.includes('boards-id')"
+       class="header-bg shadow-2xl w-full z-100 fixed top-0 left-0 right-0 px-5 py-3 items-center">
     <div class="flex gap-2">
       <UDashboardSidebarToggle @click="toggle"/>
       <h3>{{ $route.meta.titleKey ? $t($route.meta.titleKey as string) : 'Страница' }}</h3>
