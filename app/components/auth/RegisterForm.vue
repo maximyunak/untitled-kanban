@@ -32,21 +32,10 @@ const userSchema = z.object({
 
 // oauth
 const providers = [{
-  label: 'Google',
-  icon: 'i-simple-icons-google',
-  onClick: () => {
-    toast.add({
-      title: 'Login with Google',
-    })
-  }
-}, {
-  label: 'GitHub',
-  icon: 'i-simple-icons-github',
-  onClick: () => {
-    toast.add({
-      title: 'Login with GitHub',
-    })
-  }
+  label: 'Yandex',
+  icon: 'tabler:brand-yandex',
+  to: "http://localhost:8000/api/auth/oauth/yandex",
+
 }]
 
 // поля формы

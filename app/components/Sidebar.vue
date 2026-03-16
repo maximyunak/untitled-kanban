@@ -99,7 +99,7 @@ const handleLogout =async  () => {
       <div class="flex items-center gap-3">
         <UIcon name="vscode-icons:file-type-nuxt" :class="['size-8 text-primary',
       collapsed ? 'mx-auto' : '']"/>
-        <h3 v-if="!collapsed">Облако дел</h3>
+        <h4 v-if="!collapsed">Облако дел</h4>
       </div>
     </template>
 

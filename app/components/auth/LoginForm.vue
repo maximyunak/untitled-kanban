@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type {AuthFormField, FormSubmitEvent} from "#ui/types";
+
 const toast = useToast()
 
-const {login} = useLogin()
+const {login, yandexLogin} = useLogin()
 
 // поля формы
-const fields:AuthFormField[] = [
+const fields: AuthFormField[] = [
   {
     label: $t("auth.email"),
     type: "email",
@@ -31,24 +32,12 @@ type Schema = z.output<typeof schema>
 
 // oauth
 const providers = [{
-  label: 'Google',
-  icon: 'i-simple-icons-google',
-  onClick: () => {
-    toast.add({
-      title: 'Login with Google',
-    })
-  }
-}, {
-  label: 'GitHub',
-  icon: 'i-simple-icons-github',
-  onClick: () => {
-    toast.add({
-      title: 'Login with GitHub',
-    })
-  }
+  label: 'Yandex',
+  icon: 'tabler:brand-yandex',
+  to: "http://localhost:8000/api/auth/oauth/yandex"
 }]
 
-const submit = (userData: FormSubmitEvent<Schema>) =>{
+const submit = (userData: FormSubmitEvent<Schema>) => {
   const res = login(userData.data)
 }
 
