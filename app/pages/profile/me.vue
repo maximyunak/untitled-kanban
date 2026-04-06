@@ -79,13 +79,13 @@ definePageMeta({
     </div>
 
     <UModal
-        :title="selectedBoardData?.name"
+        :title="$t('board.update.label')"
         v-model:open="openModal"
     >
       <template #body>
         <UForm>
           <UFormField
-              :label="$t('board.update.label')"
+              :label="$t('board.update.newName')"
               size="xl"
           >
             <UInput
@@ -94,7 +94,7 @@ definePageMeta({
             />
           </UFormField>
           <UFormField
-              :label="$t('board.update.label')"
+              :label="$t('board.update.newDescription')"
               size="xl"
           >
             <UInput

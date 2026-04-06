@@ -94,7 +94,7 @@ const handleCheckboxChange = (isCompleted: boolean | "indeterminate") => {
         @click="openModal = true"
     />
 
-    <UModal :title="task.name" v-model:open="openModal">
+    <UModal :title="$t('board.task.update')" v-model:open="openModal">
       <template #body>
         <UForm>
           <UFormField

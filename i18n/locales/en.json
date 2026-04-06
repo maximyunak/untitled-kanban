@@ -72,7 +72,8 @@
       "deadline": "Deadline",
       "selectDate": "Select a date",
       "submit": "Submit",
-      "create": "Add task"
+      "create": "Add task",
+      "update": "Update task"
     },
     "column": {
       "newName": "New column name",
