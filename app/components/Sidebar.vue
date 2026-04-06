@@ -19,16 +19,12 @@ const themeIcon = computed(() => {
   return colorMode.preference === "dark" ? "material-symbols:light-mode-outline" : 'material-symbols-light:dark-mode-outline'
 })
 
-const { t } = useI18n()
+const {t} = useI18n()
 
 const items = computed<NavigationMenuItem[][]>(() => [[{
-  label: t('sidebar.dashboard'),
-  icon: 'i-lucide-house',
-  to: localePath('/'),
-}, {
   label: t('sidebar.boards'),
   icon: 'majesticons:view-boards-line',
-  to: localePath('boards'),
+  to: localePath('/'),
 }, {
   label: t('sidebar.tasks'),
   icon: 'i-lucide-users',
@@ -81,7 +77,7 @@ const {
 } = useSidebar()
 
 const router = useRouter()
-const handleLogout =async  () => {
+const handleLogout = async () => {
   await onLogout().then(() => {
     router.push('/login')
   })
@@ -96,9 +92,9 @@ const handleLogout =async  () => {
       class="transition-[width] duration-200 max-w-[18%] w-full h-screen">
     <template #header="{ collapsed }">
       <div class="flex items-center gap-3">
-<!--        <UIcon>-->
-            <img class="size-8" src="/logo.svg" alt="logo">
-<!--        </UIcon>-->
+        <!--        <UIcon>-->
+        <img class="size-8" src="/logo.svg" alt="logo">
+        <!--        </UIcon>-->
         <h4 v-if="!collapsed">Облако дел</h4>
       </div>
     </template>
