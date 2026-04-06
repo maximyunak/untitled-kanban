@@ -45,7 +45,7 @@ definePageMeta({
       </template>
 
       <template #right>
-        <div class="flex w-full justify-between">
+        <div class="flex justify-between pr-8">
           <ULink @click="isOpenUserModal = true">
             <span class="max-[400px]:hidden">{{ $t("board.users") }}:</span>
             <span class="min-[400px]:hidden">{{ $t("board.members") }}:</span>
@@ -112,6 +112,7 @@ definePageMeta({
             <div>
               <UTooltip :text="$t('board.removeAccess')">
                 <UButton
+                    @click.stop.prevent
                     variant="subtle"
                     icon="material-symbols:delete"
                 />

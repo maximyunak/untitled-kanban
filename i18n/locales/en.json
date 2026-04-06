@@ -59,6 +59,11 @@
     "cancel": "Cancel",
     "invite": "Invite",
     "removeAccess": "Remove access",
+    "update": {
+      "label": "Update board",
+      "newName": "New board name",
+      "newDescription": "New board description"
+    },
     "task": {
       "newName": "New task name",
       "newDescription": "New task description",
@@ -108,5 +113,17 @@
     "home": "Home",
     "tasks": "My tasks",
     "invites": "My invitations"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "boards": "Boards",
+    "tasks": "Tasks",
+    "invites": "Invites",
+    "settings": "Settings",
+    "profile": "Profile",
+    "changeTheme": "Change theme",
+    "switchLanguage": "Switch language",
+    "help": "Help & Support",
+    "logout": "Logout"
   }
 }

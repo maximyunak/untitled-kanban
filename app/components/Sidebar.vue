@@ -19,48 +19,47 @@ const themeIcon = computed(() => {
   return colorMode.preference === "dark" ? "material-symbols:light-mode-outline" : 'material-symbols-light:dark-mode-outline'
 })
 
+const { t } = useI18n()
+
 const items = computed<NavigationMenuItem[][]>(() => [[{
-  label: 'Dashboard',
+  label: t('sidebar.dashboard'),
   icon: 'i-lucide-house',
   to: localePath('/'),
 }, {
-  label: 'Boards',
+  label: t('sidebar.boards'),
   icon: 'majesticons:view-boards-line',
   to: localePath('boards'),
 }, {
-  label: 'Tasks',
+  label: t('sidebar.tasks'),
   icon: 'i-lucide-users',
   to: localePath('tasks'),
-},
-  {
-    label: "Invites",
-    icon: "mingcute:invite-line",
-    to: localePath('invites')
-  },
-  {
-    label: 'Settings',
-    icon: 'i-lucide-settings',
+}, {
+  label: t('sidebar.invites'),
+  icon: "mingcute:invite-line",
+  to: localePath('invites')
+}, {
+  label: t('sidebar.settings'),
+  icon: 'i-lucide-settings',
+  defaultOpen: true,
+  children: [{
+    label: t('sidebar.profile'),
+    icon: 'i-lucide-user',
+    to: localePath('/profile/me'),
+  }, {
+    label: t('sidebar.changeTheme'),
+    icon: themeIcon.value,
+    onClick: () => toggleColorTheme()
+  }, {
+    label: t('sidebar.switchLanguage'),
+    icon: 'prime:language',
     defaultOpen: true,
-    children: [{
-      label: 'Profile',
-      icon: 'i-lucide-user',
-      to: localePath('/profile/me'),
-    },
-      {
-        label: 'Change color theme',
-        icon: themeIcon.value,
-        onClick: () => toggleColorTheme()
-      }, {
-        label: 'Switch language',
-        icon: 'prime:language',
-        defaultOpen: true,
-        children: locales.value.map((lng) => ({
-          label: lng.name,
-          onClick: () => toggleLocale(lng.code)
-        }))
-      }]
-  }], [{
-  label: 'Help & Support',
+    children: locales.value.map((lng) => ({
+      label: lng.name,
+      onClick: () => toggleLocale(lng.code)
+    }))
+  }]
+}], [{
+  label: t('sidebar.help'),
   icon: 'i-lucide-info',
   to: 'https://github.com/maximyunak/untitled-kanban',
   target: '_blank'
@@ -94,33 +93,18 @@ const handleLogout =async  () => {
       v-model:open="open"
       :collapsed="collapsed" collapsible :collapsed-size="3"
       :ui="{ footer: 'border-t border-default' }"
-      class="transition-[width] duration-200 max-w-[15%] h-screen">
+      class="transition-[width] duration-200 max-w-[18%] w-full h-screen">
     <template #header="{ collapsed }">
       <div class="flex items-center gap-3">
-        <UIcon name="vscode-icons:file-type-nuxt" :class="['size-8 text-primary',
-      collapsed ? 'mx-auto' : '']"/>
+<!--        <UIcon>-->
+            <img class="size-8" src="/logo.svg" alt="logo">
+<!--        </UIcon>-->
         <h4 v-if="!collapsed">Облако дел</h4>
       </div>
     </template>
 
     <template #default>
       <USeparator/>
-
-      <!--      <UButton-->
-      <!--          :label="collapsed ? undefined : 'Search...'"-->
-      <!--          icon="i-lucide-search"-->
-      <!--          color="neutral"-->
-      <!--          variant="outline"-->
-      <!--          block-->
-      <!--          :square="collapsed"-->
-      <!--      >-->
-      <!--        <template v-if="!collapsed" #trailing>-->
-      <!--          <div class="flex items-center gap-0.5 ms-auto">-->
-      <!--            <UKbd value="meta" variant="subtle"/>-->
-      <!--            <UKbd value="K" variant="subtle"/>-->
-      <!--          </div>-->
-      <!--        </template>-->
-      <!--      </UButton>-->
 
       <!--навигация когда свернуто с тултипом сверху-->
       <div v-if="collapsed" class="flex flex-col gap-2 items-center py-2">

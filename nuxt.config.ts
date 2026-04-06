@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     app: {
         head: {
             title: 'Облако дел',
-            link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+            link: [{ rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
         },
         pageTransition: { name: 'page', mode: 'out-in' },
         layoutTransition: { name: 'page', mode: 'out-in' },

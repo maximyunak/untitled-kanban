@@ -55,7 +55,7 @@ definePageMeta({
     <h2>{{ $t('profile.title') }}</h2>
     <div>
       <h3 class="mt-2">{{ data?.id }}. {{ data?.firstName }} {{ data?.lastName }} {{ data?.patronymic }}</h3>
-
+      <p>{{data?.email}}</p>
       <section class="mt-4">
         <h2>{{ $t('profile.yourBoards') }}</h2>
 
