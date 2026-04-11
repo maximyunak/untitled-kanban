@@ -3,10 +3,9 @@ import {useSortOptions} from "~/shared/sort-options";
 import type {ITaskWithBoardId} from "~/types/kanban";
 
 const {data, fetchData, completedTasks, unCompletedTasks, sortData, completedPage, unCompletedPage} = useTasks()
-// await fetchData()
+
 
 const {updateTask} = useKanbanStore()
-
 const handleCheckboxChange = (isCompleted: string | boolean, task: ITaskWithBoardId) => {
   if (typeof isCompleted === "boolean") {
     updateTask(task.id, {

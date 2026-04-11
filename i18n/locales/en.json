@@ -67,15 +67,23 @@
       "newDescription": "New board description"
     },
     "task": {
+      "info": "Task information",
+      "name": "Task name",
+      "description": "Description",
+      "descriptionPlaceholder": "No description provided",
+      "deadline": "Deadline",
+      "deadlinePlaceholder": "No deadline set",
+      "assignee": "Assignee",
+      "assigneePlaceholder": "No assignee selected",
+      "close": "Close",
       "newName": "New task name",
       "newDescription": "New task description",
-      "assignee": "Assignee",
       "selectAssignee": "Select assignee",
-      "deadline": "Deadline",
       "selectDate": "Select a date",
       "submit": "Submit",
       "create": "Add task",
-      "update": "Update task"
+      "update": "Update task",
+      "delete": "Delete"
     },
     "column": {
       "newName": "New column name",
@@ -83,7 +91,7 @@
       "submit": "Submit",
       "create": "Create column",
       "cancel": "Cancel",
-      "error": "Column name should be not empty"
+      "error": "Column name should not be empty"
     }
   },
   "invites": {

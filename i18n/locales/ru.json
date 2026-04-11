@@ -67,15 +67,23 @@
       "newDescription": "Новое описание доски"
     },
     "task": {
+      "info": "Информация о задаче",
+      "name": "Название задачи",
+      "description": "Описание",
+      "descriptionPlaceholder": "Описание отсутствует",
+      "deadline": "Дедлайн",
+      "deadlinePlaceholder": "Дедлайн не установлен",
+      "assignee": "Исполнитель",
+      "assigneePlaceholder": "Исполнитель не назначен",
+      "close": "Закрыть",
       "newName": "Новое название задачи",
       "newDescription": "Новое описание задачи",
-      "assignee": "Исполнитель",
       "selectAssignee": "Выберите исполнителя",
-      "deadline": "Дедлайн",
       "selectDate": "Выбрать дату",
       "submit": "Сохранить",
       "create": "Добавить задачу",
-      "update": "Редактирование задачи"
+      "update": "Редактирование задачи",
+      "delete": "Удалить"
     },
     "column": {
       "newName": "Новое название колонки",

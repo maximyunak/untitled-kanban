@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { ITask } from "~/types/kanban";
-import { CalendarDate } from "@internationalized/date";
+import type {ITask} from "~/types/kanban";
+import {CalendarDate} from "@internationalized/date";
 
 const store = useKanbanStore()
-const { task } = defineProps<{ task: ITask }>();
+const {task} = defineProps<{ task: ITask }>();
 const isHover = ref(false)
 
 const deadlineValue = shallowRef<CalendarDate | null>(
@@ -70,6 +70,13 @@ const handleCheckboxChange = (isCompleted: boolean | "indeterminate") => {
   }
 }
 
+const handleDeleteTask = () => {
+  store.deleteTask(task.id)
+  openModal.value = false
+}
+
+const openInfoModal = ref(false)
+
 </script>
 
 <template>
@@ -78,7 +85,7 @@ const handleCheckboxChange = (isCompleted: boolean | "indeterminate") => {
       @mouseenter="isHover = true"
       @mouseleave="isHover = false"
   >
-    <UCheckbox v-model="task.isCompleted" @update:model-value="handleCheckboxChange" />
+    <UCheckbox v-model="task.isCompleted" @update:model-value="handleCheckboxChange"/>
     <p class="overflow-hidden wrap-break-word">
       {{ task.name }}
     </p>
@@ -93,6 +100,58 @@ const handleCheckboxChange = (isCompleted: boolean | "indeterminate") => {
         icon="cil:options"
         @click="openModal = true"
     />
+
+    <UButton
+        :class="[
+        'absolute right-10 top-2 opacity-0 invisible transition-opacity',
+        { 'opacity-100 visible': isHover }
+      ]"
+        variant="subtle"
+        size="sm"
+        @click="openInfoModal = true"
+    >i
+    </UButton>
+
+
+    <UModal :title="$t('board.task.info')" v-model:open="openInfoModal">
+      <template #body>
+        <div>
+          <h3>
+            {{ $t("board.task.name") }}
+          </h3>
+          <h4 class="text-sm">{{ task.name }}</h4>
+        </div>
+        <div>
+          <h3>
+            {{ $t("board.task.description") }}
+          </h3>
+          <h4 v-if="task.description" class="text-sm">{{ task.description }}</h4>
+          <h4 v-else>{{ $t("board.task.descriptionPlaceholder") }}</h4>
+        </div>
+        <div>
+          <h3>
+            {{ $t("board.task.deadline") }}
+          </h3>
+          <h4 v-if="task.deadline" class="text-sm">{{
+              new Date(task.deadline).toLocaleDateString()
+            }}</h4>
+          <h4 v-else>{{ $t("board.task.deadlinePlaceholder") }}</h4>
+        </div>
+
+        <div>
+          <h3>{{ $t("board.task.assignee") }}</h3>
+          <h4 v-if="task.assigneeId">{{ usersMenu.find((el) => el.id === task.assigneeId)?.label }}</h4>
+          <h4 v-else>{{ $t("board.task.assigneePlaceholder") }}</h4>
+        </div>
+      </template>
+      <template #footer>
+        <UButton
+            :label="$t('board.task.close')"
+            @click="openInfoModal = false"
+            color="neutral"
+        />
+      </template>
+    </UModal>
 
     <UModal :title="$t('board.task.update')" v-model:open="openModal">
       <template #body>
@@ -165,6 +224,12 @@ const handleCheckboxChange = (isCompleted: boolean | "indeterminate") => {
       </template>
 
       <template #footer>
+        <UButton
+            :label="$t('board.task.delete')"
+            @click="handleDeleteTask"
+            color="error"
+            variant="outline"
+        />
         <UButton
             :label="$t('board.task.submit')"
             @click="handleUpdateTask"
