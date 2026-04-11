@@ -82,7 +82,7 @@ const submit = async () => {
         icon="i-lucide-user"
         :providers="providers"
         @submit="submitFirstStep"
-         :submit="{
+        :submit="{
         label: $t('auth.continue'),
       }"
     />
@@ -112,6 +112,9 @@ const submit = async () => {
       </UForm>
     </div>
   </Transition>
+  <div class="flex justify-end">
+    <NuxtLink class="underline" href="/login">{{ $t('auth.loginLink') }}</NuxtLink>
+  </div>
 </template>
 
 <style scoped>

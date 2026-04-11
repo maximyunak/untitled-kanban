@@ -55,9 +55,9 @@ watch([completedPage, unCompletedPage], fetchData)
                 v-for="task in unCompletedTasks"
                 :key="`assignee-task-${task.id}`"
                 :to="$localePath(`/boards/${task.boardId}`)"
-                class="p-4 bg-elevated/50 rounded-lg hover:bg-elevated transition flex justify-between flex-col"
+                class="p-4 bg-elevated/50 gap-y-1 rounded-lg hover:bg-elevated transition flex justify-between flex-col"
             >
-            <span class="truncate max-w-3/4">
+            <span class="line-clamp-2 max-w-3/4">
               {{ task.boardName }} - {{ task.name }}
             </span>
 

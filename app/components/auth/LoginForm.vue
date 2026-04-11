@@ -57,7 +57,7 @@ const submit = (userData: FormSubmitEvent<Schema>) => {
       }"
   />
   <div class="flex justify-end">
-    <UButton variant="link">register</UButton>
+    <NuxtLink class="underline" href="/register">{{$t('auth.registerLink')}}</NuxtLink>
   </div>
 </template>
 
