@@ -6,12 +6,13 @@ const {data, fetchData, completedTasks, unCompletedTasks, sortData, completedPag
 
 
 const {updateTask} = useKanbanStore()
-const handleCheckboxChange = (isCompleted: string | boolean, task: ITaskWithBoardId) => {
+
+const handleCheckboxChange = async (isCompleted: string | boolean, task: ITaskWithBoardId) => {
   if (typeof isCompleted === "boolean") {
-    updateTask(task.id, {
+    await updateTask(task.id, {
       isCompleted
     }, task.boardId)
-    fetchData()
+    await fetchData()
   }
 }
 
@@ -151,7 +152,8 @@ watch([completedPage, unCompletedPage], fetchData)
         </div>
 
         <ClientOnly>
-          <UPagination v-if="(data?.completed?.totalPages ?? 0) > 1" class="pagination flex justify-center mt-4" color="neutral"
+          <UPagination v-if="(data?.completed?.totalPages ?? 0) > 1" class="pagination flex justify-center mt-4"
+                       color="neutral"
                        :items-per-page="data?.completed.perPage"
                        v-model:page="completedPage"
                        :total="data?.completed.totalTasks"/>

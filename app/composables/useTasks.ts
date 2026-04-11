@@ -70,13 +70,33 @@ export const useTasks = () => {
   })
 
   const fetchData = async () => {
+    const completed = await $api<TaskGroup>(
+      `/tasks/my/completed?page=${completedPage.value}`
+    )
+
+    const unCompleted = await $api<TaskGroup>(
+      `/tasks/my/uncompleted?page=${unCompletedPage.value}`
+    )
+
+    if (
+      completedPage.value > completed.totalPages &&
+      completed.totalPages > 0
+    ) {
+      completedPage.value = completed.totalPages
+      return fetchData()
+    }
+
+    if (
+      unCompletedPage.value > unCompleted.totalPages &&
+      unCompleted.totalPages > 0
+    ) {
+      unCompletedPage.value = unCompleted.totalPages
+      return fetchData()
+    }
+
     data.value = {
-      completed: await $api<TaskGroup>(
-        `/tasks/my/completed?page=${completedPage.value}`
-      ),
-      unCompleted: await $api<TaskGroup>(
-        `/tasks/my/uncompleted?page=${unCompletedPage.value}`
-      )
+      completed,
+      unCompleted
     }
   }
 
