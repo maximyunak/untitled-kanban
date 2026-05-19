@@ -20,7 +20,7 @@ export const useRegister = () => {
       });
 
       setTimeout(async () => {
-        await router.push(localePath('/'));
+        await router.push(localePath('/boards'));
       }, 250);
 
       return res;

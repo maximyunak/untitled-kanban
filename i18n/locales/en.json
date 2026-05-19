@@ -20,8 +20,8 @@
     "profile": "Profile",
     "profileInfo": "Enter your full name to complete registration.",
     "finish": "Finish",
-    "registerLink": "",
-    "loginLink": "",
+    "registerLink": "No account? Sign up",
+    "loginLink": "Already have an account? Log in",
     "errors": {
       "email": "Invalid email",
       "email_required": "Email is required",

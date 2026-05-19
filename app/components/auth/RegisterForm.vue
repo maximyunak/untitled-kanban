@@ -4,7 +4,6 @@ import * as z from "zod";
 import type {AuthFormField, FormSubmitEvent} from "#ui/types";
 import type {IRegisterData} from "~/types/auth";
 
-const toast = useToast()
 const {register} = useRegister()
 
 const userData = reactive<IRegisterData>({
@@ -35,7 +34,6 @@ const providers = [{
   label: 'Yandex',
   icon: 'tabler:brand-yandex',
   to: "http://localhost:8000/api/auth/oauth/yandex",
-
 }]
 
 // поля формы
@@ -86,7 +84,6 @@ const submit = async () => {
         label: $t('auth.continue'),
       }"
     />
-
 
     <div v-else>
       <div class="flex items-center justify-between flex-col mb-4">

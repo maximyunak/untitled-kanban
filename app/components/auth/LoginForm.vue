@@ -2,9 +2,8 @@
 import * as z from 'zod'
 import type {AuthFormField, FormSubmitEvent} from "#ui/types";
 
-const toast = useToast()
 
-const {login, yandexLogin} = useLogin()
+const {login} = useLogin()
 
 // поля формы
 const fields: AuthFormField[] = [
