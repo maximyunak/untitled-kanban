@@ -25,5 +25,4 @@ export const useSortOptions = () => {
             icon: "material-symbols:keyboard-arrow-down"
         }
     ] as const satisfies SelectMenuItem[]
-
 }

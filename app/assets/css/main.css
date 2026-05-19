@@ -92,3 +92,9 @@ h3 {
 .page-leave-to {
     opacity: 0;
 }
+
+.my-container {
+    max-width: 1200px;
+    padding-inline: 15px;
+    margin: 0 auto;
+}

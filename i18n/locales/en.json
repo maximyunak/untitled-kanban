@@ -136,5 +136,134 @@
     "switchLanguage": "Switch language",
     "help": "Help & Support",
     "logout": "Logout"
+  },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "how": "How it works",
+      "faq": "FAQ",
+      "register": "Sign up"
+    },
+    "demo": {
+      "columns": {
+        "todo": {
+          "name": "To Do",
+          "tasks": {
+            "api": "Design API",
+            "tests": "Write tests"
+          }
+        },
+        "inProgress": {
+          "name": "In Progress",
+          "tasks": {
+            "landing": "Landing layout"
+          }
+        },
+        "done": {
+          "name": "Done",
+          "tasks": {
+            "name": "Choose a name"
+          }
+        }
+      }
+    },
+    "hero": {
+      "titleAccent": "Task Cloud",
+      "title": "keeps your tasks from getting lost",
+      "subtitle": "A visual Kanban board where tasks flow from “to do” to “done” like clouds in the sky. Drag & drop, metrics, teamwork — everything simple.",
+      "cta": "Try for free →"
+    },
+    "features": {
+      "title": "Everything you need to",
+      "accent": "work",
+      "capabilities": {
+        "secure": {
+          "title": "Data encryption",
+          "desc": "Your tasks are protected with modern encryption standards."
+        },
+        "api": {
+          "title": "API integrations",
+          "desc": "Connect your favorite services via open API (in development)."
+        },
+        "mobile": {
+          "title": "Mobile version",
+          "desc": "Manage tasks from your phone with a responsive design out of the box."
+        },
+        "tags": {
+          "title": "Tags & filters",
+          "desc": "Sort tasks by tags, priority, assignee, and deadlines."
+        }
+      }
+    },
+    "how": {
+      "title": "How it",
+      "titleGradient": "works",
+      "steps": {
+        "1": {
+          "title": "Create a board",
+          "desc": "Name your project and add columns: To Do, In Progress, Done."
+        },
+        "2": {
+          "title": "Add tasks",
+          "desc": "Description, deadline, tags, assignee — everything for clarity."
+        },
+        "3": {
+          "title": "Move and complete",
+          "desc": "Drag cards and watch work move to completion."
+        }
+      }
+    },
+    "whyus": {
+      "title": "Why choose",
+      "accent": "Cloud of Tasks",
+      "slides": [
+        {
+          "icon": "🖱️",
+          "title": "Drag & Drop",
+          "description": "Drag and drop tasks in seconds. No extra clicks."
+        },
+        {
+          "icon": "📊",
+          "title": "Metrics & Deadlines",
+          "description": "Deadlines, tags, priorities, and progress charts — everything under control."
+        },
+        {
+          "icon": "👥",
+          "title": "Online Teamwork",
+          "description": "Invite members, comment on tasks, and receive notifications."
+        },
+        {
+          "icon": "🌙",
+          "title": "Dark Theme",
+          "description": "Work day and night without eye strain. Toggle with one click."
+        }
+      ]
+    },
+    "faq": {
+      "title": "FA",
+      "accent": "Q",
+      "newApp": {
+        "q": "Do I need to install the app?",
+        "a": "No, Task Cloud works directly in the browser. Just open the link and start."
+      },
+      "secure": {
+        "q": "Is my data secure?",
+        "a": "Yes, all data is encrypted. We never share it with third parties."
+      },
+      "api": {
+        "q": "Will there be an API?",
+        "a": "Yes, a public API and integrations with Slack, Google Calendar and Notion are in development."
+      },
+      "team": {
+        "q": "Can I work with a team?",
+        "a": "Yes, invite as many members as you want, assign roles and collaborate."
+      }
+    },
+    "cta": {
+      "title": "Ready to organize your tasks?",
+      "desc": "Start now — it’s free and takes 30 seconds.",
+      "button": "Create your first board →"
+    },
+    "footer": "© 2026 Task Cloud — your task organization"
   }
 }

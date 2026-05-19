@@ -67,7 +67,6 @@ onMounted(() => {
   const update = () => {
     isMobile.value = window.innerWidth <= 1023
   }
-
   update()
   window.addEventListener('resize', update)
 })
