@@ -11,6 +11,7 @@ import {Pagination, Autoplay} from 'swiper/modules';
 import {useFaqItems} from "~/shared/faq-items";
 import {useCapabilities} from "~/shared/capabilities";
 import {useDemoColumns} from "~/shared/demoColumns";
+
 const {t} = useI18n()
 
 const {toggleLocale} = useSidebar()
@@ -47,11 +48,7 @@ const capabilities = useCapabilities()
         :ui="{
     toggle: 'min-[550px]:hidden',
     center: 'hidden sm:flex'
-    }" :links="[
-    // { label: 'Возможности', to: '#features' },
-    // { label: 'Как работает', to: '#how-it-works' },
-    // { label: 'FAQ', to: '#faq' }
-  ]">
+    }">
       <!-- Левый слот для логотипа -->
       <template #left>
         <h4 class="flex items-center gap-2 text-xl font-bold shrink-0">
@@ -92,7 +89,7 @@ const capabilities = useCapabilities()
           <NuxtLink :to="$localePath('/register')">
             <UButton
                 color="primary">
-              {{$t("landing.nav.register")}}
+              {{ $t("landing.nav.register") }}
             </UButton>
           </NuxtLink>
         </div>
@@ -100,7 +97,7 @@ const capabilities = useCapabilities()
 
       <!-- Мобильное меню (body слот) -->
       <template #body>
-        <div class="flex flex-col gap-4 p-4 h-[calc(100vh-100px)]">
+        <div class="flex flex-col gap-4 p-4">
           <UNavigationMenu
               :items="[
             { label: $t('landing.nav.features'), to: '#features' },
@@ -116,7 +113,7 @@ const capabilities = useCapabilities()
             <div class="flex items-center gap-2">
               <UButton
                   variant="ghost"
-                  size="sm"
+                  size="lg"
                   @click="toggleTheme"
               >
                 <Icon v-if="colorMode.value === 'dark'" name="lucide:sun" class="w-4 h-4"/>
@@ -129,14 +126,14 @@ const capabilities = useCapabilities()
                     :items="localeOptions"
                     v-model="currentLocale"
                     variant="ghost"
-                    size="sm"
+                    size="lg"
                 />
               </div>
             </div>
 
             <NuxtLink :to="$localePath('/register')">
-              <UButton color="primary" size="sm">
-                {{$t("landing.nav.register")}}
+              <UButton color="primary" size="lg">
+                {{ $t("landing.nav.register") }}
               </UButton>
             </NuxtLink>
           </div>
@@ -274,7 +271,8 @@ const capabilities = useCapabilities()
     <!-- Аккордеон (FAQ) -->
     <section id="faq" class="faq">
       <div class="container">
-        <h2 class="section-title">{{$t("landing.faq.title")}}<span class="accent" >{{$t("landing.faq.accent")}}</span></h2>
+        <h2 class="section-title">{{ $t("landing.faq.title") }}<span
+            class="accent">{{ $t("landing.faq.accent") }}</span></h2>
         <UAccordion :items="faqItems"/>
       </div>
     </section>
@@ -282,11 +280,11 @@ const capabilities = useCapabilities()
     <!-- Призыв к действию -->
     <section class="cta">
       <div class="container cta__inner">
-        <h2>{{$t("landing.cta.title")}}</h2>
-        <p>{{$t("landing.cta.desc")}}</p>
+        <h2>{{ $t("landing.cta.title") }}</h2>
+        <p>{{ $t("landing.cta.desc") }}</p>
         <NuxtLink :to="$localePath('/register')">
           <UButton size="xl" color="primary">
-            {{$t("landing.cta.button")}}
+            {{ $t("landing.cta.button") }}
           </UButton>
         </NuxtLink>
       </div>
@@ -295,7 +293,7 @@ const capabilities = useCapabilities()
     <!-- Footer -->
     <footer class="footer">
       <div class="container">
-        <p>{{$t("landing.footer")}}</p>
+        <p>{{ $t("landing.footer") }}</p>
       </div>
     </footer>
   </div>
@@ -316,14 +314,13 @@ const capabilities = useCapabilities()
 :deep(.custom-pagination .swiper-pagination-bullet) {
   width: 8px;
   height: 8px;
-  background: var(--ui-text-muted);
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
   opacity: 0.5;
   border-radius: 50%;
   cursor: pointer;
 }
 
 :deep(.custom-pagination .swiper-pagination-bullet-active) {
-  background: var(--ui-primary);
   opacity: 1;
   width: 8px;
   border-radius: 4px;
@@ -371,7 +368,7 @@ section {
 
 /* Hero */
 .hero {
-  padding-top: 40px;
+  padding-top: 80px;
 }
 
 .hero__inner {
@@ -728,10 +725,6 @@ section {
     padding: 50px 0;
   }
 
-  .hero {
-    padding-top: 20px;
-  }
-
   .hero__title {
     font-size: 2rem;
   }
@@ -818,9 +811,8 @@ section {
 
   }
 
-  .hero__
   .hero__title-accent {
-    font-size: 1.8rem;
+    font-size: 50px;
   }
 
   .hero__subtitle {
@@ -902,7 +894,6 @@ section {
 
 /* Очень маленькие устройства (360px) */
 @media (max-width: 360px) {
-  .hero__
   .hero__title {
     font-size: 1.5rem;
   }
