@@ -9,7 +9,11 @@ onMounted(() => {
   store.socketConnect(Number(route.params.id))
 })
 
-await store.getData(Number(route.params.id))
+try {
+  await store.getData(Number(route.params.id))
+} catch (e) {
+  console.error(e)
+}
 
 const change = (event: any) => {
   store.moveColumn(event.moved.element.id, event.moved.newIndex)

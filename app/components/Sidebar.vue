@@ -24,7 +24,7 @@ const {t} = useI18n()
 const items = computed<NavigationMenuItem[][]>(() => [[{
   label: t('sidebar.boards'),
   icon: 'majesticons:view-boards-line',
-  to: localePath('/'),
+  to: localePath('/boards'),
 }, {
   label: t('sidebar.tasks'),
   icon: 'i-lucide-users',
